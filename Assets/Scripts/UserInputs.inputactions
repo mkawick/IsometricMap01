@@ -1,0 +1,46 @@
+{
+    "name": "UserInputs",
+    "maps": [
+        {
+            "name": "MovePlayer",
+            "id": "32484757-1fb4-4bec-9f50-1c9b390fd486",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "27fc5555-456b-46c2-bcaa-571900e7ab05",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d8b33a45-47d7-44e3-94ec-05150929a018",
+                    "path": "<Keyboard>/w",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "KeypboardNav",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "KeypboardNav",
+            "bindingGroup": "KeypboardNav",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
