@@ -13,8 +13,12 @@ public class InGamePanelManager : MonoBehaviour
 
     [SerializeField]
     private EnumMap<Panels, GameObject[]> panelMap;
+    [Range(0.1f, 20)]
+    public float cameraFOV;
+    [Range(0.1f, 20)]
+    public float cameraVert;
 
-    public Camera renderCamera;
+    //public Camera renderCamera;
 
     public void OnGUI()
     {
@@ -105,16 +109,25 @@ public class InGamePanelManager : MonoBehaviour
             }
         }
     }
-
-   /* private (Vector3 center, float size) CalculateOrthoSize()
-    {
-        var bounds 
-    }*/
+    /*
     Sprite IconMaker(GameObject target)
     {
-        //var camera = GetComponent<Camera>();
-        var camera = renderCamera;
+        var sourceCamera = Camera.main;
+        Vector3 originalPos = sourceCamera.transform.position;
+        Quaternion originalRot = sourceCamera.transform.rotation;
+        float originalFOV = sourceCamera.fieldOfView;
+        bool originalOrtho = sourceCamera.orthographic;
+        float originalOthoSize = sourceCamera.orthographicSize;
+
+        //
+        var camera = GameObject.Instantiate(sourceCamera, originalPos, originalRot);
+        GameObject go = Instantiate(target, target.transform.position, target.transform.rotation);
         camera.orthographicSize = target.GetComponent<Renderer>().bounds.extents.y + 0.1f; // create CSS-like padding
+        camera.transform.position = go.transform.position + sourceCamera.transform.forward * 3;
+        camera.transform.position += Vector3.up* 3.3f; //
+        camera.transform.LookAt(go.transform);
+        camera.orthographicSize = 1.1f;
+        //camera.farClipPlane = 25;
 
         int resX = camera.pixelWidth;
         int resY = camera.pixelHeight;
@@ -134,15 +147,21 @@ public class InGamePanelManager : MonoBehaviour
         texture.ReadPixels(new Rect(0, 0, resX, resY), 0, 0);
         texture.Apply();
 
-        //var sprite = 
-
         camera.targetTexture = null;
         RenderTexture.active = null;
+        DestroyImmediate(camera.gameObject);
 
         Destroy(renderTexture);
+        DestroyImmediate(go.gameObject);        
+
+        sourceCamera.orthographic = originalOrtho;
+        sourceCamera.orthographicSize = originalOthoSize;
+        sourceCamera.fieldOfView = originalFOV;
+        sourceCamera.transform.position = originalPos;
+        sourceCamera.transform.rotation = originalRot;
 
         return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f);
-    }
+    }*/
 
     void OnItemSelectedMethod(GameObject sender)
     {
@@ -156,9 +175,12 @@ public class InGamePanelManager : MonoBehaviour
         {
             ShowPanels(Panels.Tile, sender.name);
 
-            var texture = AssetPreview.GetAssetPreview(sender);
-            RenderThumbnailPanels(Panels.Tile, texture);
-           // RenderThumbnailPanels(Panels.Tile, IconMaker(sender));
+            //var texture = AssetPreview.GetAssetPreview(sender);
+            //RenderThumbnailPanels(Panels.Tile, texture);
+            //  RenderThumbnailPanels(Panels.Tile, IconMaker(sender));
+            RuntimePreviewGenerator.OrthographicMode = true;
+            RuntimePreviewGenerator.BackgroundColor = new Color(0,0,0,0);
+            RenderThumbnailPanels(Panels.Tile, RuntimePreviewGenerator.GenerateModelPreview(sender.transform, 128, 128, true, true));
         }
     }
 }
