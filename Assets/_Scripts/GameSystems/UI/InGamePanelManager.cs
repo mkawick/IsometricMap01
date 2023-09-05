@@ -112,10 +112,15 @@ public class InGamePanelManager : MonoBehaviour
         var tile = sender.GetComponent<TileBehavior>();
         if (tile)
         {
+            GameObject objToRender = sender;
+            if (tile.unitOnTop)
+            {
+                objToRender = tile.unitOnTop;
+            }
             ShowPanels(Panels.Tile, sender.name);
             RuntimePreviewGenerator.OrthographicMode = true;
             RuntimePreviewGenerator.BackgroundColor = new Color(0,0,0,0);
-            RenderThumbnailPanels(Panels.Tile, RuntimePreviewGenerator.GenerateModelPreview(sender.transform, 128, 128, true, true));
+            RenderThumbnailPanels(Panels.Tile, RuntimePreviewGenerator.GenerateModelPreview(objToRender.transform, 128, 128, true, true));
         }
     }
 }

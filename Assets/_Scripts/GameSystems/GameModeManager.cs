@@ -9,9 +9,10 @@ public class GameModeManager : MonoBehaviour
     {
         SplashScreen, LogoScreen, StartScreen, StartSinglePlayerGame, PlaySinglePlayerGame, EndGame
     }
-    Mode currentMode = Mode.StartSinglePlayerGame;
+    Mode currentMode = Mode.StartScreen;
 
     public static event Action<GameObject> OnGameObjectClicked;
+    public static event Action<Mode> OnGameGameModeChanged;
 
     [SerializeField]
     MapGenerator mapGenerator;
@@ -33,9 +34,14 @@ public class GameModeManager : MonoBehaviour
     {
         switch (currentMode)
         {
-            case Mode.StartSinglePlayerGame: 
-                currentMode = Mode.PlaySinglePlayerGame;
+            case Mode.StartScreen: 
+                currentMode = Mode.StartSinglePlayerGame;
                 mapGenerator.Generate();
+                OnGameGameModeChanged?.Invoke(currentMode);
+                break;
+            case Mode.StartSinglePlayerGame:
+                currentMode = Mode.PlaySinglePlayerGame;
+                OnGameGameModeChanged?.Invoke(currentMode);
                 break;
         }
     }

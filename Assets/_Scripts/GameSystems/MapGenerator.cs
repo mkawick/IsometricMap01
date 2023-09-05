@@ -10,6 +10,19 @@ public class MapGenerator : MonoBehaviour
 
     private static Vector2Int InvalidLocation = new Vector2Int(-1,-1);
 
+    public GameObject GetTile(int x, int y) {
+        x -= (int)offset.x;
+        y -= (int)offset.y;
+
+        if (x < 0 || x >= dimensions.x) return null;
+        if (y < 0 || y >= dimensions.y) return null;
+        return generatedTiles[x, y];
+    }
+    public GameObject GetTile(Vector3 pos)
+    {
+        return GetTile((int)pos.x, (int)pos.z);
+    }
+
     [SerializeField]
     GameObject parent;
 
@@ -53,42 +66,6 @@ public class MapGenerator : MonoBehaviour
         // todo .. better error checks
         return (int)(pos.x + pos.y * bounds.x);
     }
-  /*  static Vector2Int Dir8Lookup(int which)
-    {
-        which %= 8;
-        Vector2Int[] directions = {
-                new Vector2Int(-1, 0),
-                new Vector2Int(-1, 1),
-                new Vector2Int( 0, 1),
-                new Vector2Int( 1, 1),
-                new Vector2Int( 1, 0),
-                new Vector2Int( 1,-1),
-                new Vector2Int( 0,-1),
-                new Vector2Int(-1,-1)};
-
-        return directions[which];
-    }
-
-    static Vector2Int Dir4Lookup(int which)
-    {
-        which %= 4;
-        Vector2Int[] directions = {
-                new Vector2Int(-1, 0),
-                new Vector2Int( 0, 1),
-                new Vector2Int( 1, 0),
-                new Vector2Int( 0,-1)};
-
-        return directions[which];
-    }*/
-
-   /* bool IsDirValid(Vector2 dir, Vector2 bounds)
-    {
-        if (dir.x < 0 || dir.y < 0)
-            return false;
-        if (dir.x >= bounds.x || dir.y >= bounds.y)
-            return false;
-        return true;
-    }*/
 
     Vector2Int GenerateNewPosition(Stack<Vector2Int> tilePath, Vector2Int bounds)
     {

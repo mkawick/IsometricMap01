@@ -6,15 +6,20 @@ using UnityEngine.InputSystem;
 public class PlayerControlledUnit : MonoBehaviour
 {
     public GameObject currentlySelectedUnit;
+    public MapGenerator mapGenerator;
     public float moveDist = 1;
-    //int key = Keyboard.current.
-    // Start is called before the first frame update
     void Start()
     {
-        
+        // var gmm = GameObject.Find("GameModeManager");// todo.. this must be replaced
+        GameModeManager.OnGameGameModeChanged += OnGameGameModeChanged;        
     }
 
-    // Update is called once per frame
+    void OnGameGameModeChanged(GameModeManager.Mode mode)
+    {
+        if (mode == GameModeManager.Mode.StartSinglePlayerGame)
+            UpdateUnitOnTile();
+    }
+
     void Update()
     {
         if (currentlySelectedUnit == null)
@@ -24,28 +29,52 @@ public class PlayerControlledUnit : MonoBehaviour
         if (Keyboard.current.anyKey.wasPressedThisFrame)
         {
             var pos = currentlySelectedUnit.transform.position;
+            var oldPos = pos;
+            var rot = currentlySelectedUnit.transform.rotation;
             if (Keyboard.current.downArrowKey.isPressed)
             {
                 pos.z += moveDist;
+                rot.eulerAngles = new Vector3(0,0,0);
             }
             if (Keyboard.current.upArrowKey.isPressed)
             {
                 pos.z -= moveDist;
+                rot.eulerAngles = new Vector3(0, 180, 0);
             }
             if (Keyboard.current.rightArrowKey.isPressed)
             {
                 pos.x -= moveDist;
+                rot.eulerAngles = new Vector3(0, 270, 0);
             }
             if (Keyboard.current.leftArrowKey.isPressed)
             {
                 pos.x += moveDist;
+                rot.eulerAngles = new Vector3(0, 90, 0);
             }
-            currentlySelectedUnit.transform.position = pos;
-            //Debug.Log("A key was pressed");
+            if (oldPos != pos)
+            {
+                currentlySelectedUnit.transform.position = pos;
+                currentlySelectedUnit.transform.rotation = rot;
+
+                if (mapGenerator != null)
+                {
+                    var oldTile = mapGenerator.GetTile(oldPos);
+                    if (oldTile)
+                    {
+                        oldTile.GetComponent<TileBehavior>().unitOnTop = null;
+                    }
+                    UpdateUnitOnTile();
+                }
+            }
         }
-      /*  if (Gamepad.current.aButton.wasPressedThisFrame)
+    }
+    void UpdateUnitOnTile()
+    {
+        var pos = currentlySelectedUnit.transform.position;
+        var tile = mapGenerator.GetTile(pos);
+        if (tile)
         {
-            Debug.Log("A button was pressed");
-        }*/
+            tile.GetComponent<TileBehavior>().unitOnTop = currentlySelectedUnit;
+        }
     }
 }
