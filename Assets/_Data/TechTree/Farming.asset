@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3fcf5827ff49f844ab4456c949af1de, type: 3}
+  m_Name: Farming
+  m_EditorClassIdentifier: 
+  tt_name: Farming
+  tt_description: Food production +100%
+  objToRender: {fileID: 0}
+  dependecies:
+  - {fileID: 11400000, guid: 7bb19e936fbe0304cb21f27671667e3b, type: 2}
+  unlocked: 0
+  foodProduction: 1
+  bronzeProduction: 0
+  constructionSpeed: 0
+  constructionMaterialsEfficiency: 0
+  metallurgy: 0
