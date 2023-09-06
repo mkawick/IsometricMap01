@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Timeline;
 using UnityEditor;
-using UnityEditor.Timeline;
 using UnityEngine.UI;
 
 public class InGamePanelManager : MonoBehaviour

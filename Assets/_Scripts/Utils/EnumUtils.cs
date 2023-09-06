@@ -10,12 +10,12 @@ public struct EnumMap<TKey, TValue> : IEnumerable<TValue> where TKey : System.En
     [Serializable]
     public struct Entry
     {
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
         // This handles drawing the enum labels in the inspector,
         // without showing a human-editable field, or taking up memory in-build.
         [HideInInspector]
         public string name;
-#endif
+//#endif
         public TValue value;
     }
 
@@ -52,13 +52,15 @@ public struct EnumMap<TKey, TValue> : IEnumerable<TValue> where TKey : System.En
 
     public void Initialize()
     {
+//#if UNITY_EDITOR
         // Make a blank map from scratch.
-        var names = System.Enum.GetNames(typeof(TKey));
+        string[] names = System.Enum.GetNames(typeof(TKey));
         _map = new Entry[names.Length];
         for (int i = 0; i < names.Length; i++)
         {
             _map[i].name = names[i];
         }
+//#endif
     }
 
     /// <summary>

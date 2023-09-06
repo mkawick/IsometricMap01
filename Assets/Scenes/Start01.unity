@@ -1248,6 +1248,7 @@ MonoBehaviour:
     - {fileID: 8084595421854665748, guid: 4e8d5f6896c9e9e45acf17baac808832, type: 3}
     - {fileID: 8084595421854665748, guid: 9a99a161e58cd80488bad98f50ec7f16, type: 3}
     - {fileID: 8084595421854665748, guid: 8279440c3489c1f4889b4f8a22d0f18f, type: 3}
+    - {fileID: 8084595421854665748, guid: 78ed48d64ebf3d2489c36d1ca06a3423, type: 3}
     Decorations:
     - {fileID: 627832198301038287, guid: f42d583709ba37645ad74c5ad218a62b, type: 3}
     - {fileID: 3194717385602112321, guid: d783d5309a38b224b83a7015050f6b34, type: 3}
