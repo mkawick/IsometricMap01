@@ -16,9 +16,12 @@ public class TechTreeNode : ScriptableObject
     public float bronzeProduction;
     public float constructionSpeed;
     public float constructionMaterialsEfficiency;
+    public float moveSpeed;
 
     public enum Metals { None, Copper, Bronze, Brass, Iron };
     public Metals metallurgy;
+    public enum ConstructionTypes { Straw, Wood, Clay, Rock, Mortar };
+    public ConstructionTypes constructionTypes;
     // things that I can build
     // new troops
     // new weapon

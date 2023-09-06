@@ -68,6 +68,7 @@ public class PlayerControlledUnit : MonoBehaviour
             }
         }
     }
+
     void UpdateUnitOnTile()
     {
         var pos = currentlySelectedUnit.transform.position;

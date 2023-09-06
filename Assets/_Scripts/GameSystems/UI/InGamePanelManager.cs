@@ -12,6 +12,8 @@ public class InGamePanelManager : MonoBehaviour
 
     [SerializeField]
     private EnumMap<Panels, GameObject[]> panelMap;
+    [SerializeField]
+    MapGenerator mapGenerator;
 
     public void OnGUI()
     {
@@ -21,6 +23,7 @@ public class InGamePanelManager : MonoBehaviour
             // in each enum value slot.
         }
     }
+
     void OnValidate()
     {
         panelMap.TryRevise();
@@ -51,6 +54,7 @@ public class InGamePanelManager : MonoBehaviour
                 item.SetActive(isShowing);
             }
         }
+        DisplayMainParentPanel(isShowing);
     }
 
     void ShowPanels(Panels panels, string textToShow)
@@ -76,7 +80,14 @@ public class InGamePanelManager : MonoBehaviour
                 item.SetActive(false);
             }
         }
+        DisplayMainParentPanel(true);
     }
+
+    void DisplayMainParentPanel(bool isShowing)
+    {
+        this.transform.gameObject.SetActive(isShowing);
+    }
+
     void RenderThumbnailPanels(Panels panels, Texture2D texture)
     {
         if (texture == null)
@@ -84,7 +95,6 @@ public class InGamePanelManager : MonoBehaviour
 
         var arrayOfItems = panelMap[panels];
         {
-
             foreach (var item in arrayOfItems)
             {
                 foreach (Transform child in item.transform)
@@ -108,13 +118,15 @@ public class InGamePanelManager : MonoBehaviour
             ShowAllPanels(false);
             return;
         }
+
+        List<GameObject> objs = mapGenerator.GetAllObjectsOnTile(sender);
         var tile = sender.GetComponent<TileBehavior>();
         if (tile)
         {
             GameObject objToRender = sender;
-            if (tile.unitOnTop)
+            if (objs.Count > 0)
             {
-                objToRender = tile.unitOnTop;
+                objToRender = objs[0];
             }
             ShowPanels(Panels.Tile, sender.name);
             RuntimePreviewGenerator.OrthographicMode = true;

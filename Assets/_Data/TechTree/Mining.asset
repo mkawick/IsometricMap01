@@ -21,4 +21,6 @@ MonoBehaviour:
   bronzeProduction: 0
   constructionSpeed: 0
   constructionMaterialsEfficiency: 0
+  moveSpeed: 0
   metallurgy: 1
+  constructionTypes: 0

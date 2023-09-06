@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3fcf5827ff49f844ab4456c949af1de, type: 3}
-  m_Name: BasicFarming
+  m_Name: AnimalHusbandry
   m_EditorClassIdentifier: 
-  tt_name: BasicFarming
-  tt_description: Food production +30%
+  tt_name: AnimalHusbandry
+  tt_description: Food production +100%
   objToRender: {fileID: 0}
   dependecies: []
   unlocked: 0
-  foodProduction: 0.3
+  foodProduction: 1
   bronzeProduction: 0
   constructionSpeed: 0
   constructionMaterialsEfficiency: 0

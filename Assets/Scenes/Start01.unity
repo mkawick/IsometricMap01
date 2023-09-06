@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &20194339
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1638,6 +1638,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1553809506}
   - component: {fileID: 1553809505}
+  - component: {fileID: 1553809507}
   m_Layer: 0
   m_Name: PlayerState
   m_TagString: Untagged
@@ -1675,6 +1676,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1553809507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553809504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba67fe414b0d9fa49af88d5d5464bc22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  constructables:
+  - {fileID: 8053982994379117706, guid: 4351e87aa91bc5b4cadd8886fa7bbde1, type: 3}
+  mapGenerator: {fileID: 1348497505}
 --- !u!1 &1716345694
 GameObject:
   m_ObjectHideFlags: 0
@@ -2840,3 +2856,4 @@ MonoBehaviour:
     - name: Resource
       value: []
     _orphaned: []
+  mapGenerator: {fileID: 1348497505}

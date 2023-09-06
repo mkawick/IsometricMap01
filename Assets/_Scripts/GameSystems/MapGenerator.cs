@@ -7,8 +7,11 @@ public class MapGenerator : MonoBehaviour
     public Vector2Int dimensions;
     private Vector2 offset;
     private GameObject[,] generatedTiles;
+    private GameObject[,] generatedObjects;
 
-    private static Vector2Int InvalidLocation = new Vector2Int(-1,-1);
+    enum MapType { Basic };
+
+    private static Vector2Int InvalidLocation = new Vector2Int(-1, -1);
 
     public GameObject GetTile(int x, int y) {
         x -= (int)offset.x;
@@ -28,24 +31,52 @@ public class MapGenerator : MonoBehaviour
 
     void Start()
     {
-        
-        if (dimensions.sqrMagnitude < 10 || dimensions.x < 3 || dimensions.y < 3)
-            Debug.LogError ("unreasonable size");
-        if (parent == null)
-            Debug.LogError("bad parent");
+        SetupMap(MapType.Basic);
+    }
 
-        offset.y = (int)(-dimensions.y / 2);
-        offset.x = (int)(-dimensions.x / 2);
-        generatedTiles = new GameObject[dimensions.x, dimensions.y];
-        var test = generatedTiles[0,0];
-        MapUtils.Bounds = dimensions;
-        MapUtils.MapOffset = new Vector2Int((int)offset.x, (int)offset.y);
+    private void OnDestroy()
+    {
+        Cleanup();
+        // Destroy(parent);
+    }
+
+    void SetupMap(MapType mapType)// this 
+    {
+        if (mapType == MapType.Basic)
+        {
+            if (dimensions.sqrMagnitude < 10 || dimensions.x < 3 || dimensions.y < 3)
+                Debug.LogError("unreasonable size");
+            if (parent == null)
+                Debug.LogError("bad parent");
+
+            offset.y = (int)(-dimensions.y / 2);
+            offset.x = (int)(-dimensions.x / 2);
+            generatedTiles = new GameObject[dimensions.x, dimensions.y];
+            generatedObjects = new GameObject[dimensions.x, dimensions.y];
+            // var test = generatedTiles[0,0];
+            MapUtils.Bounds = dimensions;
+            MapUtils.MapOffset = new Vector2Int((int)offset.x, (int)offset.y);
+        }
+    }
+
+    void Cleanup()
+    {
+        for (int y = 0; y < dimensions.y; y++)
+        {
+            for (int x = 0; x < dimensions.x; x++)
+            {
+                Destroy(generatedTiles[x, y]);
+                Destroy(generatedObjects[x, y]);
+                generatedTiles[x, y] = null;
+            }
+        }
+        generatedTiles = null;
     }
 
     Vector2Int FindOpenSpace()
     {
         int attempts = 100;
-        while(attempts-- >= 0)
+        while (attempts-- >= 0)
         {
             var attempt = new Vector2Int(Random.Range(0, dimensions.x), Random.Range(0, dimensions.y));
             var selected = generatedTiles[attempt.x, attempt.y];
@@ -54,17 +85,6 @@ public class MapGenerator : MonoBehaviour
         }
 
         return InvalidLocation;
-    }
-
-    int ConvertToTileId(Vector2Int pos, Vector2Int bounds)
-    {
-        if (MapUtils.IsDirValid(pos, bounds) == false)
-        {
-           // Debug.LogError("bad position");
-            return -1;
-        }
-        // todo .. better error checks
-        return (int)(pos.x + pos.y * bounds.x);
     }
 
     Vector2Int GenerateNewPosition(Stack<Vector2Int> tilePath, Vector2Int bounds)
@@ -78,7 +98,7 @@ public class MapGenerator : MonoBehaviour
         int dir = Random.Range(0, 4);
         for (int d = 0; d < 4; d++, dir++)
         {
-            var testDir = MapUtils.Dir4Lookup(dir) + new Vector2Int((int)pos.x, (int) pos.y);
+            var testDir = MapUtils.Dir4Lookup(dir) + new Vector2Int((int)pos.x, (int)pos.y);
             if (MapUtils.IsDirValid(testDir, bounds) == false)
                 continue;
 
@@ -91,7 +111,7 @@ public class MapGenerator : MonoBehaviour
     Vector2Int GenerateNewPosition(Vector2Int pos, Vector2Int bounds)
     {
         int dir = Random.Range(0, 8);
-        for(int d=0; d<8; d++, dir++)
+        for (int d = 0; d < 8; d++, dir++)
         {
             var testDir = MapUtils.Dir8Lookup(dir) + new Vector2Int((int)pos.x, (int)pos.y);
             if (MapUtils.IsDirValid(testDir, bounds) == false)
@@ -112,20 +132,61 @@ public class MapGenerator : MonoBehaviour
         return newTile;
     }
 
-    GameObject AddDecorationsPrefab(GameObject baseTile, GameObject[] decorations)
+    GameObject AddDecorationsPrefab(GameObject baseTile, GameObject[] decorations, bool guaranteedCreate = false)
     {
         if (decorations == null)
             return null;
 
-        int which = Random.Range(0, decorations.Length + 5);
+        int emptyBias = 5;
+        if (guaranteedCreate == true)
+        {
+            emptyBias = 0;
+        }
+        int which = Random.Range(0, decorations.Length + emptyBias);
         if (which >= decorations.Length)
             return null;
 
-        float angle = Random.Range(-180, 180);
-        var decoration = Instantiate(decorations[which], baseTile.transform.position + new Vector3(0, 0.1f, 0), Quaternion.Euler(0, angle, 0));
+        Vector2 position = new Vector2(baseTile.transform.position.x, baseTile.transform.position.z);
+        return AddDecorationsPrefab(position, decorations[which]);
+    }
+    /* public GameObject AddDecoration(GameObject baseTile, GameObject decoration)
+     {
+         if (decoration == null)
+             return null;
 
-        decoration.transform.parent = baseTile.transform;
-        return decoration;
+         Vector2 position = new Vector2(baseTile.transform.position.x, baseTile.transform.position.z);
+         return AddDecorationsPrefab(position, decoration);
+     }*/
+
+    public List<GameObject> GetAllObjectsOnTile(GameObject tile)
+    {
+        List<GameObject> gameObjects = new List<GameObject>();
+        var position = tile.transform.position;
+        Vector2 pos = new  Vector2(position.x, position.z);
+        pos -= offset;
+
+        if (generatedObjects[(int)pos.x, (int)pos.y] != null)
+            gameObjects.Add(generatedObjects[(int)pos.x, (int)pos.y]);
+        return gameObjects;
+    }
+
+    public GameObject AddDecorationsPrefab(Vector3 position, GameObject decorationPrefab)
+    {
+        return AddDecorationsPrefab(new Vector2(position.x, position.z), decorationPrefab);
+    }
+
+    public GameObject AddDecorationsPrefab(Vector2 position, GameObject decorationPrefab)
+    {
+        if (decorationPrefab == null)
+            return null;
+
+        float angle = Random.Range(-180, 180);
+        Vector3 newPos = new Vector3(position.x, 0.1f, position.y);
+        var newDecoration = Instantiate(decorationPrefab, newPos, Quaternion.Euler(0, angle, 0));
+
+        position -= offset;
+        generatedObjects[(int)position.x, (int)position.y] = newDecoration;// todo .. should destroy prev obj
+        return newDecoration;
     }
 
     void GenerateChunk(int whichBiome, int numItemsToGenerate)
@@ -157,6 +218,12 @@ public class MapGenerator : MonoBehaviour
             }
         }
         GrowChunk(biome, tilePath);
+    }
+
+    void ToolGenerateDecoration()
+    {
+        var tile = generatedTiles[0, 0];
+        AddDecorationsPrefab(tile, mapTiles[0].Decorations, true);
     }
 
     public void GrowChunk(TileGroup biome, Stack<Vector2Int> tilePath)
@@ -253,9 +320,6 @@ public class MapGenerator : MonoBehaviour
             chunkSize = 16;
         }
 
-        
-
-
         for (int i=0; i< chunksToGen; i++)
         {
             int whichBiome = Random.Range(0, mapTiles.Length-1);
@@ -263,6 +327,7 @@ public class MapGenerator : MonoBehaviour
         }
         FillWithWater();
 
+        //ToolGenerateDecoration();
     }
 
     void SimpleRandom()
