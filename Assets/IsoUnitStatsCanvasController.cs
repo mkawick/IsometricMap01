@@ -8,7 +8,7 @@ public class IsoUnitStatsCanvasController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.LookAt(transform.position + camera.transform.rotation * Vector3.back, camera.transform.rotation * Vector3.up);
+        transform.LookAt(transform.position + camera.transform.rotation * Vector3.forward, camera.transform.rotation * Vector3.up);
     }
 
     // Update is called once per frame
