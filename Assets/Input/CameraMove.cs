@@ -37,7 +37,7 @@ public class CameraMove : MonoBehaviour
                 {
                     if (oldIsoUnit != null)
                     {
-                        oldIsoUnit.WriteData(false);
+                        oldIsoUnit.Selected(false);
                         oldIsoUnit = null;
                     }
 
@@ -46,7 +46,7 @@ public class CameraMove : MonoBehaviour
                     
                     if (newIsoUnit != null)
                     {
-                        newIsoUnit.WriteData(true);
+                        newIsoUnit.Selected(true);
                         oldIsoUnit = newIsoUnit;
                     }
                     else 
