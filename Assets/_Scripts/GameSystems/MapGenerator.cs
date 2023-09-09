@@ -27,7 +27,9 @@ public class MapGenerator : MonoBehaviour
     }
 
     [SerializeField]
-    GameObject parent;
+    GameObject tileNodeHeirarchyParent;
+    [SerializeField]
+    GameObject worldObjectsHeirarchyParent;
 
     void Start()
     {
@@ -46,8 +48,10 @@ public class MapGenerator : MonoBehaviour
         {
             if (dimensions.sqrMagnitude < 10 || dimensions.x < 3 || dimensions.y < 3)
                 Debug.LogError("unreasonable size");
-            if (parent == null)
-                Debug.LogError("bad parent");
+            if (tileNodeHeirarchyParent == null)
+                Debug.LogError("bad tile parent");
+            if (worldObjectsHeirarchyParent == null)
+                Debug.LogError("bad world objects parent");
 
             offset.y = (int)(-dimensions.y / 2);
             offset.x = (int)(-dimensions.x / 2);
@@ -127,7 +131,7 @@ public class MapGenerator : MonoBehaviour
     {
         var name = prefab.name;
         var newTile = Instantiate(prefab, new Vector3(location.x + offset.x, 0, location.y + offset.y), Quaternion.identity);
-        newTile.transform.parent = parent.transform;
+        newTile.transform.parent = tileNodeHeirarchyParent.transform;
         generatedTiles[location.x, location.y] = newTile;
         return newTile;
     }
@@ -186,6 +190,7 @@ public class MapGenerator : MonoBehaviour
 
         position -= offset;
         generatedObjects[(int)position.x, (int)position.y] = newDecoration;// todo .. should destroy prev obj
+        newDecoration.transform.parent = worldObjectsHeirarchyParent.transform;
         return newDecoration;
     }
 
@@ -341,7 +346,7 @@ public class MapGenerator : MonoBehaviour
                 int whichTile = Random.Range(0, biome.Tiles.Length);
                 var tile = biome.Tiles[whichTile];
                 var nemTile = Instantiate(tile, new Vector3(offset.x + x, 0, offset.y + y), Quaternion.identity);
-                nemTile.transform.parent = parent.transform;
+                nemTile.transform.parent = tileNodeHeirarchyParent.transform;
             }
         }
     }

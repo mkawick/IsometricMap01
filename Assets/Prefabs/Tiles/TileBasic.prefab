@@ -64,7 +64,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: a17671e03f648154c9fa84f967679aab, type: 2}
-  - {fileID: 2100000, guid: 56a01d22d46357f409a667cef292e05e, type: 2}
+  - {fileID: 2100000, guid: 2ce9576fa8a2c944a9d52242d9dc8b95, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -119,3 +119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab6cd7863284f114aa8a83b9aec5eae5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isWalkable: 0
+  isFloatable: 0
+  hasFood: 0
+  hasWood: 0
+  isFarmable: 0

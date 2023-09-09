@@ -13,6 +13,8 @@ public class CameraMove : MonoBehaviour
 
     private bool drag = false;
 
+    private IsoUnit oldIsoUnit = null;
+
     public static event Action<GameObject> OnGameObjectClicked;
 
     private void Start()
@@ -32,8 +34,25 @@ public class CameraMove : MonoBehaviour
             if (Physics.Raycast(ray, out raycastHit, 100f))
             {
                 if (raycastHit.transform != null)
-                {                    
-                    OnGameObjectClicked?.Invoke(raycastHit.transform.gameObject);
+                {
+                    if (oldIsoUnit != null)
+                    {
+                        oldIsoUnit.WriteData(false);
+                        oldIsoUnit = null;
+                    }
+
+                    var obj = raycastHit.transform.gameObject;
+                    var newIsoUnit = obj.GetComponent<IsoUnit>();
+                    
+                    if (newIsoUnit != null)
+                    {
+                        newIsoUnit.WriteData(true);
+                        oldIsoUnit = newIsoUnit;
+                    }
+                    else 
+                    {
+                        OnGameObjectClicked?.Invoke(obj);
+                    }
                 }
                 else
                 {

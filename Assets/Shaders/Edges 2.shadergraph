@@ -111,8 +111,8 @@
     ],
     "m_VertexContext": {
         "m_Position": {
-            "x": -83.99996948242188,
-            "y": -2047.333251953125
+            "x": -232.0,
+            "y": -2078.0
         },
         "m_Blocks": [
             {
@@ -128,8 +128,8 @@
     },
     "m_FragmentContext": {
         "m_Position": {
-            "x": -65.99996185302735,
-            "y": -1815.333251953125
+            "x": -248.0,
+            "y": -1873.0
         },
         "m_Blocks": [
             {
@@ -151,7 +151,7 @@
         "preventRotation": false
     },
     "m_Path": "Shader Graphs",
-    "m_GraphPrecision": 1,
+    "m_GraphPrecision": 2,
     "m_PreviewMode": 2,
     "m_OutputNode": {
         "m_Id": ""
@@ -346,10 +346,10 @@
     "m_Guid": {
         "m_GuidSerialized": "4981569e-c04e-4c8a-b9a2-eef42905fa92"
     },
-    "m_Name": "thickness",
+    "m_Name": "Scale",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "thickness",
-    "m_DefaultReferenceName": "_thickness",
+    "m_RefNameGeneratedByDisplayName": "Scale",
+    "m_DefaultReferenceName": "_Scale",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -429,7 +429,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "67ab07236e9741b9a2974cc470c4e916",
     "m_Id": 0,
-    "m_DisplayName": "thickness",
+    "m_DisplayName": "Scale",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -451,10 +451,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -416.0,
-            "y": -2064.666748046875,
-            "width": 131.33331298828126,
-            "height": 120.0
+            "x": -463.0,
+            "y": -2079.0,
+            "width": 130.0,
+            "height": 118.0
         }
     },
     "m_Slots": [
@@ -543,10 +543,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -398.0,
-            "y": -1793.333251953125,
-            "width": 142.66665649414063,
-            "height": 36.0
+            "x": -436.0,
+            "y": -1834.0,
+            "width": 103.0,
+            "height": 34.0
         }
     },
     "m_Slots": [
@@ -579,10 +579,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -749.0,
-            "y": -2079.0,
-            "width": 206.0,
-            "height": 131.0001220703125
+            "x": -739.3333129882813,
+            "y": -2195.33349609375,
+            "width": 207.33331298828126,
+            "height": 134.666748046875
         }
     },
     "m_Slots": [
@@ -614,12 +614,12 @@
     },
     "m_AllowMaterialOverride": true,
     "m_SurfaceType": 1,
-    "m_ZTestMode": 4,
-    "m_ZWriteControl": 0,
-    "m_AlphaMode": 0,
-    "m_RenderFace": 1,
+    "m_ZTestMode": 8,
+    "m_ZWriteControl": 2,
+    "m_AlphaMode": 3,
+    "m_RenderFace": 2,
     "m_AlphaClip": false,
-    "m_CastShadows": true,
+    "m_CastShadows": false,
     "m_ReceiveShadows": true,
     "m_SupportsLODCrossFade": false,
     "m_CustomEditorGUI": "",
@@ -638,10 +638,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -703.9999389648438,
-            "y": -1906.9998779296875,
-            "width": 124.99993896484375,
-            "height": 34.0
+            "x": -701.3333129882813,
+            "y": -1938.0001220703125,
+            "width": 105.33331298828125,
+            "height": 36.0
         }
     },
     "m_Slots": [
@@ -693,10 +693,10 @@
     "m_Guid": {
         "m_GuidSerialized": "becfe0ec-17ab-463f-ab40-56179019c03f"
     },
-    "m_Name": "outline color",
+    "m_Name": "color",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "outline color",
-    "m_DefaultReferenceName": "_outline_color",
+    "m_RefNameGeneratedByDisplayName": "color",
+    "m_DefaultReferenceName": "_color",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -885,7 +885,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
     "m_ObjectId": "efc39306ba5c4947ae623cf8533d3f2e",
     "m_Id": 0,
-    "m_DisplayName": "outline color",
+    "m_DisplayName": "color",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",

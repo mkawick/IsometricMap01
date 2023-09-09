@@ -7,21 +7,21 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Edges
-  m_Shader: {fileID: -6465566751694194690, guid: 18abdba02251242489370c5f4a741eba, type: 3}
+  m_Name: Shader Graphs_Edges 2
+  m_Shader: {fileID: -6465566751694194690, guid: 988e9fe5f9b20e04d941cc5f730a7c9a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _ALPHATEST_ON
+  - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2450
+  m_CustomRenderQueue: -1
   stringTagMap:
-    RenderType: TransparentCutout
+    RenderType: Transparent
   disabledShaderPasses:
-  - SHADOWCASTER
+  - DepthOnly
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -40,24 +40,26 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaClip: 1
-    - _AlphaToMask: 1
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
     - _Blend: 0
-    - _CastShadows: 0
+    - _CastShadows: 1
     - _Cull: 1
-    - _DstBlend: 0
+    - _DstBlend: 10
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SrcBlend: 1
-    - _Surface: 0
+    - _Scale: 1.04
+    - _SrcBlend: 5
+    - _Surface: 1
     - _ZTest: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     - _ZWriteControl: 0
-    - _thickness: 1.05
+    - _thickness: 1.09
     m_Colors:
-    - _outline_color: {r: 0.023584902, g: 0.023584902, b: 0.023584902, a: 0}
+    - _color: {r: 0.6786668, g: 0.9528302, b: 0.8085943, a: 0}
+    - _outline_color: {r: 0.6786668, g: 0.9528302, b: 0.8085943, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &558000620439036055
+--- !u!114 &8125344336574203557
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
