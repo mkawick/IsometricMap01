@@ -48,6 +48,9 @@ public class IsoUnit : MonoBehaviour
             {
                 isScaled = false;
                 gameModel.transform.localScale = new Vector3(1, 1, 1);
+                var outline = gameObject.GetComponent<Outline>();
+
+                Destroy(outline);
             }
         }
         else //if (scaleUp == true)
@@ -56,6 +59,11 @@ public class IsoUnit : MonoBehaviour
             {
                 isScaled = true;
                 gameModel.transform.localScale = new Vector3(2, 2, 2);
+                var outline = gameObject.AddComponent<Outline>();
+
+                outline.OutlineMode = Outline.Mode.OutlineAll;
+                outline.OutlineColor = Color.yellow;
+                outline.OutlineWidth = 2f;
             }
         }
     }
