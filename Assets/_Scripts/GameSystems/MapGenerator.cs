@@ -39,7 +39,6 @@ public class MapGenerator : MonoBehaviour
     private void OnDestroy()
     {
         Cleanup();
-        // Destroy(parent);
     }
 
     void SetupMap(MapType mapType)// this 
@@ -57,7 +56,8 @@ public class MapGenerator : MonoBehaviour
             offset.x = (int)(-dimensions.x / 2);
             generatedTiles = new GameObject[dimensions.x, dimensions.y];
             generatedObjects = new GameObject[dimensions.x, dimensions.y];
-            // var test = generatedTiles[0,0];
+            
+
             MapUtils.Bounds = dimensions;
             MapUtils.MapOffset = new Vector2Int((int)offset.x, (int)offset.y);
         }
@@ -153,14 +153,6 @@ public class MapGenerator : MonoBehaviour
         Vector2 position = new Vector2(baseTile.transform.position.x, baseTile.transform.position.z);
         return AddDecorationsPrefab(position, decorations[which]);
     }
-    /* public GameObject AddDecoration(GameObject baseTile, GameObject decoration)
-     {
-         if (decoration == null)
-             return null;
-
-         Vector2 position = new Vector2(baseTile.transform.position.x, baseTile.transform.position.z);
-         return AddDecorationsPrefab(position, decoration);
-     }*/
 
     public List<GameObject> GetAllObjectsOnTile(GameObject tile)
     {

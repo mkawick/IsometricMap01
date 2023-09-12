@@ -10,6 +10,8 @@ public class IsoUnit : MonoBehaviour
 
     bool isScaled = false;
 
+    int movesRemaining;
+
     void Start()
     {
         data.isoUnit = this.transform.gameObject;
@@ -17,12 +19,13 @@ public class IsoUnit : MonoBehaviour
         {
             gameModel = this.transform.gameObject;
         }
+        //movesRemaining = data.numActionsPerTurn;
     }
 
-    void Update()
+  /*  void Update()
     {
         
-    }
+    }*/
 
     public void Selected(bool isSelected)
     {
@@ -40,6 +43,16 @@ public class IsoUnit : MonoBehaviour
         }
     }
 
+    public void TurnReset()
+    {
+        movesRemaining = data.numActionsPerTurn;
+    }
+
+    public bool IsOutOfActions()
+    { 
+        return movesRemaining > 0;
+    }
+
     void ScaleSelected(bool scaleUp)
     {
         if (scaleUp == false)
@@ -50,7 +63,10 @@ public class IsoUnit : MonoBehaviour
                 gameModel.transform.localScale = new Vector3(1, 1, 1);
                 var outline = gameObject.GetComponent<Outline>();
 
-                Destroy(outline);
+                if (outline != null)
+                {
+                    Destroy(outline);
+                }
             }
         }
         else //if (scaleUp == true)
@@ -59,17 +75,23 @@ public class IsoUnit : MonoBehaviour
             {
                 isScaled = true;
                 gameModel.transform.localScale = new Vector3(2, 2, 2);
-                var outline = gameObject.AddComponent<Outline>();
+                if (gameObject.GetComponent<Outline>() == null)
+                {
+                    var outline = gameObject.AddComponent<Outline>();
 
-                outline.OutlineMode = Outline.Mode.OutlineAll;
-                outline.OutlineColor = Color.yellow;
-                outline.OutlineWidth = 2f;
+                    outline.OutlineMode = Outline.Mode.OutlineAll;
+                    outline.OutlineColor = Color.yellow;
+                    outline.OutlineWidth = 2f;
+                }
             }
         }
     }
 
     public bool Move(PlayerControlledUnit.MoveDir dir)
     {
+        if (movesRemaining <= 0)
+            return false;
+
         var pos = transform.position;
         var oldPos = pos;
         var rot = transform.rotation;
@@ -99,6 +121,7 @@ public class IsoUnit : MonoBehaviour
             transform.rotation = rot;
             ScaleSelected(false);
             dataDisplay?.SetActive(false);
+            movesRemaining--; // todo.. look at terrain and roads
 
             return true;
         }

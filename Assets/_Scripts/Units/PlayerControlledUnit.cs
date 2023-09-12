@@ -21,7 +21,15 @@ public class PlayerControlledUnit : MonoBehaviour
             UpdateUnitOnTile();
     }
 
-    void Update()
+    public bool IsUnitOutOfActions()
+    {
+        if (currentlySelectedUnit == null)
+            return true;
+
+        return currentlySelectedUnit.GetComponent<IsoUnit>().IsOutOfActions();
+    }
+
+    public void ControlledUpdate()
     {
         if (currentlySelectedUnit == null)
             return;

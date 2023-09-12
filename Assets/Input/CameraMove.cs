@@ -35,24 +35,27 @@ public class CameraMove : MonoBehaviour
             {
                 if (raycastHit.transform != null)
                 {
-                    if (oldIsoUnit != null)
-                    {
-                        oldIsoUnit.Selected(false);
-                        oldIsoUnit = null;
-                    }
-
                     var obj = raycastHit.transform.gameObject;
                     var newIsoUnit = obj.GetComponent<IsoUnit>();
+                    if(oldIsoUnit != newIsoUnit)
+                    {
+                        if (oldIsoUnit != null)
+                        {
+                            oldIsoUnit.Selected(false);
+                            oldIsoUnit = null;
+                        }
+
+                        if (newIsoUnit != null)
+                        {
+                            newIsoUnit.Selected(true);
+                            oldIsoUnit = newIsoUnit;
+                        }
+                        else
+                        {
+                            OnGameObjectClicked?.Invoke(obj);
+                        }
+                    }
                     
-                    if (newIsoUnit != null)
-                    {
-                        newIsoUnit.Selected(true);
-                        oldIsoUnit = newIsoUnit;
-                    }
-                    else 
-                    {
-                        OnGameObjectClicked?.Invoke(obj);
-                    }
                 }
                 else
                 {

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class IsoUnitStatsCanvasController : MonoBehaviour
 {
-    public Camera camera;
+    public Camera mainCamera;
     [SerializeField]
     private TMP_Text Name;
     [SerializeField]
@@ -18,7 +18,9 @@ public class IsoUnitStatsCanvasController : MonoBehaviour
 
     void Start()
     {
-        transform.LookAt(transform.position + camera.transform.rotation * Vector3.forward, camera.transform.rotation * Vector3.up);
+        if(mainCamera == null)
+            mainCamera = Camera.main;
+        transform.LookAt(transform.position + mainCamera.transform.rotation * Vector3.forward, mainCamera.transform.rotation * Vector3.up);
 
 
     }

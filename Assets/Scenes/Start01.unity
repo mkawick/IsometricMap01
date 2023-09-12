@@ -396,6 +396,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fddfd62b4f82e0f428eccab75b156f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerArchetypes:
+  - {fileID: 1553809508}
+  - {fileID: 588201178}
+  playerCollectionNode: {fileID: 1782822272}
+  isRegularGame: 0
+  players: []
 --- !u!114 &194967898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,6 +428,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 319747660}
+  - {fileID: 1782822273}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1521,6 +1528,56 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &588201177
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 588201179}
+  - component: {fileID: 588201178}
+  m_Layer: 0
+  m_Name: AiPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &588201178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588201177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f71f725ac0bffc445a33a01cca8188b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerName: Trojans
+  isHuman: 0
+  unitsIOwn:
+  - {fileID: 326709069}
+  buildingsIOwn: []
+  objectsNeedingAnUpdate: []
+--- !u!4 &588201179
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588201177}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.00558421, y: 0.2489067, z: -0.0129045695}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &623256966
 GameObject:
   m_ObjectHideFlags: 0
@@ -2366,6 +2423,7 @@ GameObject:
   - component: {fileID: 1553809506}
   - component: {fileID: 1553809505}
   - component: {fileID: 1553809507}
+  - component: {fileID: 1553809508}
   m_Layer: 0
   m_Name: PlayerState
   m_TagString: Untagged
@@ -2387,7 +2445,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentlySelectedUnit: {fileID: 1392260058}
   mapGenerator: {fileID: 1348497505}
-  moveDist: 1
 --- !u!4 &1553809506
 Transform:
   m_ObjectHideFlags: 0
@@ -2418,6 +2475,24 @@ MonoBehaviour:
   constructables:
   - {fileID: 8053982994379117706, guid: 4351e87aa91bc5b4cadd8886fa7bbde1, type: 3}
   mapGenerator: {fileID: 1348497505}
+--- !u!114 &1553809508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553809504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f71f725ac0bffc445a33a01cca8188b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerName: MikMac
+  isHuman: 1
+  unitsIOwn:
+  - {fileID: 1392260058}
+  buildingsIOwn: []
+  objectsNeedingAnUpdate: []
 --- !u!1 &1577997691
 GameObject:
   m_ObjectHideFlags: 0
@@ -2641,10 +2716,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac2c34288e9a16440b6251b11b4a1368, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 485414839}
+  mainCamera: {fileID: 485414839}
   Name: {fileID: 260944807}
   Description: {fileID: 189540279}
   Image: {fileID: 1577997692}
+--- !u!1 &1782822272
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1782822273}
+  m_Layer: 0
+  m_Name: PlayerCollection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1782822273
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782822272}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 194967899}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1809030337
 GameObject:
   m_ObjectHideFlags: 0
