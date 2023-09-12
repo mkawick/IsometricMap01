@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 717300fc487dfbb4aa69d9b58248e640, type: 3}
   m_Name: FarmerWoman
   m_EditorClassIdentifier: 
-  name: Farmer Woman
+  unitName: Farmer
   isoUnit: {fileID: 0}
   description: What a bitch
   image: {fileID: 0}
+  numActionsPerTurn: 4
