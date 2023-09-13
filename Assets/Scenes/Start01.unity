@@ -2430,7 +2430,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1553809505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2474,6 +2474,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   constructables:
   - {fileID: 8053982994379117706, guid: 4351e87aa91bc5b4cadd8886fa7bbde1, type: 3}
+  - {fileID: 2824058144434961848, guid: e1d55ece97db981428bd6fa1b9aa3571, type: 3}
+  - {fileID: 8796130429572413361, guid: 995c5e759dfce594ca00ca6e36f0d3e2, type: 3}
+  - {fileID: 7413730651306157297, guid: d762832a20687c34996484d3bf2589ff, type: 3}
   mapGenerator: {fileID: 1348497505}
 --- !u!114 &1553809508
 MonoBehaviour:

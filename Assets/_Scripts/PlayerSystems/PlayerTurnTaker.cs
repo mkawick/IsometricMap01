@@ -79,8 +79,8 @@ public class PlayerTurnTaker : MonoBehaviour
 
     public bool AmIDoneWithMyTurn()
     {
-        // return isMyTurnFinished;
-        return true;
+        return isMyTurnFinished;
+       // return true;
     }
 
     void Start()

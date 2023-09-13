@@ -21,16 +21,27 @@ public class Construction : MonoBehaviour
     {
         if (Keyboard.current.anyKey.wasPressedThisFrame)
         {
-            if(Keyboard.current.bKey.isPressed && wasPressed == false)
+            if (wasPressed == false)
             {
-                wasPressed = true;
-                var pos = GetComponent<PlayerControlledUnit>().currentlySelectedUnit.transform.position;
-                mapGenerator.AddDecorationsPrefab(pos, constructables[0]);
+                if (Keyboard.current.bKey.isPressed)
+                {
+                    wasPressed = true;
+                    var pos = GetComponent<PlayerControlledUnit>().currentlySelectedUnit.transform.position;
+                    mapGenerator.AddDecorationsPrefab(pos, constructables[0]);
+                    Debug.Log("Building made b!");
+                }
+                else if (Keyboard.current.xKey.isPressed)
+                {
+                    wasPressed = true;
+                    var pos = GetComponent<PlayerControlledUnit>().currentlySelectedUnit.transform.position;
+                    mapGenerator.AddDecorationsPrefab(pos, constructables[1]);
+                    Debug.Log("Building made x!");
+                }
             }
-            else
-            {
-                wasPressed = false;
-            }
+        }
+        else
+        {
+            wasPressed = false;
         }
     }
 }

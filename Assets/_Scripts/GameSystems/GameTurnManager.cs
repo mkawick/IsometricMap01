@@ -22,6 +22,12 @@ public class GameTurnManager : MonoBehaviour
         {
             players.Add(Instantiate(playerArchetypes[0], playerCollectionNode.transform));
             players.Add(Instantiate(playerArchetypes[1], playerCollectionNode.transform));
+            foreach (var player in players)
+            {
+                player.gameObject.SetActive(true); 
+            }
+            playerArchetypes[0].gameObject.SetActive(false);
+            playerArchetypes[1].gameObject.SetActive(false);
         }
     }
 
