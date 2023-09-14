@@ -30,6 +30,8 @@ public class PlayerTurnTaker : MonoBehaviour
             GetComponent<Construction>().mapGenerator = value;
             GetComponent<PlayerUnitController>().mapGenerator = value;
         } }
+    public bool IsHuman { get { return isHuman; } }
+    public string PlayerName { get { return playerName; } }
 
     #region TurnTaking
     public void YourTurn()

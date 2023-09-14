@@ -86,6 +86,10 @@ public class PlayerUnitController : MonoBehaviour
     {
         if (nextMoveTime < Time.time)
         {
+            IosUnitMovementController iosUnitMovementController = new IosUnitMovementController();
+            iosUnitMovementController.mapGenerator = mapGenerator;
+            iosUnitMovementController.ResetMoves(currentlySelectedUnit.GetComponent<IsoUnit>().MovesRemaining);
+
             nextMoveTime = Time.time + Random.Range(1, 3);
             var test2dPos = MapUtils.ConvertScreenPositionToMap(this.transform.position);
 
@@ -96,7 +100,13 @@ public class PlayerUnitController : MonoBehaviour
                 var offset = MapUtils.Dir4Lookup(dir);
                 if (MapUtils.IsDirValid(test2dPos + offset))
                 {
-                    this.transform.position += new Vector3Int(offset.x, 0, offset.y);
+                    //this.transform.position += new Vector3Int(offset.x, 0, offset.y);
+                    bool didMove = iosUnitMovementController.Move(currentlySelectedUnit, (MoveDir)dir, mapGenerator);
+                    if (didMove)
+                    {
+                        currentlySelectedUnit.GetComponent<IsoUnit>().MovesRemaining = iosUnitMovementController.MovesRemaining;
+                        currentlySelectedUnit.GetComponent<IsoUnit>().PostMoveCleanup();
+                    }
                     break;
                 }
             }
