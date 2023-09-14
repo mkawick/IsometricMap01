@@ -10,29 +10,39 @@ public class PlayerTurnTaker : MonoBehaviour
     readonly public int turnTakerId;
     [SerializeField]
     private bool isHuman;
+    [SerializeField]
+    private IsoUnit startingIsoUnitPrefab;
+
+    [SerializeField] private IsoUnitStatsCanvasController isoUnitPopupPrefab;
+    IsoUnitStatsCanvasController isoUnitPopup;
 
     bool isMyTurn = false;
     bool isMyTurnFinished = false;
 
-    public List<GameObject> unitsIOwn;
+    public List<IsoUnit> unitsIOwn;
     public List<GameObject> buildingsIOwn;
 
     public List<GameObject> objectsNeedingAnUpdate;
+    public MapGenerator mapGenerator
+    {
+        set
+        {
+            GetComponent<Construction>().mapGenerator = value;
+            GetComponent<PlayerUnitController>().mapGenerator = value;
+        } }
 
+    #region TurnTaking
     public void YourTurn()
     {
         isMyTurn = true;
         isMyTurnFinished = false;
 
         // move all units that need an update 
-        foreach (GameObject go in unitsIOwn)
+        foreach (IsoUnit isoUnit in unitsIOwn)
         {
-            objectsNeedingAnUpdate.Add(go);
-            var isoUnit = go.GetComponent<IsoUnit>();
-            if (isoUnit)
-            {
-                isoUnit.TurnReset();
-            }
+            objectsNeedingAnUpdate.Add(isoUnit.gameObject);
+
+            isoUnit.TurnReset();
             // same for buildings
         }
     }
@@ -51,28 +61,28 @@ public class PlayerTurnTaker : MonoBehaviour
 
     public void ControlledUpdate()
     {
-        var playerControlledUnit = GetComponent<PlayerControlledUnit>();
+        var playerUnitController = GetComponent<PlayerUnitController>();
 
-        if (playerControlledUnit != null)
+        if (playerUnitController != null)
         {
-            playerControlledUnit.ControlledUpdate();
-            bool isDone = playerControlledUnit.IsUnitOutOfActions();
+            playerUnitController.ControlledUpdate(isHuman);
+            bool isDone = playerUnitController.IsUnitOutOfActions();
             if (isDone)
             {
-                ControlledUnitIsDone(playerControlledUnit.currentlySelectedUnit);
-            }
-            if(objectsNeedingAnUpdate.Count > 0)
-            {
-                playerControlledUnit.currentlySelectedUnit = objectsNeedingAnUpdate[0];
-                // todo pan camera to unit
-            }
+                ControlledUnitIsDone(playerUnitController.currentlySelectedUnit);
+                if (objectsNeedingAnUpdate.Count > 0)
+                {
+                    playerUnitController.currentlySelectedUnit = objectsNeedingAnUpdate[0];
+                    // todo pan camera to unit
+                }
+            }            
         }
         else
         {
-            var aiPlayerControlledUnit = GetComponent<PlayerControlledUnit>();
-            if (aiPlayerControlledUnit != null)
+            var aiPlayerUnitController = GetComponent<PlayerUnitController>();
+            if (aiPlayerUnitController != null)
             {
-                aiPlayerControlledUnit.ControlledUpdate();
+                aiPlayerUnitController.ControlledUpdate(isHuman);
             }
         }
     }
@@ -82,10 +92,16 @@ public class PlayerTurnTaker : MonoBehaviour
         return isMyTurnFinished;
        // return true;
     }
+    #endregion
 
     void Start()
     {
-        
+        isoUnitPopup = Instantiate(isoUnitPopupPrefab.gameObject, this.transform).GetComponent<IsoUnitStatsCanvasController>();
+        var startingUnit = Instantiate(startingIsoUnitPrefab.gameObject, this.transform).GetComponent<IsoUnit>();
+
+        unitsIOwn.Add(startingUnit);
+        startingUnit.SetDataDisplay(isoUnitPopup);
+        // todo.. set location to spawn
     }
 
     // Update is called once per frame

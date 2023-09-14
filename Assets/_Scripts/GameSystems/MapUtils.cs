@@ -17,6 +17,10 @@ public class MapUtils
 {
     public static Vector2Int Bounds  { get; set; }
     public static Vector2Int MapOffset { get; set; }
+    public static Vector2Int Constrain (Vector2Int pos)
+    { 
+        return new Vector2Int (Mathf.Clamp(pos.x,-Bounds.x, Bounds.x), Mathf.Clamp(pos.y, -Bounds.y, Bounds.y)); 
+    }
 
     public static Vector2Int ConvertScreenPositionToMap(Vector2Int screenPos)
     {

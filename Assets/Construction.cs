@@ -6,8 +6,8 @@ public class Construction : MonoBehaviour
     [SerializeField]
     GameObject[] constructables;
 
-    [SerializeField]
-    MapGenerator mapGenerator;
+    //[SerializeField]
+    public MapGenerator mapGenerator { get; set; }
 
     bool wasPressed = false;
 
@@ -21,21 +21,21 @@ public class Construction : MonoBehaviour
     {
         if (Keyboard.current.anyKey.wasPressedThisFrame)
         {
-            if (wasPressed == false)
+            if (wasPressed == false)// prevent double bounce
             {
                 if (Keyboard.current.bKey.isPressed)
                 {
                     wasPressed = true;
-                    var pos = GetComponent<PlayerControlledUnit>().currentlySelectedUnit.transform.position;
+                    var pos = GetComponent<PlayerUnitController>().currentlySelectedUnit.transform.position;
                     mapGenerator.AddDecorationsPrefab(pos, constructables[0]);
-                    Debug.Log("Building made b!");
+                   // Debug.Log("Building made b!");
                 }
                 else if (Keyboard.current.xKey.isPressed)
                 {
                     wasPressed = true;
-                    var pos = GetComponent<PlayerControlledUnit>().currentlySelectedUnit.transform.position;
+                    var pos = GetComponent<PlayerUnitController>().currentlySelectedUnit.transform.position;
                     mapGenerator.AddDecorationsPrefab(pos, constructables[1]);
-                    Debug.Log("Building made x!");
+                  //  Debug.Log("Building made x!");
                 }
             }
         }

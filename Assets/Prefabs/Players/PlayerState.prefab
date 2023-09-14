@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8663593284865082958
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8047859210895955949}
+  - component: {fileID: 6879638209021998980}
+  - component: {fileID: 5904659328564109986}
+  - component: {fileID: 9008587809526422357}
+  m_Layer: 0
+  m_Name: PlayerState
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &8047859210895955949
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8663593284865082958}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6879638209021998980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8663593284865082958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba67fe414b0d9fa49af88d5d5464bc22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  constructables:
+  - {fileID: 8053982994379117706, guid: 4351e87aa91bc5b4cadd8886fa7bbde1, type: 3}
+  - {fileID: 2824058144434961848, guid: e1d55ece97db981428bd6fa1b9aa3571, type: 3}
+  - {fileID: 8796130429572413361, guid: 995c5e759dfce594ca00ca6e36f0d3e2, type: 3}
+  - {fileID: 7413730651306157297, guid: d762832a20687c34996484d3bf2589ff, type: 3}
+  mapGenerator: {fileID: 0}
+--- !u!114 &5904659328564109986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8663593284865082958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f71f725ac0bffc445a33a01cca8188b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerName: MikMac
+  isHuman: 1
+  startingIsoUnitPrefab: {fileID: 1003396463432942763, guid: a9ebae3bad870a9429c4645ff7fc82fc, type: 3}
+  isoUnitPopupPrefab: {fileID: 1572600568774265903, guid: 80cdf3da4a18d1b40a26d086f66fff07, type: 3}
+  unitsIOwn: []
+  buildingsIOwn: []
+  objectsNeedingAnUpdate: []
+--- !u!114 &9008587809526422357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8663593284865082958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95cd8b5df7328914f883e50c3c274c4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentlySelectedUnit: {fileID: 0}
+  mapGenerator: {fileID: 0}

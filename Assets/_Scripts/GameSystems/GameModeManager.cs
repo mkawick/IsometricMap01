@@ -15,7 +15,8 @@ public class GameModeManager : MonoBehaviour
     public static event Action<Mode> OnGameGameModeChanged;
 
     [SerializeField]
-    MapGenerator mapGenerator;
+    MapGenerator _mapGenerator;
+    public MapGenerator mapGenerator { get { return _mapGenerator; } }
 
     //public CameraMove cameraMover;
     // Start is called before the first frame update

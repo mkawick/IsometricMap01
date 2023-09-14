@@ -5,12 +5,13 @@ using UnityEngine;
 public class IsoUnit : MonoBehaviour
 {
     public IsoUnitData data;
-    public GameObject dataDisplay;
+    public IsoUnitStatsCanvasController dataDisplay;
     public GameObject gameModel;    
 
     bool isScaled = false;
 
     int movesRemaining;
+    public int MovesRemaining { get { return movesRemaining; } set { movesRemaining = value;  } }
 
     void Start()
     {
@@ -22,21 +23,21 @@ public class IsoUnit : MonoBehaviour
         //movesRemaining = data.numActionsPerTurn;
     }
 
-  /*  void Update()
+    public void SetDataDisplay(IsoUnitStatsCanvasController popup)
     {
-        
-    }*/
+        dataDisplay = popup;
+    }
 
     public void Selected(bool isSelected)
     {
-        dataDisplay?.SetActive(isSelected);
+        dataDisplay?.gameObject.SetActive(isSelected);
         if(isSelected == false)
         {
             ScaleSelected(false);
         }
         if (isSelected == true)
         {
-            var display = dataDisplay.GetComponent<IsoUnitStatsCanvasController>();
+            var display = dataDisplay?.gameObject.GetComponent<IsoUnitStatsCanvasController>();
             display.SetPosition(transform.localPosition);
             display.Set(data, this.transform.gameObject);
             ScaleSelected(true);
@@ -50,7 +51,7 @@ public class IsoUnit : MonoBehaviour
 
     public bool IsOutOfActions()
     { 
-        return movesRemaining > 0;
+        return movesRemaining == 0;
     }
 
     void ScaleSelected(bool scaleUp)
@@ -87,7 +88,7 @@ public class IsoUnit : MonoBehaviour
         }
     }
 
-    public bool Move(PlayerControlledUnit.MoveDir dir)
+    public bool Move(PlayerUnitController.MoveDir dir)
     {
         if (movesRemaining <= 0)
             return false;
@@ -98,20 +99,20 @@ public class IsoUnit : MonoBehaviour
 
         switch (dir)
         {
-            case PlayerControlledUnit.MoveDir.North:
-                pos.z -= PlayerControlledUnit.MoveDist;
+            case PlayerUnitController.MoveDir.North:
+                pos.z -= PlayerUnitController.MoveDist;
                 rot.eulerAngles = new Vector3(0, 180, 0);
                 break;
-            case PlayerControlledUnit.MoveDir.South:
-                pos.z += PlayerControlledUnit.MoveDist;
+            case PlayerUnitController.MoveDir.South:
+                pos.z += PlayerUnitController.MoveDist;
                 rot.eulerAngles = new Vector3(0, 0, 0);
                 break;
-            case PlayerControlledUnit.MoveDir.East:
-                pos.x -= PlayerControlledUnit.MoveDist;
+            case PlayerUnitController.MoveDir.East:
+                pos.x -= PlayerUnitController.MoveDist;
                 rot.eulerAngles = new Vector3(0, 270, 0);
                 break;
-            case PlayerControlledUnit.MoveDir.West:
-                pos.x += PlayerControlledUnit.MoveDist;
+            case PlayerUnitController.MoveDir.West:
+                pos.x += PlayerUnitController.MoveDist;
                 rot.eulerAngles = new Vector3(0, 90, 0);
                 break;
         }
@@ -119,13 +120,18 @@ public class IsoUnit : MonoBehaviour
         {
             transform.position = pos;
             transform.rotation = rot;
-            ScaleSelected(false);
-            dataDisplay?.SetActive(false);
+            PostMoveCleanup();
             movesRemaining--; // todo.. look at terrain and roads
 
             return true;
         }
         return false;
+    }
+
+    public void PostMoveCleanup()
+    {
+        ScaleSelected(false);
+        dataDisplay?.gameObject.SetActive(false);
     }
 }
 

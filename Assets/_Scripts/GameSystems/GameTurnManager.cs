@@ -13,6 +13,7 @@ public class GameTurnManager : MonoBehaviour
 
     void Start()
     {
+        MapGenerator mapGenerator = GetComponent<GameModeManager>().mapGenerator;
         if (isRegularGame)
         {
             // to do create players
@@ -20,14 +21,20 @@ public class GameTurnManager : MonoBehaviour
         }
         else
         {
-            players.Add(Instantiate(playerArchetypes[0], playerCollectionNode.transform));
-            players.Add(Instantiate(playerArchetypes[1], playerCollectionNode.transform));
+            foreach(var archetype in playerArchetypes)
+            {
+                players.Add(Instantiate(archetype, playerCollectionNode.transform));
+                archetype.gameObject.SetActive(false);
+            }
+            //players.Add(Instantiate(playerArchetypes[0], playerCollectionNode.transform));
+           // players.Add(Instantiate(playerArchetypes[1], playerCollectionNode.transform));
             foreach (var player in players)
             {
-                player.gameObject.SetActive(true); 
+                player.gameObject.SetActive(true);
+                player.GetComponent<PlayerTurnTaker>().mapGenerator = mapGenerator;
             }
-            playerArchetypes[0].gameObject.SetActive(false);
-            playerArchetypes[1].gameObject.SetActive(false);
+           // playerArchetypes[0].gameObject.SetActive(false);
+          //  playerArchetypes[1].gameObject.SetActive(false);
         }
     }
 
