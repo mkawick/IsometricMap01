@@ -1,83 +1,79 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3871007860609490108
-GameObject:
+--- !u!1001 &3576965316763305229
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5054497964860232084}
-  - component: {fileID: 7170596870884766456}
-  - component: {fileID: 2287455941636477398}
-  - component: {fileID: 8377137994188261874}
-  m_Layer: 0
-  m_Name: AiPlayer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &5054497964860232084
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3871007860609490108}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 16
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7170596870884766456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3871007860609490108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f71f725ac0bffc445a33a01cca8188b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerName: Trojans
-  isHuman: 0
-  startingIsoUnitPrefab: {fileID: -2099475812295830114, guid: 9d8c496686c0aca43b499bda9e9ac4fa, type: 3}
-  isoUnitPopupPrefab: {fileID: 1572600568774265903, guid: 80cdf3da4a18d1b40a26d086f66fff07, type: 3}
-  unitsIOwn: []
-  buildingsIOwn: []
-  objectsNeedingAnUpdate: []
---- !u!114 &2287455941636477398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3871007860609490108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba67fe414b0d9fa49af88d5d5464bc22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  constructables:
-  - {fileID: 919132149155446097, guid: c7407b2bce2d2e944962b91f0cc825d1, type: 3}
---- !u!114 &8377137994188261874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3871007860609490108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95cd8b5df7328914f883e50c3c274c4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentlySelectedUnit: {fileID: 0}
-  mapGenerator: {fileID: 0}
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5904659328564109986, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
+      propertyPath: isHuman
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5904659328564109986, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
+      propertyPath: playerName
+      value: Ai2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5904659328564109986, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
+      propertyPath: startingIsoUnitPrefab
+      value: 
+      objectReference: {fileID: -2099475812295830114, guid: 9d8c496686c0aca43b499bda9e9ac4fa, type: 3}
+    - target: {fileID: 6879638209021998980, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
+      propertyPath: constructables.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8047859210895955949, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8047859210895955949, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8047859210895955949, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8047859210895955949, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8047859210895955949, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8047859210895955949, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8047859210895955949, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8047859210895955949, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8047859210895955949, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8047859210895955949, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8047859210895955949, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8663593284865082958, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
+      propertyPath: m_Name
+      value: AiPlayer2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}

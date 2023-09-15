@@ -5,7 +5,8 @@ using UnityEngine;
 public class GameTurnManager : MonoBehaviour
 {
     public PlayerTurnTaker[] playerArchetypes;
-    public GameObject playerCollectionNode;
+    public GameObject playersInstantiatedRootNode;
+    public UI_PlayerResources playerResourcesUi;
     private bool isRegularGame;
     public List<PlayerTurnTaker> players;
     public PlayerTurnPanel playerPanel;
@@ -33,21 +34,30 @@ public class GameTurnManager : MonoBehaviour
         MapGenerator mapGenerator = GetComponent<GameModeManager>().mapGenerator;
         foreach (var archetype in playerArchetypes)
         {
-            players.Add(Instantiate(archetype, playerCollectionNode.transform));
+            players.Add(Instantiate(archetype, playersInstantiatedRootNode.transform));
             archetype.gameObject.SetActive(false);
         }
 
         playerPanel.SetNumPlayers(players.Count);
         playerPanel.gameObject.SetActive(isRegularGame);
 
+        PlayerTurnTaker localPlayer = null;
         int index = 0;
         foreach (var player in players)
         {
             player.gameObject.SetActive(true);
-            player.GetComponent<PlayerTurnTaker>().mapGenerator = mapGenerator;
+            var playerTurnTaker = player.GetComponent<PlayerTurnTaker>();
+            playerTurnTaker.mapGenerator = mapGenerator;
+
+            if (playerTurnTaker.IsHuman)
+                localPlayer = playerTurnTaker;
             playerPanel.SetPlayerName(player.PlayerName, index++);
         }
         playerPanel.SetActivePlayer(currentPlayer);
+        if(localPlayer)
+        {
+            playerResourcesUi.SetupPlayer(localPlayer.GetComponent<ResourceCollector>());
+        }
     }
 
     void CreateFirstHumanPlayer()
@@ -58,7 +68,7 @@ public class GameTurnManager : MonoBehaviour
             var player = archetype.GetComponent<PlayerTurnTaker>();
             if (player == null || player.IsHuman == false)
                 continue;
-            players.Add(Instantiate(archetype, playerCollectionNode.transform));
+            players.Add(Instantiate(archetype, playersInstantiatedRootNode.transform));
             archetype.gameObject.SetActive(false);
         }
         foreach (var player in players)
