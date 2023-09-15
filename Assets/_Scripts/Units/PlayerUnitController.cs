@@ -11,11 +11,10 @@ public class PlayerUnitController : MonoBehaviour
     public enum MoveDir { North, East, South, West};
     void Start()
     {
-        // var gmm = GameObject.Find("GameModeManager");// todo.. this must be replaced
-        GameModeManager.OnGameGameModeChanged += OnGameGameModeChanged;        
+        GameModeManager.OnGameGameModeChanged += OnGameGameModeChanged;
     }
 
-    void OnGameGameModeChanged(GameModeManager.Mode mode)
+    void OnGameGameModeChanged(GameModeManager.Mode mode, bool regularGame)
     {
         if (mode == GameModeManager.Mode.StartSinglePlayerGame)
             UpdateUnitOnTile();
@@ -27,6 +26,33 @@ public class PlayerUnitController : MonoBehaviour
             return true;
 
         return currentlySelectedUnit.GetComponent<IsoUnit>().IsOutOfActions();
+    }
+
+    public bool ConsumeActions(int numActions)
+    {
+        if(currentlySelectedUnit == null || currentlySelectedUnit.GetComponent<IsoUnit>().MovesRemaining < numActions)
+            return false;
+
+        currentlySelectedUnit.GetComponent<IsoUnit>().MovesRemaining -= numActions;
+        return true;
+    }
+    public int GetNumRemainingActions()
+    {
+        if (currentlySelectedUnit == null)
+            return 0;
+        return currentlySelectedUnit.GetComponent<IsoUnit>().MovesRemaining;
+    }
+
+
+
+    public void SetNewUnitToControl(GameObject unit)
+    {
+        var cam = Camera.main.GetComponent<IsoCameraController>();
+        if (unit != null)
+        {
+            cam.SetTarget(unit);            
+        }
+        currentlySelectedUnit = unit;
     }
 
     public void ControlledUpdate(bool isHuman)

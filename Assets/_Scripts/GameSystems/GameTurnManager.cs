@@ -6,7 +6,7 @@ public class GameTurnManager : MonoBehaviour
 {
     public PlayerTurnTaker[] playerArchetypes;
     public GameObject playerCollectionNode;
-    public bool isRegularGame;
+    private bool isRegularGame;
     public List<PlayerTurnTaker> players;
     public PlayerTurnPanel playerPanel;
     int currentPlayer = 0;
@@ -14,19 +14,19 @@ public class GameTurnManager : MonoBehaviour
 
     void Start()
     {
-        if (isRegularGame)
-        {
+        //if (isRegularGame)
+        //{
             // to do create players
             GameModeManager.OnGameGameModeChanged += OnGameGameModeChanged;
-        }
-        else
-        {     
+       // }
+        //else
+       // {     
             //players.Add(Instantiate(playerArchetypes[0], playerCollectionNode.transform));
             // players.Add(Instantiate(playerArchetypes[1], playerCollectionNode.transform));
             // playerArchetypes[0].gameObject.SetActive(false);
             //  playerArchetypes[1].gameObject.SetActive(false);
-        }
-        CreateAllPlayers();
+       // }
+        
     }
     void CreateAllPlayers()
     {
@@ -103,16 +103,19 @@ public class GameTurnManager : MonoBehaviour
         }
     }
 
-    void OnGameGameModeChanged(GameModeManager.Mode mode)
+    void OnGameGameModeChanged(GameModeManager.Mode mode, bool regularGame)
     {
-        if (mode == GameModeManager.Mode.StartSinglePlayerGame && isRegularGame)
+        isRegularGame = regularGame;
+        if (mode == GameModeManager.Mode.StartSinglePlayerGame)// && isRegularGame)
         {
             //UpdateUnitOnTile();
-            var player = Instantiate(playerArchetypes[0]);
-            players.Add(player);
-            var aiPlayer = Instantiate(playerArchetypes[1]);
-            players.Add(aiPlayer);
-            players[0].YourTurn();
+            /*  var player = Instantiate(playerArchetypes[0]);
+              players.Add(player);
+              var aiPlayer = Instantiate(playerArchetypes[1]);
+              players.Add(aiPlayer);
+              players[0].YourTurn();*/
+            CreateAllPlayers();
         }
+        
     }
 }

@@ -12,11 +12,13 @@ public class GameModeManager : MonoBehaviour
     Mode currentMode = Mode.StartScreen;
 
     public static event Action<GameObject> OnGameObjectClicked;
-    public static event Action<Mode> OnGameGameModeChanged;
+    public static event Action<Mode, bool> OnGameGameModeChanged;
 
     [SerializeField]
     MapGenerator _mapGenerator;
     public MapGenerator mapGenerator { get { return _mapGenerator; } }
+    [SerializeField] 
+    public bool isRegularGame;
 
     //public CameraMove cameraMover;
     // Start is called before the first frame update
@@ -38,11 +40,11 @@ public class GameModeManager : MonoBehaviour
             case Mode.StartScreen: 
                 currentMode = Mode.StartSinglePlayerGame;
                 mapGenerator.Generate();
-                OnGameGameModeChanged?.Invoke(currentMode);
+                OnGameGameModeChanged?.Invoke(currentMode, isRegularGame);
                 break;
             case Mode.StartSinglePlayerGame:
                 currentMode = Mode.PlaySinglePlayerGame;
-                OnGameGameModeChanged?.Invoke(currentMode);
+                OnGameGameModeChanged?.Invoke(currentMode, isRegularGame);
                 break;
         }
     }

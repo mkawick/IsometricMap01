@@ -74,8 +74,12 @@ public class PlayerTurnTaker : MonoBehaviour
                 ControlledUnitIsDone(playerUnitController.currentlySelectedUnit);
                 if (objectsNeedingAnUpdate.Count > 0)
                 {
-                    playerUnitController.currentlySelectedUnit = objectsNeedingAnUpdate[0];
+                    playerUnitController.SetNewUnitToControl( objectsNeedingAnUpdate[0]);
                     // todo pan camera to unit
+                }
+                else
+                {
+                    playerUnitController.SetNewUnitToControl(null);
                 }
             }            
         }
