@@ -8,7 +8,7 @@ public class IsoCameraController : MonoBehaviour
     private bool isRegularGame;
     void Start()
     {
-        GameModeManager.OnGameGameModeChanged += OnGameGameModeChanged;
+        GameModeManager.OnGameModeChanged += OnGameGameModeChanged;
     }
 
 

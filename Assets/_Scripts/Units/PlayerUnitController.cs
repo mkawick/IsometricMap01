@@ -11,7 +11,7 @@ public class PlayerUnitController : MonoBehaviour
     public enum MoveDir { North, East, South, West};
     void Start()
     {
-        GameModeManager.OnGameGameModeChanged += OnGameGameModeChanged;
+        GameModeManager.OnGameModeChanged += OnGameGameModeChanged;
     }
 
     void OnGameGameModeChanged(GameModeManager.Mode mode, bool regularGame)

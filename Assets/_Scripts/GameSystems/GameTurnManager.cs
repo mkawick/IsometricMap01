@@ -9,20 +9,23 @@ public class GameTurnManager : MonoBehaviour
     public PlayerTurnTaker[] playerArchetypes;
     public GameObject playersInstantiatedRootNode;
     public UI_PlayerResources playerResourcesUi;
+    public UI_GameTurnPanel turnPanelUi;
     private bool isRegularGame;
     public List<PlayerTurnTaker> players;
     public PlayerTurnPanel playerPanel;
     int currentPlayer = 0;
-    int numberOfTurnsTaken = 0;
+    int currentGameTurn = 1;
     enum GameTurnState { Move, Collect, ShowEndOfTurn };
     GameTurnState gameTurnState;
+
+    public static event Action<int> OnTurnChanged;
 
     void Start()
     {
         //if (isRegularGame)
         //{
             // to do create players
-            GameModeManager.OnGameGameModeChanged += OnGameGameModeChanged;
+            GameModeManager.OnGameModeChanged += OnGameModeChanged;
        // }
         //else
        // {     
@@ -59,6 +62,7 @@ public class GameTurnManager : MonoBehaviour
         {
             playerResourcesUi.SetupPlayer(localPlayer.GetComponent<ResourceCollector>());
         }
+        turnPanelUi.GameStart();
     }
 
     private void SetupPlayerTurnsPanelUI()
@@ -137,7 +141,6 @@ public class GameTurnManager : MonoBehaviour
                         {
                             currentPlayer = 0;
                             gameTurnState = GameTurnState.ShowEndOfTurn;
-                            numberOfTurnsTaken++;
                             break;
                         }
                         if(collector.AmIDoneCollecting())
@@ -159,7 +162,7 @@ public class GameTurnManager : MonoBehaviour
 
                 case GameTurnState.ShowEndOfTurn:
                         gameTurnState = GameTurnState.Move;
-                    numberOfTurnsTaken++;
+                    OnTurnChanged?.Invoke(++currentGameTurn);
                     break;
             }
 
@@ -179,13 +182,14 @@ public class GameTurnManager : MonoBehaviour
 
     }
 
-    void OnGameGameModeChanged(GameModeManager.Mode mode, bool regularGame)
+    void OnGameModeChanged(GameModeManager.Mode mode, bool regularGame)
     {
         isRegularGame = regularGame;
         if (mode == GameModeManager.Mode.StartSinglePlayerGame)// && isRegularGame)
         {
             CreateAllPlayers();
             gameTurnState = GameTurnState.Move;
+            OnTurnChanged?.Invoke(currentGameTurn);
         }
         
     }
