@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mapGenerator: {fileID: 1348497505}
-  isRegularGame: 0
+  isRegularGame: 1
 --- !u!4 &194967899
 Transform:
   m_ObjectHideFlags: 0

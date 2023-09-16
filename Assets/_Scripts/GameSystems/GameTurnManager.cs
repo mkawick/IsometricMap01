@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameTurnManager : MonoBehaviour
@@ -12,6 +14,8 @@ public class GameTurnManager : MonoBehaviour
     public PlayerTurnPanel playerPanel;
     int currentPlayer = 0;
     int numberOfTurnsTaken = 0;
+    enum GameTurnState { Move, Collect, ShowEndOfTurn };
+    GameTurnState gameTurnState;
 
     void Start()
     {
@@ -38,11 +42,9 @@ public class GameTurnManager : MonoBehaviour
             archetype.gameObject.SetActive(false);
         }
 
-        playerPanel.SetNumPlayers(players.Count);
-        playerPanel.gameObject.SetActive(isRegularGame);
+        SetupPlayerTurnsPanelUI();
 
         PlayerTurnTaker localPlayer = null;
-        int index = 0;
         foreach (var player in players)
         {
             player.gameObject.SetActive(true);
@@ -51,13 +53,24 @@ public class GameTurnManager : MonoBehaviour
 
             if (playerTurnTaker.IsHuman)
                 localPlayer = playerTurnTaker;
-            playerPanel.SetPlayerName(player.PlayerName, index++);
         }
-        playerPanel.SetActivePlayer(currentPlayer);
-        if(localPlayer)
+        
+        if (localPlayer)
         {
             playerResourcesUi.SetupPlayer(localPlayer.GetComponent<ResourceCollector>());
         }
+    }
+
+    private void SetupPlayerTurnsPanelUI()
+    {
+        playerPanel.SetNumPlayers(players.Count);
+        playerPanel.gameObject.SetActive(isRegularGame);
+        int index = 0;
+        foreach (var player in players)
+        {
+            playerPanel.SetPlayerName(player.PlayerName, index++);
+        }
+        playerPanel.SetActivePlayer(currentPlayer);
     }
 
     void CreateFirstHumanPlayer()
@@ -79,28 +92,77 @@ public class GameTurnManager : MonoBehaviour
         playerPanel.SetActivePlayer(currentPlayer);
     }
 
+    ResourceCollector FindNextCollector ()
+    {
+        do
+        {
+            ResourceCollector collector = players[currentPlayer].GetComponent<ResourceCollector>();
+            if (collector != null)
+                return collector;
+        } while (++currentPlayer < players.Count);
+
+        return null;
+    }
     // Update is called once per frame
     void Update()
     {
         if(isRegularGame)
         {
-            // go round robin
-            if (players[currentPlayer].AmIDoneWithMyTurn() == true)
-            {               
-                // we need to manage game state here with popups
-                int lastPlayerId = currentPlayer++;
-                if (currentPlayer >= players.Count)
-                {
-                    currentPlayer = 0;
-                    numberOfTurnsTaken++;
-                }
-                playerPanel.SetActivePlayer(currentPlayer);
+            switch (gameTurnState)
+            {
+                case GameTurnState.Move:
+                    {    // go round robin
+                        if (players[currentPlayer].AmIDoneWithMyTurn() == true)
+                        {
+                            // we need to manage game state here with popups
+                            int lastPlayerId = currentPlayer++;
+                            if (currentPlayer >= players.Count)
+                            {
+                                currentPlayer = 0;
+                                gameTurnState = GameTurnState.Collect;
+                            }
+                            playerPanel.SetActivePlayer(currentPlayer);
 
-                players[lastPlayerId].PlayEndTurnTransition(currentPlayer);
-                // lots of variants of game state happen here.. 
-                players[currentPlayer].YourTurn();
+                            players[lastPlayerId].PlayEndTurnTransition(currentPlayer);
+                            // lots of variants of game state happen here.. 
+                            players[currentPlayer].YourTurn();
+                        }
+                        players[currentPlayer].ControlledUpdate();                        
+                    }
+                    break;
+                case GameTurnState.Collect:
+                    {
+                        ResourceCollector collector = FindNextCollector();
+                        if (collector == null)
+                        {
+                            currentPlayer = 0;
+                            gameTurnState = GameTurnState.ShowEndOfTurn;
+                            numberOfTurnsTaken++;
+                            break;
+                        }
+                        if(collector.AmIDoneCollecting())
+                        {
+                            currentPlayer++;
+                            if(currentPlayer >= players.Count)
+                            {
+                                currentPlayer = 0;
+                                gameTurnState = GameTurnState.ShowEndOfTurn;                                
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            collector.ControlledUpdate();
+                        }
+                    }
+                    break;
+
+                case GameTurnState.ShowEndOfTurn:
+                        gameTurnState = GameTurnState.Move;
+                    numberOfTurnsTaken++;
+                    break;
             }
-            players[currentPlayer].ControlledUpdate();
+
         }
         else
         {
@@ -109,8 +171,12 @@ public class GameTurnManager : MonoBehaviour
                 player.YourTurn();
                 player.ControlledUpdate();
             }
-            //players[currentPlayer].YourTurn();
         }
+    }
+
+    void LetEachPlayerRunCollections()
+    {
+
     }
 
     void OnGameGameModeChanged(GameModeManager.Mode mode, bool regularGame)
@@ -118,13 +184,8 @@ public class GameTurnManager : MonoBehaviour
         isRegularGame = regularGame;
         if (mode == GameModeManager.Mode.StartSinglePlayerGame)// && isRegularGame)
         {
-            //UpdateUnitOnTile();
-            /*  var player = Instantiate(playerArchetypes[0]);
-              players.Add(player);
-              var aiPlayer = Instantiate(playerArchetypes[1]);
-              players.Add(aiPlayer);
-              players[0].YourTurn();*/
             CreateAllPlayers();
+            gameTurnState = GameTurnState.Move;
         }
         
     }

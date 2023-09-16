@@ -17,7 +17,9 @@ public class ResourceCollector : MonoBehaviour
     public event Action<int, int, int> OnResourcesModified;
     public void AddResources(int w, int m, int p)
     {
-        wood += w; metal += m; prestige += p;
+        wood += w * woodMultiplier; 
+        metal += m * metalMultiplier; 
+        prestige += p * prestigeMultiplier;
         OnResourcesModified?.Invoke((int)wood, (int)metal, (int)prestige);
     }
     public void UseResources(int w, int m, int p)
@@ -45,4 +47,11 @@ public class ResourceCollector : MonoBehaviour
             }
         }
     }
+
+    public void ControlledUpdate()
+    {
+        var buildingsToUpdate = GetComponent<PlayerTurnTaker>().buildingsIOwn;
+    }
+
+    public bool AmIDoneCollecting() { return true; }
 }
