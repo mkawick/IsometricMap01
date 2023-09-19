@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Animmal.AP
 {
-    public enum ANIMATORSTYLE { fourlegged, flying, bipedal, human}
+    public enum ANIMATORSTYLE { fourlegged, flying, bipedal, human, humanRPG, siege}
     [System.Serializable]
     public class AssetDB
     {
@@ -53,7 +53,9 @@ namespace Animmal.AP
         public Button Idle2;
         public Button Idle3;
         public Button Walk;
+        public Button WalkWeapon;
         public Button Run;
+        public Button RunWeapon;
         public Button RunJumpL;
         public Button RunJumpR;
         public Button Jump;
@@ -63,11 +65,19 @@ namespace Animmal.AP
         public Button FlyStart;
         public Button FlyEnd;
         public Button Attack;
+        public Button Attack_LeftHand;
+        public Button Attack_RightHand;
+        public Button AttackBow;
+        public Button AttackSpear;
+        public Button Attack_RightHand2;
         public Button Hit;
         public Button Death;
 
+
+
+
         int CurrentItemID = 0;
-       //int CurrentSkinID = 0;
+        int CurrentSkinID = 0;
 
         AssetsObject AssetsItem1;
         AssetsObject AssetsItem2;
@@ -216,6 +226,72 @@ namespace Animmal.AP
                     Fly.gameObject.SetActive(false);
                     FlyStart.gameObject.SetActive(false);
                     FlyEnd.gameObject.SetActive(false);
+
+                    RunWeapon.gameObject.SetActive(false);
+                    WalkWeapon.gameObject.SetActive(false);
+
+                    Jump.gameObject.SetActive(false);
+
+                    Attack_LeftHand.gameObject.SetActive(false);
+                    Attack_RightHand.gameObject.SetActive(false);
+                    AttackBow.gameObject.SetActive(false);
+                    AttackSpear.gameObject.SetActive(false);
+                    Attack_RightHand2.gameObject.SetActive(false);
+                    break;
+                case ANIMATORSTYLE.humanRPG:
+                    Idle.gameObject.SetActive(true);
+                    Idle2.gameObject.SetActive(true);
+                    Idle3.gameObject.SetActive(true);
+                    Walk.gameObject.SetActive(true);
+                    Run.gameObject.SetActive(true);
+                    Death.gameObject.SetActive(true);
+                    Hit.gameObject.SetActive(true);
+
+                    RunWeapon.gameObject.SetActive(true);
+                    WalkWeapon.gameObject.SetActive(true);
+
+                    Jump.gameObject.SetActive(true);
+
+                    Attack_LeftHand.gameObject.SetActive(true);
+                    Attack_RightHand.gameObject.SetActive(true);
+                    AttackBow.gameObject.SetActive(true);
+                    AttackSpear.gameObject.SetActive(true);
+                    Attack_RightHand2.gameObject.SetActive(true);
+
+                    Wave.gameObject.SetActive(true);
+                    Falling.gameObject.SetActive(true);
+                    Fly.gameObject.SetActive(false);
+                    FlyStart.gameObject.SetActive(false);
+                    FlyEnd.gameObject.SetActive(false);
+                    Attack.gameObject.SetActive(false);
+                    RunJumpL.gameObject.SetActive(false);
+                    RunJumpR.gameObject.SetActive(false);
+                    break;
+                case ANIMATORSTYLE.siege:
+                    Attack.gameObject.SetActive(true);
+
+                    Idle.gameObject.SetActive(false);
+                    Idle2.gameObject.SetActive(false);
+                    Idle3.gameObject.SetActive(false);
+                    Walk.gameObject.SetActive(false);
+                    Run.gameObject.SetActive(false);
+                    Death.gameObject.SetActive(false);
+                    Hit.gameObject.SetActive(false);
+                    RunWeapon.gameObject.SetActive(false);
+                    WalkWeapon.gameObject.SetActive(false);
+                    Jump.gameObject.SetActive(false);
+                    Attack_LeftHand.gameObject.SetActive(false);
+                    Attack_RightHand.gameObject.SetActive(false);
+                    AttackBow.gameObject.SetActive(false);
+                    AttackSpear.gameObject.SetActive(false);
+                    Attack_RightHand2.gameObject.SetActive(false);
+                    Wave.gameObject.SetActive(false);
+                    Falling.gameObject.SetActive(false);
+                    Fly.gameObject.SetActive(false);
+                    FlyStart.gameObject.SetActive(false);
+                    FlyEnd.gameObject.SetActive(false);
+                    RunJumpL.gameObject.SetActive(false);
+                    RunJumpR.gameObject.SetActive(false);
                     break;
                 default:
                     break;
@@ -223,11 +299,12 @@ namespace Animmal.AP
             }
         }
 
+
         #endregion
 
         #region BUTTONS
 
-        
+
         public void LeftClicked()
         {
             if (ButtonsLocked)

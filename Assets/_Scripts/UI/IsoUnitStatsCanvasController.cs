@@ -20,14 +20,9 @@ public class IsoUnitStatsCanvasController : MonoBehaviour
     {
         if(mainCamera == null)
             mainCamera = Camera.main;
+        // set the initial camera lookat
         transform.LookAt(transform.position + mainCamera.transform.rotation * Vector3.forward, mainCamera.transform.rotation * Vector3.up);
 
-
-    }
-
-    void Update()
-    {
-        
     }
 
     public void SetPosition(Vector3 worldPos)

@@ -62,12 +62,7 @@ public class IsoUnit : MonoBehaviour
             {
                 isScaled = false;
                 gameModel.transform.localScale = new Vector3(1, 1, 1);
-                var outline = gameObject.GetComponent<Outline>();
-
-                if (outline != null)
-                {
-                    Destroy(outline);
-                }
+                RemoveOutline();
             }
         }
         else //if (scaleUp == true)
@@ -76,15 +71,27 @@ public class IsoUnit : MonoBehaviour
             {
                 isScaled = true;
                 gameModel.transform.localScale = new Vector3(2, 2, 2);
-                if (gameObject.GetComponent<Outline>() == null)
-                {
-                    var outline = gameObject.AddComponent<Outline>();
-
-                    outline.OutlineMode = Outline.Mode.OutlineAll;
-                    outline.OutlineColor = Color.yellow;
-                    outline.OutlineWidth = 2f;
-                }
+                AddOutline();
             }
+        }
+    }
+
+    void AddOutline()
+    {
+        if (gameObject.GetComponent<Outline>() == null)
+        {
+            var outline = gameObject.AddComponent<Outline>();
+            outline.OutlineMode = Outline.Mode.OutlineAll;
+            outline.OutlineColor = Color.yellow;
+            outline.OutlineWidth = 2f;
+        }
+    }
+    void RemoveOutline()
+    {
+        var outline = gameObject.GetComponent<Outline>();
+        if (outline != null)
+        {
+            Destroy(outline);
         }
     }
 

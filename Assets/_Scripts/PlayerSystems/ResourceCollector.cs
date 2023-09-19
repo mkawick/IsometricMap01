@@ -4,10 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-enum ResourceType
-{
-    Wood, Metal, Prestige
-}
+
 
 public class ResourceCollector : MonoBehaviour
 {
@@ -44,6 +41,10 @@ public class ResourceCollector : MonoBehaviour
             else if (Keyboard.current.rKey.isPressed)
             {
                 UseResources(2, 2, 2);
+            }
+            else if(Keyboard.current.tKey.isPressed)
+            {
+                GameObject.FindAnyObjectByType<EnvironmentCollector>().Collect(this.transform.position, ResourceType.Wood);
             }
         }
     }
