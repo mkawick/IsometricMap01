@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9008587809526422357}
   - component: {fileID: 3476303796297786159}
   m_Layer: 0
-  m_Name: PlayerState
+  m_Name: PlayerState2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,9 +64,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f71f725ac0bffc445a33a01cca8188b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerName: MikMac
+  playerName: MikMac2
   isHuman: 1
-  startingIsoUnitPrefab: {fileID: 1003396463432942763, guid: a9ebae3bad870a9429c4645ff7fc82fc, type: 3}
+  startingIsoUnitPrefab: {fileID: 7520027798362653183, guid: 100176e6062c1e64f9e4bde028630118, type: 3}
   isoUnitPopupPrefab: {fileID: 1572600568774265903, guid: 80cdf3da4a18d1b40a26d086f66fff07, type: 3}
   unitsIOwn: []
   buildingsIOwn: []

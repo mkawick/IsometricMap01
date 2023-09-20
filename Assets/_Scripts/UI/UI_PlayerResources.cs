@@ -18,7 +18,7 @@ public class UI_PlayerResources : MonoBehaviour
         prestigeQuantityText.text = "0";
     }
 
-    public void SetupPlayer(ResourceCollector rc)
+    public void SetupResourceCollector(ResourceCollector rc)
     {
         rc.OnResourcesModified += OnResourcesModified;
     }

@@ -33,20 +33,30 @@ public class Construction : MonoBehaviour
         {
             var playerUnitController = GetComponent<PlayerUnitController>();
             bool canConstruct = playerUnitController.GetNumRemainingActions() > 0;
+            var player = GetComponent<PlayerTurnTaker>();
+
             if (wasPressed == false && canConstruct)// prevent double bounce
             {
                 if (Keyboard.current.bKey.isPressed)
                 {
                     wasPressed = true;
                     var pos = GetComponent<PlayerUnitController>().currentlySelectedUnit.transform.position;
-                    mapGenerator.AddDecorationsPrefab(pos, constructables[0]);
+                    var building = mapGenerator.AddDecorationsPrefab(pos, constructables[0]);
+                    if (player)
+                    {
+                        player.AddBuilding(building);
+                    }
                     // Debug.Log("Building made b!");
                 }
                 else if (Keyboard.current.xKey.isPressed)
                 {
                     wasPressed = true;
                     var pos = GetComponent<PlayerUnitController>().currentlySelectedUnit.transform.position;
-                    mapGenerator.AddDecorationsPrefab(pos, constructables[1]);
+                    var building = mapGenerator.AddDecorationsPrefab(pos, constructables[1]);
+                    if (player)
+                    {
+                        player.AddBuilding(building);
+                    }
                     //  Debug.Log("Building made x!");
                 }
                 if(wasPressed)

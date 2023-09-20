@@ -408,7 +408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerArchetypes:
   - {fileID: 6940750030342154159, guid: 741a6da5966cdda428f8bc75811ded12, type: 3}
-  - {fileID: 5904659328564109986, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
+  - {fileID: 5904659328564109986, guid: dc4932e7f127e4c4bbf088ad64b63f3b, type: 3}
   playersInstantiatedRootNode: {fileID: 1782822272}
   playerResourcesUi: {fileID: 1090834827}
   turnPanelUi: {fileID: 105428477}

@@ -60,7 +60,8 @@ public class GameTurnManager : MonoBehaviour
         
         if (localPlayer)
         {
-            playerResourcesUi.SetupPlayer(localPlayer.GetComponent<ResourceCollector>());
+            localPlayer.playerResourcesUi = playerResourcesUi;
+            //playerResourcesUi.SetupPlayer(localPlayer.GetComponent<ResourceCollector>());
         }
         turnPanelUi.GameStart();
     }

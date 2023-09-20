@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 // most behaviours for a player should be contained here
 public class PlayerTurnTaker : MonoBehaviour
@@ -13,13 +14,18 @@ public class PlayerTurnTaker : MonoBehaviour
     [SerializeField]
     private IsoUnit startingIsoUnitPrefab;
 
+    [HideInInspector]
+    public UI_PlayerResources playerResourcesUi;
+
     [SerializeField] private IsoUnitStatsCanvasController isoUnitPopupPrefab;
     IsoUnitStatsCanvasController isoUnitPopup;
 
     bool isMyTurn = false;
     bool isMyTurnFinished = false;
+    EnvironmentCollector environmentCollector;
 
     public List<IsoUnit> unitsIOwn;
+    [SerializeField]
     public List<GameObject> buildingsIOwn;
 
     public List<GameObject> objectsNeedingAnUpdate;
@@ -32,6 +38,13 @@ public class PlayerTurnTaker : MonoBehaviour
         } }
     public bool IsHuman { get { return isHuman; } }
     public string PlayerName { get { return playerName; } }
+    public List<GameObject> BuildingsIOwn {  get { return buildingsIOwn; } }
+    public void AddBuilding(GameObject building) 
+    { 
+        buildingsIOwn.Add(building);
+
+        playerResourcesUi.SetupResourceCollector(building.GetComponent<ResourceCollector>());
+    }
 
     #region TurnTaking
     public void YourTurn()
@@ -91,6 +104,38 @@ public class PlayerTurnTaker : MonoBehaviour
                 aiPlayerUnitController.ControlledUpdate(isHuman);
             }
         }
+        ResourceUpdate();
+    }
+
+    void ResourceUpdate()
+    {
+        if (Keyboard.current.anyKey.wasPressedThisFrame)
+        {
+            var playerUnitController = GetComponent<PlayerUnitController>();
+            var playerTurnTaker = GetComponent<PlayerTurnTaker>();
+            if (playerTurnTaker.IsHuman)
+            {
+
+                if (Keyboard.current.cKey.isPressed)
+                {
+                    foreach( var building in buildingsIOwn )
+                    {
+                        building.GetComponent<ResourceCollector>().AddResources(environmentCollector, 1, 3, 5);
+                    }
+                }
+                else if (Keyboard.current.rKey.isPressed)
+                {
+                    foreach (var building in buildingsIOwn)
+                    {
+                        building.GetComponent<ResourceCollector>().UseResources(2, 2, 2);
+                    }
+                }
+               /* else if (Keyboard.current.tKey.isPressed)
+                {
+                    GameObject.FindAnyObjectByType<EnvironmentCollector>().Collect(this.transform.position, ResourceType.Wood);
+                }**/
+            }
+        }
     }
 
     public bool AmIDoneWithMyTurn()
@@ -107,6 +152,8 @@ public class PlayerTurnTaker : MonoBehaviour
 
         unitsIOwn.Add(startingUnit);
         startingUnit.SetDataDisplay(isoUnitPopup);
+
+        environmentCollector = GameObject.FindAnyObjectByType<EnvironmentCollector>();
         // todo.. set location to spawn
     }
 
