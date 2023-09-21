@@ -387,6 +387,7 @@ GameObject:
   - component: {fileID: 194967899}
   - component: {fileID: 194967898}
   - component: {fileID: 194967897}
+  - component: {fileID: 194967900}
   m_Layer: 0
   m_Name: GameStateManager
   m_TagString: Untagged
@@ -445,6 +446,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &194967900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 194967895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2df5b4c4e8fe20b438dd3178ab7d13f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &225934593
 GameObject:
   m_ObjectHideFlags: 0
@@ -990,6 +1003,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentCamera: {fileID: 485414839}
+  gameUnitSelector: {fileID: 194967900}
 --- !u!1 &320546978
 GameObject:
   m_ObjectHideFlags: 0

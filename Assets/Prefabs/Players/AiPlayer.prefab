@@ -19,7 +19,7 @@ PrefabInstance:
     - target: {fileID: 5904659328564109986, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
       propertyPath: startingIsoUnitPrefab
       value: 
-      objectReference: {fileID: -2099475812295830114, guid: 9d8c496686c0aca43b499bda9e9ac4fa, type: 3}
+      objectReference: {fileID: 1417613693792161975, guid: 71ff083ec51349841b7cf1c6790156ee, type: 3}
     - target: {fileID: 6879638209021998980, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
       propertyPath: constructables.Array.size
       value: 1
@@ -70,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8663593284865082958, guid: d880d58c65e7b4e4180d7367373d7083, type: 3}
       propertyPath: m_Name
-      value: AiPlayer2
+      value: AiPlayer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

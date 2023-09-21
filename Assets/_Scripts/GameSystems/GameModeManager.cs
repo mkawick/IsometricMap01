@@ -24,13 +24,12 @@ public class GameModeManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CameraMove.OnGameObjectClicked += Callback;
+        GameUnitSelector.OnGameObjectClicked += Callback;
     }
 
     void Callback(GameObject obj)
     {
-        OnGameObjectClicked?.Invoke(obj);
-        
+        OnGameObjectClicked?.Invoke(obj);        
     }
     // Update is called once per frame
     void Update()

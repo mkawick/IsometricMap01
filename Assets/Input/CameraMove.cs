@@ -11,17 +11,15 @@ public class CameraMove : MonoBehaviour
 
     public Camera currentCamera;
 
+    [SerializeField]
+    GameUnitSelector gameUnitSelector;
+
     private bool drag = false;
-
-    private IsoUnit oldIsoUnit = null;
-
-    public static event Action<GameObject> OnGameObjectClicked;
 
     private void Start()
     {
         currentCamera = Camera.main;
-        ResetCamera = currentCamera.transform.position;
-        
+        ResetCamera = currentCamera.transform.position;        
     }
 
     private void Update()
@@ -30,42 +28,24 @@ public class CameraMove : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit raycastHit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = currentCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out raycastHit, 100f))
             {
                 if (raycastHit.transform != null)
                 {
                     var obj = raycastHit.transform.gameObject;
-                    var newIsoUnit = obj.GetComponent<IsoUnit>();
-                    if(oldIsoUnit != newIsoUnit)
-                    {
-                        if (oldIsoUnit != null)
-                        {
-                            oldIsoUnit.Selected(false);
-                            oldIsoUnit = null;
-                        }
-
-                        if (newIsoUnit != null)
-                        {
-                            newIsoUnit.Selected(true);
-                            oldIsoUnit = newIsoUnit;
-                        }
-                        else
-                        {
-                            OnGameObjectClicked?.Invoke(obj);
-                        }
-                    }
-                    
+                    gameUnitSelector.SelectUnit(obj);
                 }
                 else
                 {
-                    OnGameObjectClicked?.Invoke(null);
+                    gameUnitSelector.SelectUnit(null);
                 }
             }
             else
             {
-                OnGameObjectClicked?.Invoke(null);
+                gameUnitSelector.SelectUnit(null);
             }
+            
         }
     }
 

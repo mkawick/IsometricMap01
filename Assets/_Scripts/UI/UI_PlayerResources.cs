@@ -30,9 +30,14 @@ public class UI_PlayerResources : MonoBehaviour
 
     void OnResourcesModified(int wood, int metal, int prestige)
     {
-        woodQuantityText.text = wood.ToString();
-        metalQuantityText.text = metal.ToString();
-        prestigeQuantityText.text = prestige.ToString();
+        if(wood != EnvironmentCollector.kNoQuantityChange)
+            woodQuantityText.text = wood.ToString();
+
+        if (metal != EnvironmentCollector.kNoQuantityChange)
+            metalQuantityText.text = metal.ToString();
+
+        if (prestige != EnvironmentCollector.kNoQuantityChange)
+            prestigeQuantityText.text = prestige.ToString();
     }
 
   /*  // Update is called once per frame

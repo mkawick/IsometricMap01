@@ -12,15 +12,16 @@ public class ResourceCollector : MonoBehaviour
     float woodMultiplier = 1, metalMultiplier = 1, prestigeMultiplier = 1;
 
     public event Action<int, int, int> OnResourcesModified;
+
     public void AddResources(EnvironmentCollector environmentCollector, int w, int m, int p)
     {
         wood += w * woodMultiplier; 
         metal += m * metalMultiplier; 
         prestige += p * prestigeMultiplier;
-        OnResourcesModified?.Invoke((int)wood, (int)metal, (int)prestige);
-        environmentCollector.Collect(transform.position, ResourceType.Wood);
-        environmentCollector.Collect(transform.position, ResourceType.Metal);
-        environmentCollector.Collect(transform.position, ResourceType.Prestige);
+        //OnResourcesModified?.Invoke((int)wood, (int)metal, (int)prestige);
+        environmentCollector.Collect(transform.position, ResourceType.Wood, (int) wood, OnResourcesModified);
+        environmentCollector.Collect(transform.position, ResourceType.Metal, (int) metal, OnResourcesModified);
+        environmentCollector.Collect(transform.position, ResourceType.Prestige, (int) prestige, OnResourcesModified);
     }
     public void UseResources(int w, int m, int p)
     {

@@ -6,8 +6,8 @@ public class IsoUnit : MonoBehaviour
 {
     public IsoUnitData data;
     public IsoUnitStatsCanvasController dataDisplay;
-    [Tooltip("Game object")]
-    public GameObject gameModel;    
+    [Tooltip("GameObject")]
+    public GameObject gameModel;
 
     bool isScaled = false;
 
