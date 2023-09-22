@@ -18,14 +18,14 @@ public class UI_PlayerResources : MonoBehaviour
         prestigeQuantityText.text = "0";
     }
 
-    public void SetupResourceCollector(ResourceCollector rc)
+    public void SetupResourceCollector(PlayerResources playerResources)
     {
-        rc.OnResourcesModified += OnResourcesModified;
+        playerResources.OnResourcesModifiedEvent += OnResourcesModified;
     }
 
-    public void GameEnd(ResourceCollector rc)
+    public void GameEnd(PlayerResources playerResources)
     {
-        rc.OnResourcesModified -= OnResourcesModified;
+        playerResources.OnResourcesModifiedEvent -= OnResourcesModified;
     }
 
     void OnResourcesModified(int wood, int metal, int prestige)

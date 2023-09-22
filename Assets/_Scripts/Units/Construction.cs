@@ -45,6 +45,7 @@ public class Construction : MonoBehaviour
                     if (player)
                     {
                         player.AddBuilding(building);
+                        building.GetComponent<ResourceCollector>().Register(player.GetComponent<PlayerResources>());
                     }
                     // Debug.Log("Building made b!");
                 }
@@ -56,6 +57,7 @@ public class Construction : MonoBehaviour
                     if (player)
                     {
                         player.AddBuilding(building);
+                        building.GetComponent<ResourceCollector>().Register(player.GetComponent<PlayerResources>());
                     }
                     //  Debug.Log("Building made x!");
                 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6879638209021998980}
   - component: {fileID: 5904659328564109986}
   - component: {fileID: 9008587809526422357}
-  - component: {fileID: 3476303796297786159}
+  - component: {fileID: -8610519491200605680}
   m_Layer: 0
   m_Name: PlayerState2
   m_TagString: Untagged
@@ -67,7 +67,6 @@ MonoBehaviour:
   playerName: MikMac2
   isHuman: 1
   startingIsoUnitPrefab: {fileID: 7520027798362653183, guid: 100176e6062c1e64f9e4bde028630118, type: 3}
-  playerResourcesUi: {fileID: 0}
   isoUnitPopupPrefab: {fileID: 1572600568774265903, guid: 80cdf3da4a18d1b40a26d086f66fff07, type: 3}
   unitsIOwn: []
   buildingsIOwn: []
@@ -86,15 +85,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentlySelectedUnit: {fileID: 0}
   mapGenerator: {fileID: 0}
---- !u!114 &3476303796297786159
+--- !u!114 &-8610519491200605680
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8663593284865082958}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec30ca831f947dc46abfaa599a2fd7a1, type: 3}
+  m_Script: {fileID: 11500000, guid: b4f0a1a6bda6be640aec844c315b8935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

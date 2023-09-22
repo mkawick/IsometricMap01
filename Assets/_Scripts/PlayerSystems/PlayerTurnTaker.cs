@@ -15,7 +15,7 @@ public class PlayerTurnTaker : MonoBehaviour
     private IsoUnit startingIsoUnitPrefab;
 
     [HideInInspector]
-    public UI_PlayerResources playerResourcesUi;
+    private UI_PlayerResources playerResourcesUi;
 
     [SerializeField] private IsoUnitStatsCanvasController isoUnitPopupPrefab;
     IsoUnitStatsCanvasController isoUnitPopup;
@@ -39,11 +39,22 @@ public class PlayerTurnTaker : MonoBehaviour
     public bool IsHuman { get { return isHuman; } }
     public string PlayerName { get { return playerName; } }
     public List<GameObject> BuildingsIOwn {  get { return buildingsIOwn; } }
+
+    public UI_PlayerResources PlayerResourcesUi 
+    { 
+        get => playerResourcesUi; 
+        set 
+        { 
+            playerResourcesUi = value; 
+            playerResourcesUi.SetupResourceCollector(GetComponent<PlayerResources>()); 
+        } 
+    }
+
     public void AddBuilding(GameObject building) 
     { 
         buildingsIOwn.Add(building);
 
-        playerResourcesUi.SetupResourceCollector(building.GetComponent<ResourceCollector>());
+        //playerResourcesUi.SetupResourceCollector(building.GetComponent<ResourceCollector>());
     }
 
     #region TurnTaking

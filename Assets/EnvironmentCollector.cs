@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
@@ -10,11 +9,11 @@ public enum ResourceType
     Wood, Metal, Prestige, NumResources
 }
 
-public class ResourceData: MonoBehaviour
+public class ResourceData : MonoBehaviour
 {
     public ResourceType type;
     public int quantity;
-    public Action<int, int, int> OnResourcesModified;
+    public Action<ResourceType, int> OnResourcesFinishedFlying;
 }
 
 public class EnvironmentCollector : MonoBehaviour
@@ -37,7 +36,7 @@ public class EnvironmentCollector : MonoBehaviour
     [SerializeField, Range(0.1f, 5)]
     float iconFlyingTime;
 
-    public void Collect(Vector3 worldLocation, ResourceType type, int quantity, Action<int, int, int> OnResourcesModified)
+    public float Collect(Vector3 worldLocation, ResourceType type, int quantity, Action<ResourceType, int> OnResourcesFinishedFlying)
     {
         var screenLocation = Camera.main.WorldToScreenPoint(worldLocation);
 
@@ -50,13 +49,15 @@ public class EnvironmentCollector : MonoBehaviour
         var resources = flyingSymbol.AddComponent<ResourceData>();
         resources.type = type;
         resources.quantity = quantity;
-        resources.OnResourcesModified = OnResourcesModified;
+        resources.OnResourcesFinishedFlying = OnResourcesFinishedFlying;
 
         var pointToTravel = destinationIcons[imageIndex].GetComponent<Image>().rectTransform.localPosition;
         flyingSymbol.transform.LeanMoveLocal(pointToTravel, iconFlyingTime).setEaseOutExpo();
 
         var call = DestroyImage(flyingSymbol);
         StartCoroutine(call);
+
+        return iconFlyingTime;
     }
 
     IEnumerator DestroyImage(GameObject flyingSymbol)
@@ -64,7 +65,9 @@ public class EnvironmentCollector : MonoBehaviour
         yield return new WaitForSeconds(iconFlyingTime);
 
         var resources = flyingSymbol.GetComponent<ResourceData>();
-        int wood = kNoQuantityChange, metal = kNoQuantityChange, prestige = kNoQuantityChange;
+        resources.OnResourcesFinishedFlying?.Invoke(resources.type, resources.quantity);
+
+       /* int wood = kNoQuantityChange, metal = kNoQuantityChange, prestige = kNoQuantityChange;
         switch(resources.type)
         {    
         case ResourceType.Wood:
@@ -83,7 +86,7 @@ public class EnvironmentCollector : MonoBehaviour
             }
             break;
         }
-        resources.OnResourcesModified?.Invoke(wood, metal, prestige);
+        resources.OnResourcesModified?.Invoke(wood, metal, prestige);*/
         Destroy(flyingSymbol);
     }
 }
