@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717300fc487dfbb4aa69d9b58248e640, type: 3}
+  m_Name: ConstructionWorker
+  m_EditorClassIdentifier: 
+  unitName: Constructor
+  isoUnit: {fileID: 0}
+  description: Gonna make buildings
+  image: {fileID: 0}
+  numActionsPerTurn: 4
+  costs:
+  - type: 2
+    cost: 1
+  abilities:
+  - ability: 4
+    strength: 1

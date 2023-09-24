@@ -9,6 +9,13 @@ public enum ResourceType
     Wood, Metal, Prestige, NumResources
 }
 
+[System.Serializable]
+public class ResourceTypeEntry // for costs and entries in classes
+{
+    public ResourceType type;
+    public int cost;
+}
+
 public class ResourceData : MonoBehaviour
 {
     public ResourceType type;
