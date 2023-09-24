@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.26339722, y: -7.500107}
-  m_SizeDelta: {x: -112.1655, y: -33}
+  m_AnchoredPosition: {x: -8, y: -7.5000534}
+  m_SizeDelta: {x: -84, y: -33.000107}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5035725002058934265
 CanvasRenderer:
@@ -68,8 +68,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Village
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f97d3d8c4928e144f87b7068ec61d2eb, type: 2}
+  m_sharedMaterial: {fileID: 1322683948350887008, guid: f97d3d8c4928e144f87b7068ec61d2eb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -93,8 +93,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 12
+  m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -324,8 +324,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -24.749985, y: 11.321899}
-  m_SizeDelta: {x: -162.1924, y: -22.6438}
+  m_AnchoredPosition: {x: -18, y: 9}
+  m_SizeDelta: {x: -104, y: -18.000002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &821256804794602881
 CanvasRenderer:
@@ -357,8 +357,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Village
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f97d3d8c4928e144f87b7068ec61d2eb, type: 2}
+  m_sharedMaterial: {fileID: 1322683948350887008, guid: f97d3d8c4928e144f87b7068ec61d2eb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -382,8 +382,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
-  m_fontSizeBase: 18
+  m_fontSize: 17
+  m_fontSizeBase: 17
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -996,7 +996,7 @@ GameObject:
   - component: {fileID: 4919261474214463533}
   - component: {fileID: 5624878750866341285}
   m_Layer: 5
-  m_Name: ConstructionButton
+  m_Name: PurchaseOption_ConstructionButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

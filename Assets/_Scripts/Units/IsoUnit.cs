@@ -5,19 +5,18 @@ using UnityEngine;
 public class IsoUnit : MonoBehaviour
 {
     [SerializeField]
-    private IsoUnitData data;
-    public IsoUnitStatsCanvasController dataDisplay;
+    private IsoUnitData data;    
     [Tooltip("GameObject")]
     public GameObject gameModel;
 
+    [HideInInspector]
     public PlayerTurnTaker playerOwner;
-
     bool isScaled = false;
-
     int movesRemaining;
-    public int MovesRemaining { get { return movesRemaining; } set { movesRemaining = value;  } }
 
+    public int MovesRemaining { get { return movesRemaining; } set { movesRemaining = value;  } }
     public IsoUnitData Data { get => data;  }
+    public IsoUnitStatsCanvasController dataDisplay;
 
     void Start()
     {

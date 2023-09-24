@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class IsoBuilding : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private IsoBuildingData data;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [HideInInspector]
+    public PlayerTurnTaker playerOwner;
+
+    [SerializeField]
+    public GameObject modelToRender;
+
+    public IsoBuildingData Data { get => data; set => data = value; }
 }

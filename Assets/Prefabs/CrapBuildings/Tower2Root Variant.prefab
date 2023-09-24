@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tower2Root Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 6568114481337144532, guid: e1d55ece97db981428bd6fa1b9aa3571, type: 3}
+      propertyPath: data
+      value: 
+      objectReference: {fileID: 11400000, guid: fdc3f5fc3a48c9840be973907b0e3348, type: 2}
     - target: {fileID: 6933991101196822447, guid: e1d55ece97db981428bd6fa1b9aa3571, type: 3}
       propertyPath: m_RootOrder
       value: 7
