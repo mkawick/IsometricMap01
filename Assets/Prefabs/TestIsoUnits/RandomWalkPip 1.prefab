@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 244238960514134296}
   - component: {fileID: 5916205563544613415}
   - component: {fileID: 1417613693792161975}
-  m_Layer: 7
+  m_Layer: 17
   m_Name: RandomWalkPip 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,8 +70,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 0e7f35e3a9de9e64093526c9a7dd221e, type: 2}
-  dataDisplay: {fileID: 1572600568774265903, guid: 80cdf3da4a18d1b40a26d086f66fff07, type: 3}
   gameModel: {fileID: 3896945602226804163}
+  playerOwner: {fileID: 0}
+  dataDisplay: {fileID: 1572600568774265903, guid: 80cdf3da4a18d1b40a26d086f66fff07, type: 3}
 --- !u!1001 &8964510988519707799
 PrefabInstance:
   m_ObjectHideFlags: 0

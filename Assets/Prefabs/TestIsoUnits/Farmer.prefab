@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2061437995317111965}
   - component: {fileID: 3446772397392996206}
   - component: {fileID: 1003396463432942763}
-  m_Layer: 7
+  m_Layer: 17
   m_Name: Farmer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,8 +70,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 0e7f35e3a9de9e64093526c9a7dd221e, type: 2}
-  dataDisplay: {fileID: 1572600568774265903, guid: 80cdf3da4a18d1b40a26d086f66fff07, type: 3}
   gameModel: {fileID: 5485451212885740493}
+  playerOwner: {fileID: 0}
+  dataDisplay: {fileID: 1572600568774265903, guid: 80cdf3da4a18d1b40a26d086f66fff07, type: 3}
 --- !u!1001 &3532243387935117724
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82,51 +83,51 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9016209542541754245, guid: 89188b0d93abb624eaf19b12e333f77e, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 9017483444528514783, guid: 89188b0d93abb624eaf19b12e333f77e, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 9017623607706593619, guid: 89188b0d93abb624eaf19b12e333f77e, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 9017667108734114385, guid: 89188b0d93abb624eaf19b12e333f77e, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 9017871711583649755, guid: 89188b0d93abb624eaf19b12e333f77e, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 9017999774192008487, guid: 89188b0d93abb624eaf19b12e333f77e, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 9018003026103912435, guid: 89188b0d93abb624eaf19b12e333f77e, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 9018107599176585147, guid: 89188b0d93abb624eaf19b12e333f77e, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 9018132322352178067, guid: 89188b0d93abb624eaf19b12e333f77e, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 9018319785354656139, guid: 89188b0d93abb624eaf19b12e333f77e, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 9018325968972595299, guid: 89188b0d93abb624eaf19b12e333f77e, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 9018347437176261779, guid: 89188b0d93abb624eaf19b12e333f77e, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 9018430595368693259, guid: 89188b0d93abb624eaf19b12e333f77e, type: 3}
       propertyPath: m_Name
@@ -134,7 +135,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9018430595368693259, guid: 89188b0d93abb624eaf19b12e333f77e, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 9019665219524607177, guid: 89188b0d93abb624eaf19b12e333f77e, type: 3}
       propertyPath: m_ConstrainProportionsScale

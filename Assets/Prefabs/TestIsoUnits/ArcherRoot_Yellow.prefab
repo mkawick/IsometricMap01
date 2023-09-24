@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 117943663335727069}
   - component: {fileID: 1627567144214351676}
   - component: {fileID: 4948469353068958649}
-  m_Layer: 7
+  m_Layer: 17
   m_Name: ArcherRoot_Yellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,8 +47,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 0e7f35e3a9de9e64093526c9a7dd221e, type: 2}
-  dataDisplay: {fileID: 1572600568774265903, guid: 80cdf3da4a18d1b40a26d086f66fff07, type: 3}
   gameModel: {fileID: 6089349150813316961}
+  playerOwner: {fileID: 0}
+  dataDisplay: {fileID: 1572600568774265903, guid: 80cdf3da4a18d1b40a26d086f66fff07, type: 3}
 --- !u!136 &4948469353068958649
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -82,7 +83,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1002813283769322, guid: fd1e7c072d13ed5428f9c4f2d584374a, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 1026769319671734, guid: fd1e7c072d13ed5428f9c4f2d584374a, type: 3}
       propertyPath: m_Name
@@ -90,55 +91,55 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1026769319671734, guid: fd1e7c072d13ed5428f9c4f2d584374a, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 1053344204748556, guid: fd1e7c072d13ed5428f9c4f2d584374a, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 1098914465469864, guid: fd1e7c072d13ed5428f9c4f2d584374a, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 1203657884911612, guid: fd1e7c072d13ed5428f9c4f2d584374a, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 1208919336888728, guid: fd1e7c072d13ed5428f9c4f2d584374a, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 1244557979750086, guid: fd1e7c072d13ed5428f9c4f2d584374a, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 1309541908132578, guid: fd1e7c072d13ed5428f9c4f2d584374a, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 1475986717817338, guid: fd1e7c072d13ed5428f9c4f2d584374a, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 1573055258162444, guid: fd1e7c072d13ed5428f9c4f2d584374a, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 1727304154357970, guid: fd1e7c072d13ed5428f9c4f2d584374a, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 1826490985525112, guid: fd1e7c072d13ed5428f9c4f2d584374a, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 1833343987580524, guid: fd1e7c072d13ed5428f9c4f2d584374a, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 1976024897676378, guid: fd1e7c072d13ed5428f9c4f2d584374a, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 4865073891582688, guid: fd1e7c072d13ed5428f9c4f2d584374a, type: 3}
       propertyPath: m_RootOrder

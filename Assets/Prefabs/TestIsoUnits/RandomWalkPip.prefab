@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4759387860617993910}
   - component: {fileID: 280170759555919246}
   - component: {fileID: 2239792173119701496}
-  m_Layer: 7
+  m_Layer: 17
   m_Name: RandomWalkPip
   m_TagString: Untagged
   m_Icon: {fileID: 0}

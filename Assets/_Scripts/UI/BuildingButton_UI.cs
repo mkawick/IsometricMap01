@@ -37,9 +37,23 @@ public class BuildingButton_UI : MonoBehaviour
         uI_BuildingOptionsPanel = panel;
         UpdateButtonState(resources);
 
-        var texture2d = RuntimePreviewGenerator.GenerateModelPreview(gameObject.transform, 128, 128, false, true);
+       /* var oldLayer = gameObject.layer;
+        int defaultLayer = LayerMask.NameToLayer("Default");
+        gameObject.layer = defaultLayer;
+        foreach (Transform child in gameObject.transform)
+        {
+            child.gameObject.layer = defaultLayer;
+        }*/
+
+        var texture2d = RuntimePreviewGenerator.GenerateModelPreview(gameObject.transform, 128, 128, true, true);
         var sprite = Sprite.Create(texture2d, new Rect(0, 0, texture2d.width, texture2d.height), new Vector2(0.5f, 0.5f), 100.0f);
         thumbnail.sprite = sprite;
+
+      /*  gameObject.layer = oldLayer;
+        foreach (Transform child in gameObject.transform)
+        {
+            child.gameObject.layer = oldLayer;
+        }*/
     }
 
     public void UpdateButtonState(PlayerResources resources)
