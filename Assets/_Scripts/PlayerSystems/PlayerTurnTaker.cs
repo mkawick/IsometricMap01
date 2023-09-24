@@ -35,7 +35,8 @@ public class PlayerTurnTaker : MonoBehaviour
         {
             GetComponent<Construction>().mapGenerator = value;
             GetComponent<PlayerUnitController>().mapGenerator = value;
-        } }
+        } 
+    }
     public bool IsHuman { get { return isHuman; } }
     public string PlayerName { get { return playerName; } }
     public List<GameObject> BuildingsIOwn {  get { return buildingsIOwn; } }
@@ -163,6 +164,7 @@ public class PlayerTurnTaker : MonoBehaviour
 
         unitsIOwn.Add(startingUnit);
         startingUnit.SetDataDisplay(isoUnitPopup);
+        startingUnit.playerOwner = this;
 
         environmentCollector = GameObject.FindAnyObjectByType<EnvironmentCollector>();
         // todo.. set location to spawn

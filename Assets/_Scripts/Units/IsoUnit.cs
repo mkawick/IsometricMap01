@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class IsoUnit : MonoBehaviour
 {
-    public IsoUnitData data;
+    [SerializeField]
+    private IsoUnitData data;
     public IsoUnitStatsCanvasController dataDisplay;
     [Tooltip("GameObject")]
     public GameObject gameModel;
+
+    public PlayerTurnTaker playerOwner;
 
     bool isScaled = false;
 
     int movesRemaining;
     public int MovesRemaining { get { return movesRemaining; } set { movesRemaining = value;  } }
 
+    public IsoUnitData Data { get => data;  }
+
     void Start()
     {
-        data.isoUnit = this.transform.gameObject;
+        Data.isoUnit = this.transform.gameObject;
         if (gameModel == null)
         {
             gameModel = this.transform.gameObject;
@@ -40,14 +45,14 @@ public class IsoUnit : MonoBehaviour
         {
             var display = dataDisplay?.gameObject.GetComponent<IsoUnitStatsCanvasController>();
             display.SetPosition(transform.localPosition);
-            display.Set(data, this.transform.gameObject);
+            display.Set(Data, this.transform.gameObject);
             ScaleSelected(true);
         }
     }
 
     public void TurnReset()
     {
-        movesRemaining = data.numActionsPerTurn;
+        movesRemaining = Data.numActionsPerTurn;
     }
 
     public bool IsOutOfActions()

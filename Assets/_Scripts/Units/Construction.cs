@@ -8,6 +8,7 @@ public class Construction : MonoBehaviour
 
     //[SerializeField]
     public MapGenerator mapGenerator { get; set; }
+    public GameObject[] Constructables { get => constructables; set => constructables = value; }
 
     bool wasPressed = false;
 
@@ -41,7 +42,7 @@ public class Construction : MonoBehaviour
                 {
                     wasPressed = true;
                     var pos = GetComponent<PlayerUnitController>().currentlySelectedUnit.transform.position;
-                    var building = mapGenerator.AddDecorationsPrefab(pos, constructables[0]);
+                    var building = mapGenerator.AddDecorationsPrefab(pos, Constructables[0]);
                     if (player)
                     {
                         player.AddBuilding(building);
@@ -53,7 +54,7 @@ public class Construction : MonoBehaviour
                 {
                     wasPressed = true;
                     var pos = GetComponent<PlayerUnitController>().currentlySelectedUnit.transform.position;
-                    var building = mapGenerator.AddDecorationsPrefab(pos, constructables[1]);
+                    var building = mapGenerator.AddDecorationsPrefab(pos, Constructables[1]);
                     if (player)
                     {
                         player.AddBuilding(building);
