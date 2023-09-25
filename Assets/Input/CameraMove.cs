@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraMove : MonoBehaviour
 {
@@ -25,28 +26,40 @@ public class CameraMove : MonoBehaviour
     private void Update()
     {
         //Check for mouse click 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !IsPointerOverUIElement())
         {
-            RaycastHit raycastHit;
-            Ray ray = currentCamera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out raycastHit, 100f))
+            //EventSystem.current.IsPointerOverGameObject()
+           // EventSystem.current.
+            //if (EventSystem.current.IsPointerOverGameObject())
             {
-                if (raycastHit.transform != null)
+                RaycastHit raycastHit;
+                Ray ray = currentCamera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out raycastHit, 100f))
                 {
-                    var obj = raycastHit.transform.gameObject;
-                    gameUnitSelector.SelectUnit(obj);
+                   // if (raycastHit.transform.gameObject.layer == LayerMask.NameToLayer("UI"))
+                   //     return;
+
+                    //IsPointerOverUIElement(raycastHit.)
+                    if (raycastHit.transform != null)
+                    {
+                        var obj = raycastHit.transform.gameObject;
+                        gameUnitSelector.SelectUnit(obj);
+                    }
+                    else
+                    {
+                        gameUnitSelector.SelectUnit(null);
+                    }
                 }
                 else
                 {
                     gameUnitSelector.SelectUnit(null);
                 }
             }
-            else
-            {
-                gameUnitSelector.SelectUnit(null);
-            }
-            
         }
+    }
+    public bool IsPointerOverUIElement()
+    {
+        return EventSystem.current.IsPointerOverGameObject();
     }
 
     private void LateUpdate()

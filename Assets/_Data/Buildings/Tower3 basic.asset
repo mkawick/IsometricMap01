@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Tower 3
   description: 
-  isoBuilding: {fileID: 0}
+  isoBuilding: {fileID: 7413730651306157297, guid: d762832a20687c34996484d3bf2589ff, type: 3}
   image: {fileID: 0}
   costs:
   - type: 0

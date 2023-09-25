@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 
 public class Construction : MonoBehaviour
@@ -26,6 +27,36 @@ public class Construction : MonoBehaviour
         {
             RunLocalPlayerConstruction();
         }
+    }
+
+    public bool Build(IsoBuildingData buildingChoice)
+    {
+        var player = GetComponent<PlayerTurnTaker>();
+        if(player == null)
+            return false;
+        var pos = GetComponent<PlayerUnitController>().currentlySelectedUnit.transform.position;
+        var building = mapGenerator.AddDecorationsPrefab(pos, buildingChoice.isoBuilding);
+        if (building == null)
+            return false;
+        if (player)
+        {
+            player.AddBuilding(building);
+            building.GetComponent<ResourceCollector>().Register(player.GetComponent<PlayerResources>());
+            var playerResources = GetComponent<PlayerResources>();
+           /* playerResources.Resource[ResourceType.Wood] -= buildingChoice.Cost(ResourceType.Wood);
+            playerResources.Resource[ResourceType.Metal] -= buildingChoice.Cost(ResourceType.Metal);
+            playerResources.Resource[ResourceType.Prestige] -= buildingChoice.Cost(ResourceType.Prestige);*/
+
+            if(buildingChoice.Cost(ResourceType.Wood) != 0)
+                playerResources.OnResourcesModified(ResourceType.Wood, -buildingChoice.Cost(ResourceType.Wood));
+            if (buildingChoice.Cost(ResourceType.Metal) != 0)
+                playerResources.OnResourcesModified(ResourceType.Metal, -buildingChoice.Cost(ResourceType.Metal));
+            if (buildingChoice.Cost(ResourceType.Prestige) != 0)
+                playerResources.OnResourcesModified(ResourceType.Prestige, -buildingChoice.Cost(ResourceType.Prestige));
+            return true;
+        }
+
+        return false;
     }
 
     void RunLocalPlayerConstruction()

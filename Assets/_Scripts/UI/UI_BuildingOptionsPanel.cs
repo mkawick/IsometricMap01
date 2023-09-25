@@ -15,7 +15,7 @@ public class UI_BuildingOptionsPanel : MonoBehaviour
 
     private List<GameObject> purchaseOptions;
 
-    //public event Action<IsoBuilding> OnClick;
+    private PlayerTurnTaker currentPurchasePlayer;
 
     void Start()
     {
@@ -33,13 +33,42 @@ public class UI_BuildingOptionsPanel : MonoBehaviour
     {
         Debug.Log(buildingData.unitName);
         // validate position
-        // validate resources
+        
+        PlayerResources resources = currentPurchasePlayer.GetComponent<PlayerResources>();
+        if(ValidatePlayerHasEnoughResources(resources, buildingData) == false)
+        {
+            Debug.LogError("not enough resources");
+            return;
+        }
+        if(currentPurchasePlayer.GetComponent<Construction>().Build(buildingData) == false)
+        {
+            Debug.LogError("failed to build");
+            return;
+        }
 
-        foreach(var purchaseOption in purchaseOptions)
+        foreach (var purchaseOption in purchaseOptions)
         {
             // update all options based on current player resources
+            purchaseOption.GetComponent<BuildingButton_UI>().UpdateButtonState(resources);
         }
         // 
+    }
+
+    bool ValidatePlayerHasEnoughResources(PlayerResources resources, IsoBuildingData buildingData)
+    {
+        if (resources.Resource[ResourceType.Wood] < buildingData.Cost(ResourceType.Wood))
+        {
+            return false;
+        }
+        if (resources.Resource[ResourceType.Metal] < buildingData.Cost(ResourceType.Metal))
+        {
+            return false;
+        }
+        if (resources.Resource[ResourceType.Prestige] < buildingData.Cost(ResourceType.Prestige))
+        {
+            return false;
+        }
+        return true;
     }
 
     void SelectUnit(GameObject obj)
@@ -52,6 +81,7 @@ public class UI_BuildingOptionsPanel : MonoBehaviour
                 Destroy(opt.gameObject);
             }
             purchaseOptions.Clear();
+            currentPurchasePlayer = null;
         }
         else
         {
@@ -60,7 +90,8 @@ public class UI_BuildingOptionsPanel : MonoBehaviour
             {
                 if(isoUnit.Data.GetAbility(UnitAbilities.Construction) != 0)
                 {
-                    var constructables = isoUnit.playerOwner.GetComponent<Construction>().Constructables;
+                    currentPurchasePlayer = isoUnit.playerOwner;
+                    var constructables = currentPurchasePlayer.GetComponent<Construction>().Constructables;
                     foreach( var constructable in constructables ) 
                     {
                         var option = Instantiate(purchaseOptionPrefab);

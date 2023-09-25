@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Desert house
   description: Small market home Gens wood & Prestige
-  isoBuilding: {fileID: 0}
+  isoBuilding: {fileID: 8053982994379117706, guid: 4351e87aa91bc5b4cadd8886fa7bbde1, type: 3}
   image: {fileID: 0}
   costs:
   - type: 0
