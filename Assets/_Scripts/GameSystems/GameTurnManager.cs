@@ -53,6 +53,7 @@ public class GameTurnManager : MonoBehaviour
             player.gameObject.SetActive(true);
             var playerTurnTaker = player.GetComponent<PlayerTurnTaker>();
             playerTurnTaker.mapGenerator = mapGenerator;
+            playerTurnTaker.IsRegularGame = isRegularGame;
 
             if (playerTurnTaker.IsHuman)
                 localPlayer = playerTurnTaker;

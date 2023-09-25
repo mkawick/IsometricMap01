@@ -136,6 +136,13 @@ public class MapGenerator : MonoBehaviour
         return newTile;
     }
 
+    public bool CanBeBuiltOn(Vector3 pos)
+    {
+        if (generatedObjects[(int)pos.x - (int)offset.x, (int)pos.z - (int)offset.y] != null)
+            return false;
+        return true;
+    }
+
     GameObject AddDecorationsPrefab(GameObject baseTile, GameObject[] decorations, bool guaranteedCreate = false)
     {
         if (decorations == null)

@@ -16,6 +16,11 @@ public class UI_BuildingOptionsPanel : MonoBehaviour
     private List<GameObject> purchaseOptions;
 
     private PlayerTurnTaker currentPurchasePlayer;
+    //private Vector3 positionToBuild;
+    IsoUnit selectedBuilder_IsoUnit;
+
+    //[HideInInspector]
+    public MapGenerator map;
 
     void Start()
     {
@@ -27,13 +32,20 @@ public class UI_BuildingOptionsPanel : MonoBehaviour
         GameUnitSelector.OnGameObjectClicked += SelectUnit;
         transform.gameObject.SetActive(false);
         purchaseOptions = new List<GameObject>();
+
+       // map = GameObject.Find("MapGenerator").GetComponent<MapGenerator>();
     }
 
     public void PurchasePressed(IsoBuildingData buildingData)
     {
         Debug.Log(buildingData.unitName);
-        // validate position
-        
+        var positionToBuild = selectedBuilder_IsoUnit.transform.position;
+        if (map.CanBeBuiltOn(positionToBuild) == false) 
+        {
+            Debug.LogError("invalid location");
+            return; 
+        }
+
         PlayerResources resources = currentPurchasePlayer.GetComponent<PlayerResources>();
         if(ValidatePlayerHasEnoughResources(resources, buildingData) == false)
         {
@@ -82,15 +94,18 @@ public class UI_BuildingOptionsPanel : MonoBehaviour
             }
             purchaseOptions.Clear();
             currentPurchasePlayer = null;
+            selectedBuilder_IsoUnit = null;
         }
         else
         {
-            var isoUnit = obj.GetComponent<IsoUnit>();
+            IsoUnit isoUnit = obj.GetComponent<IsoUnit>();
             if(isoUnit != null)
             {
                 if(isoUnit.Data.GetAbility(UnitAbilities.Construction) != 0)
                 {
                     currentPurchasePlayer = isoUnit.playerOwner;
+                    selectedBuilder_IsoUnit = isoUnit;
+
                     var constructables = currentPurchasePlayer.GetComponent<Construction>().Constructables;
                     foreach( var constructable in constructables ) 
                     {

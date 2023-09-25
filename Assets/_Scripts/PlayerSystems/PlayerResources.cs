@@ -21,4 +21,11 @@ public class PlayerResources : MonoBehaviour
         resource[type] = Mathf.Clamp(Resource[type] + quantity, 0, 1000000);
         OnResourcesModifiedEvent((int)Resource[ResourceType.Wood], (int)Resource[ResourceType.Metal], (int)Resource[ResourceType.Prestige]);
     }
+    public void OnResourcesModified(float wood, float metal, float prestige)
+    {
+        resource[ResourceType.Wood] = Mathf.Clamp(Resource[ResourceType.Wood] + wood, 0, 1000000);
+        resource[ResourceType.Metal] = Mathf.Clamp(Resource[ResourceType.Metal] + wood, 0, 1000000);
+        resource[ResourceType.Prestige] = Mathf.Clamp(Resource[ResourceType.Prestige] + wood, 0, 1000000);
+        OnResourcesModifiedEvent((int)Resource[ResourceType.Wood], (int)Resource[ResourceType.Metal], (int)Resource[ResourceType.Prestige]);
+    }
 }

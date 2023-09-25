@@ -40,6 +40,7 @@ public class PlayerTurnTaker : MonoBehaviour
     public bool IsHuman { get { return isHuman; } }
     public string PlayerName { get { return playerName; } }
     public List<GameObject> BuildingsIOwn {  get { return buildingsIOwn; } }
+    public bool IsRegularGame { get; set; }
 
     public UI_PlayerResources PlayerResourcesUi 
     { 
@@ -127,20 +128,27 @@ public class PlayerTurnTaker : MonoBehaviour
             var playerTurnTaker = GetComponent<PlayerTurnTaker>();
             if (playerTurnTaker.IsHuman)
             {
-
                 if (Keyboard.current.cKey.isPressed)
                 {
-                    foreach( var building in buildingsIOwn )
+                    if (IsRegularGame)
                     {
-                        building.GetComponent<ResourceCollector>().AddResources(environmentCollector, 1, 3, 5);
+                        foreach (var building in buildingsIOwn)
+                        {
+                            building.GetComponent<ResourceCollector>().AddResources(environmentCollector, 1, 3, 5);
+                        }
+                    }
+                    else
+                    {
+                        GetComponent<PlayerResources>().OnResourcesModified(2, 2, 2);
                     }
                 }
                 else if (Keyboard.current.rKey.isPressed)
                 {
-                    foreach (var building in buildingsIOwn)
+                   /* foreach (var building in buildingsIOwn)
                     {
                         building.GetComponent<ResourceCollector>().UseResources(2, 2, 2);
-                    }
+                    }*/
+                    GetComponent<PlayerResources>().OnResourcesModified(-2, -2, -2);
                 }
                /* else if (Keyboard.current.tKey.isPressed)
                 {
