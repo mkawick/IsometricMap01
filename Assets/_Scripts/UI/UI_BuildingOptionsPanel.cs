@@ -124,7 +124,7 @@ public class UI_BuildingOptionsPanel : MonoBehaviour
                         buttonDeets.SetMetal(buildingData.Cost(ResourceType.Metal));
                         buttonDeets.SetPrestige(buildingData.Cost(ResourceType.Prestige));
                         buttonDeets.BuildingData = buildingData;
-                        buttonDeets.Init(this, isoUnit.playerOwner.GetComponent<PlayerResources>(), isoBuilding.modelToRender);
+                        buttonDeets.Init(this, isoUnit.playerOwner.GetComponent<PlayerResources>(), isoBuilding.gameModel);
                         purchaseOptions.Add(option);
 
                         //Debug.Log(constructable.name);

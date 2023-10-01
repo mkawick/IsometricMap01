@@ -21,7 +21,7 @@ public class GameUnitSelector : MonoBehaviour
             }
             if(oldIsoBuilding != null)
             {
-                // todo deselect
+                oldIsoBuilding.Selected(false);
                 oldIsoBuilding = null;
             }
             OnGameObjectClicked?.Invoke(null);
@@ -36,6 +36,7 @@ public class GameUnitSelector : MonoBehaviour
                     return;
                 }
                 newIsoUnit.Selected(true);
+                oldIsoUnit?.Selected(false);
                 OnGameObjectClicked?.Invoke(obj);
                 oldIsoUnit = newIsoUnit;
                 return;
@@ -48,7 +49,8 @@ public class GameUnitSelector : MonoBehaviour
                 {
                     return;
                 }
-                //oldIsoBuilding.Selected(true); // todo
+                newIsoBuilding.Selected(true); // todo
+                oldIsoBuilding?.Selected(false);
                 OnGameObjectClicked?.Invoke(obj);
                 oldIsoBuilding = newIsoBuilding;
                 return;
@@ -61,7 +63,7 @@ public class GameUnitSelector : MonoBehaviour
             }
             if (oldIsoBuilding != null)
             {
-                //oldIsoBuilding.Selected(false);
+                oldIsoBuilding.Selected(false);
                 oldIsoBuilding = null;
             }
             OnGameObjectClicked?.Invoke(null);

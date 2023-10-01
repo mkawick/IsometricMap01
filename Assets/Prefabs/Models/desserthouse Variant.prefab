@@ -200,5 +200,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: a3ac5468230669d4d965f7f2835ca8d9, type: 2}
+  gameModel: {fileID: 7532398476031564735}
   playerOwner: {fileID: 0}
-  modelToRender: {fileID: 7532398476031564735}
+  dataDisplay: {fileID: 1572600568774265903, guid: 80cdf3da4a18d1b40a26d086f66fff07, type: 3}

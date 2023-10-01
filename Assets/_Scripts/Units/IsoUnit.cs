@@ -6,8 +6,9 @@ public class IsoUnit : MonoBehaviour
 {
     [SerializeField]
     private IsoUnitData data;    
-    [Tooltip("GameObject")]
+    [Tooltip("Main GameObject that will be clicked on and scaled")]
     public GameObject gameModel;
+    Vector3 originalScale;
 
     [HideInInspector]
     public PlayerTurnTaker playerOwner;
@@ -20,6 +21,8 @@ public class IsoUnit : MonoBehaviour
 
     void Start()
     {
+        originalScale = gameModel.transform.localScale;
+        if(originalScale.magnitude < 0.1f ) { originalScale = Vector3.one; }
         Data.isoUnit = this.transform.gameObject;
         if (gameModel == null)
         {
@@ -66,7 +69,7 @@ public class IsoUnit : MonoBehaviour
             if (isScaled)
             {
                 isScaled = false;
-                gameModel.transform.localScale = new Vector3(1, 1, 1);
+                gameModel.transform.localScale = originalScale;
                 RemoveOutline();
             }
         }
@@ -75,7 +78,7 @@ public class IsoUnit : MonoBehaviour
             if (isScaled == false)
             {
                 isScaled = true;
-                gameModel.transform.localScale = new Vector3(2, 2, 2);
+                gameModel.transform.localScale = originalScale * 3;
                 AddOutline();
             }
         }

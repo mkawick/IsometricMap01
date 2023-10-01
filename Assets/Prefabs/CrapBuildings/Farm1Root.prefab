@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4433537425861259722}
   - component: {fileID: 8612484901602160630}
   - component: {fileID: 1596773584194395113}
+  - component: {fileID: -4494050552407008339}
   m_Layer: 7
   m_Name: Farm1Root
   m_TagString: Untagged
@@ -47,7 +48,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 56bdefbcff96c2b438f3f4177f9a2060, type: 2}
+  gameModel: {fileID: 8417674231738488976}
   playerOwner: {fileID: 0}
+  dataDisplay: {fileID: 1572600568774265903, guid: 80cdf3da4a18d1b40a26d086f66fff07, type: 3}
   modelToRender: {fileID: 8417674231738488976}
 --- !u!114 &1596773584194395113
 MonoBehaviour:
@@ -61,6 +64,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec30ca831f947dc46abfaa599a2fd7a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!135 &-4494050552407008339
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996675861550487258}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.45
+  m_Center: {x: 0, y: 0.33, z: 0}
 --- !u!1001 &8628457431501884411
 PrefabInstance:
   m_ObjectHideFlags: 0

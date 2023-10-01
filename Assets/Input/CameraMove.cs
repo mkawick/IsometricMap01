@@ -25,38 +25,87 @@ public class CameraMove : MonoBehaviour
 
     private void Update()
     {
-        //Check for mouse click 
         if (Input.GetMouseButtonDown(0) && !IsPointerOverUIElement())
         {
-            //EventSystem.current.IsPointerOverGameObject()
-           // EventSystem.current.
-            //if (EventSystem.current.IsPointerOverGameObject())
+            if(TryMouseHitIsoUnits() == false)
             {
-                RaycastHit raycastHit;
-                Ray ray = currentCamera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out raycastHit, 100f))
+                if(TryMouseHitIsoBuildings() == false)
                 {
-                   // if (raycastHit.transform.gameObject.layer == LayerMask.NameToLayer("UI"))
-                   //     return;
-
-                    //IsPointerOverUIElement(raycastHit.)
-                    if (raycastHit.transform != null)
-                    {
-                        var obj = raycastHit.transform.gameObject;
-                        gameUnitSelector.SelectUnit(obj);
-                    }
-                    else
-                    {
-                        gameUnitSelector.SelectUnit(null);
-                    }
+                    gameUnitSelector.SelectUnit(null);
+                }
+            }
+           /* RaycastHit raycastHit;
+            Ray ray = currentCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out raycastHit, 100f))
+            {
+                if (raycastHit.transform != null)
+                {
+                    var obj = raycastHit.transform.gameObject;
+                    gameUnitSelector.SelectUnit(obj);
+                    return;
                 }
                 else
                 {
                     gameUnitSelector.SelectUnit(null);
                 }
             }
+            else
+            {
+                gameUnitSelector.SelectUnit(null);
+            }*/
         }
     }
+
+    bool TryMouseHitIsoUnits()
+    {
+        RaycastHit raycastHit;
+        Ray ray = currentCamera.ScreenPointToRay(Input.mousePosition);
+        int mask = (1 << LayerMask.NameToLayer("IsoUnit"));
+        if (Physics.Raycast(ray, out raycastHit, Mathf.Infinity, mask))
+        {
+            if (raycastHit.transform != null)
+            {
+                var obj = raycastHit.transform.gameObject;
+                gameUnitSelector.SelectUnit(obj);
+                return true;
+            }
+            else
+            {
+                //gameUnitSelector.SelectUnit(null);
+            }
+        }
+        else
+        {
+            //gameUnitSelector.SelectUnit(null);
+        }
+        return false;
+    }
+
+    bool TryMouseHitIsoBuildings()
+    {
+        RaycastHit raycastHit;
+        Ray ray = currentCamera.ScreenPointToRay(Input.mousePosition);
+        int mask = (1 << LayerMask.NameToLayer("IsoBuilding"));
+        if (Physics.Raycast(ray, out raycastHit, Mathf.Infinity, mask))
+        {
+            if (raycastHit.transform != null)
+            {
+                var obj = raycastHit.transform.gameObject;
+                gameUnitSelector.SelectUnit(obj);
+                return true;
+            }
+            else
+            {
+               // gameUnitSelector.SelectUnit(null);
+            }
+        }
+        else
+        {
+            //gameUnitSelector.SelectUnit(null);
+        }
+        return false;
+    }
+
     public bool IsPointerOverUIElement()
     {
         return EventSystem.current.IsPointerOverGameObject();

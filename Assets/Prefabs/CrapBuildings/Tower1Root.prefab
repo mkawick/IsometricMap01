@@ -58,9 +58,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e17dc1e5e63b77f42814386de9618b64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: 7e0730666fcb36345978d30d81985027, type: 2}
+  gameModel: {fileID: 6107514311783404844}
   playerOwner: {fileID: 0}
-  modelToRender: {fileID: 6107514311783404844}
+  dataDisplay: {fileID: 1572600568774265903, guid: 80cdf3da4a18d1b40a26d086f66fff07, type: 3}
 --- !u!1 &6107514311783404844
 GameObject:
   m_ObjectHideFlags: 0
