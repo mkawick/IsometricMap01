@@ -32,7 +32,7 @@ public abstract class UnitMovementController
         }
     }
 
-    public abstract bool Move(GameObject controlled, PlayerUnitController.MoveDir dir, MapGenerator map);
+    public abstract bool Move(GameObject controlled, PlayerUnitController.MoveDir dir);
 }
 
 /// <summary>
@@ -40,7 +40,7 @@ public abstract class UnitMovementController
 /// </summary>
 public class IosUnitMovementController : UnitMovementController
 {
-    public override bool Move(GameObject controlled, PlayerUnitController.MoveDir dir, MapGenerator map)
+    public override bool Move(GameObject controlled, PlayerUnitController.MoveDir dir)
     {
         if (movesRemaining <= 0)
             return false;

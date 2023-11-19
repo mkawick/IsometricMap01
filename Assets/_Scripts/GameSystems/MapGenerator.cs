@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.UIElements;
+using static UnityEditor.PlayerSettings;
 
 public class MapGenerator : MonoBehaviour
 {
     public TileGroup[] mapTiles;
     public Vector2Int dimensions;
-    private Vector2 offset;
+    private Vector2 mapWorldOffset;
     private GameObject[,] generatedTiles;
     private GameObject[,] generatedObjects;
 
@@ -14,8 +17,8 @@ public class MapGenerator : MonoBehaviour
     private static Vector2Int InvalidLocation = new Vector2Int(-1, -1);
 
     public GameObject GetTile(int x, int y) {
-        x -= (int)offset.x;
-        y -= (int)offset.y;
+        x -= (int)mapWorldOffset.x;
+        y -= (int)mapWorldOffset.y;
 
         if (x < 0 || x >= dimensions.x) return null;
         if (y < 0 || y >= dimensions.y) return null;
@@ -41,7 +44,7 @@ public class MapGenerator : MonoBehaviour
         Cleanup();
     }
 
-    void SetupMap(MapType mapType)// this 
+    void SetupMap(MapType mapType)// this need new types
     {
         if (mapType == MapType.Basic)
         {
@@ -52,14 +55,13 @@ public class MapGenerator : MonoBehaviour
             if (worldObjectsHeirarchyParent == null)
                 Debug.LogError("bad world objects parent");
 
-            offset.y = (int)(-dimensions.y / 2);
-            offset.x = (int)(-dimensions.x / 2);
+            mapWorldOffset.y = (int)(-dimensions.y / 2);
+            mapWorldOffset.x = (int)(-dimensions.x / 2);
             generatedTiles = new GameObject[dimensions.x, dimensions.y];
-            generatedObjects = new GameObject[dimensions.x, dimensions.y];
-            
+            generatedObjects = new GameObject[dimensions.x, dimensions.y];            
 
             MapUtils.Bounds = dimensions;
-            MapUtils.MapOffset = new Vector2Int((int)offset.x, (int)offset.y);
+            MapUtils.MapOffset = new Vector2Int((int)mapWorldOffset.x, (int)mapWorldOffset.y);
         }
     }
 
@@ -99,8 +101,9 @@ public class MapGenerator : MonoBehaviour
 
     Vector2Int GenerateNew4Position(Vector2Int pos, Vector2Int bounds)
     {
-        int dir = Random.Range(0, 4);
-        for (int d = 0; d < 4; d++, dir++)
+        int numDirs = 4;
+        int dir = Random.Range(0, numDirs);
+        for (int d = 0; d < numDirs; d++, dir++)
         {
             var testDir = MapUtils.Dir4Lookup(dir) + new Vector2Int((int)pos.x, (int)pos.y);
             if (MapUtils.IsDirValid(testDir, bounds) == false)
@@ -114,8 +117,9 @@ public class MapGenerator : MonoBehaviour
 
     Vector2Int GenerateNewPosition(Vector2Int pos, Vector2Int bounds)
     {
-        int dir = Random.Range(0, 8);
-        for (int d = 0; d < 8; d++, dir++)
+        int numDirs = 8;
+        int dir = Random.Range(0, numDirs);
+        for (int d = 0; d < numDirs; d++, dir++)
         {
             var testDir = MapUtils.Dir8Lookup(dir) + new Vector2Int((int)pos.x, (int)pos.y);
             if (MapUtils.IsDirValid(testDir, bounds) == false)
@@ -130,7 +134,7 @@ public class MapGenerator : MonoBehaviour
     GameObject CreatePrefab(GameObject prefab, Vector2Int location)
     {
         var name = prefab.name;
-        var newTile = Instantiate(prefab, new Vector3(location.x + offset.x, 0, location.y + offset.y), Quaternion.identity);
+        var newTile = Instantiate(prefab, new Vector3(location.x + mapWorldOffset.x, 0, location.y + mapWorldOffset.y), Quaternion.identity);
         newTile.transform.parent = tileNodeHeirarchyParent.transform;
         generatedTiles[location.x, location.y] = newTile;
         return newTile;
@@ -138,7 +142,7 @@ public class MapGenerator : MonoBehaviour
 
     public bool CanBeBuiltOn(Vector3 pos)
     {
-        if (generatedObjects[(int)pos.x - (int)offset.x, (int)pos.z - (int)offset.y] != null)
+        if (generatedObjects[(int)pos.x - (int)mapWorldOffset.x, (int)pos.z - (int)mapWorldOffset.y] != null)
             return false;
         return true;
     }
@@ -166,7 +170,7 @@ public class MapGenerator : MonoBehaviour
         List<GameObject> gameObjects = new List<GameObject>();
         var position = tile.transform.position;
         Vector2 pos = new  Vector2(position.x, position.z);
-        pos -= offset;
+        pos -= mapWorldOffset;
 
         if (generatedObjects[(int)pos.x, (int)pos.y] != null)
             gameObjects.Add(generatedObjects[(int)pos.x, (int)pos.y]);
@@ -187,10 +191,80 @@ public class MapGenerator : MonoBehaviour
         Vector3 newPos = new Vector3(position.x, 0.1f, position.y);
         var newDecoration = Instantiate(decorationPrefab, newPos, Quaternion.Euler(0, angle, 0));
 
-        position -= offset;
+        position -= mapWorldOffset;
         generatedObjects[(int)position.x, (int)position.y] = newDecoration;// todo .. should destroy prev obj
         newDecoration.transform.parent = worldObjectsHeirarchyParent.transform;
         return newDecoration;
+    }
+
+    float GetClosestDistance(Vector2 position, List<Vector2Int> arrayOfPoints)
+    {
+        float closest = float.MaxValue;
+        foreach(var p in arrayOfPoints)
+        {
+            float distX = p.x - position.x;
+            float distY = p.y - position.y;
+            float dist = Mathf.Sqrt(distX * distX + distY * distY);
+            if(dist < closest)
+                closest = dist;
+        }
+
+        return closest;
+    }
+
+    List<Vector2Int> GenerateStartingPositions(int numPlayers, int numPositions)
+    {
+        // spread the players out as far as is reasonable 
+        // since we are centered at 0, this is easy
+        float currentAngle = Random.Range(0, 2f * Mathf.PI);
+        float playerAngleAdd = 2f * Mathf.PI / numPlayers;
+        Vector2 twoThirdsRadius = new Vector2(dimensions.x / 3f, dimensions.y / 3f);
+        Vector2 middle = new Vector2(dimensions.x / 2f, dimensions.y / 2f);
+        List<Vector2Int> positions = new List<Vector2Int>();
+
+        for (int i=0; i< numPlayers; i++)
+        {
+            float cosCalc = Mathf.Cos(currentAngle);
+            float sinCalc = Mathf.Sin(currentAngle);
+            float maxX = cosCalc == 0 ? 0 : cosCalc * twoThirdsRadius.x;
+            float maxY = sinCalc == 0 ? 0 : sinCalc * twoThirdsRadius.y;
+
+            float x = maxX + middle.x;
+            float y = maxY + middle.y;
+
+            positions.Add(new Vector2Int( (int)x,(int)y));
+            currentAngle += playerAngleAdd;
+        }
+
+        // subdivide the world into a grid and then choose the middle of each grid
+        // then make sure that it's not too close to other chosen locations
+        int worldDivisions = numPositions / 2;
+        int xDivision = dimensions.x / worldDivisions;
+        int midXDivision = xDivision / 2;
+        int yDivision = dimensions.y / worldDivisions;
+        int midYDivision = yDivision / 2;
+        float minDist = (xDivision + yDivision) / 2;
+
+        for (int i = numPlayers; i < numPositions; i++)
+        {
+            int numAttempts = 100;
+            Vector2Int newPos = new Vector2Int();
+            do
+            {
+                int x = Random.Range(0, worldDivisions) * xDivision + midXDivision;
+                int y = Random.Range(0, worldDivisions) * yDivision + midYDivision;
+                float dist = GetClosestDistance(new Vector2(x, y), positions);
+                if (dist >= minDist)
+                {
+                    newPos = new Vector2Int(x, y);
+                    break;
+                }
+            } while (--numAttempts > 0);
+            Debug.Assert(numAttempts > 0);
+            positions.Add(newPos);
+        }
+
+        return positions;
     }
 
     void GenerateChunk(int whichBiome, int numItemsToGenerate)
@@ -206,6 +280,36 @@ public class MapGenerator : MonoBehaviour
          var prefab = biome.Tiles[whichBiomeTile];
          var tile = CreatePrefab(prefab, pos);
          AddDecorationsPrefab(tile, biome.Decorations);
+
+        for (int i = 0; i < numItemsToGenerate; i++)
+        {
+            var location = GenerateNewPosition(tilePath, dimensions);
+            if (location == InvalidLocation)
+                return;
+
+            whichBiomeTile = Random.Range(0, biome.Tiles.Length);
+            prefab = biome.Tiles[whichBiomeTile];
+            tile = CreatePrefab(prefab, location);
+            AddDecorationsPrefab(tile, biome.Decorations);
+            {
+                tilePath.Push(location);
+            }
+        }
+        GrowChunk(biome, tilePath);
+    }
+
+    void GenerateChunk(Vector2Int pos, int whichBiome, int numItemsToGenerate)
+    {
+        Stack<Vector2Int> tilePath = new Stack<Vector2Int>();
+        if (pos == InvalidLocation)
+            return;
+
+        tilePath.Push(pos);
+        var biome = mapTiles[whichBiome];
+        int whichBiomeTile = Random.Range(0, biome.Tiles.Length);
+        var prefab = biome.Tiles[whichBiomeTile];
+        var tile = CreatePrefab(prefab, pos);
+        AddDecorationsPrefab(tile, biome.Decorations);
 
         for (int i = 0; i < numItemsToGenerate; i++)
         {
@@ -296,7 +400,9 @@ public class MapGenerator : MonoBehaviour
             }
         }
     }
-    public void Generate()
+
+    // first positions are player positions
+    public List<Vector2Int> Generate(int numPlayers) 
     {
         int numItems = (int)(dimensions.x * dimensions.y);
 
@@ -324,14 +430,26 @@ public class MapGenerator : MonoBehaviour
             chunkSize = 16;
         }
 
-        for (int i=0; i< chunksToGen; i++)
+        if(chunksToGen < numPlayers)
+            chunksToGen = numPlayers;
+        
+        var listOfSpots = GenerateStartingPositions(numPlayers, chunksToGen);
+        int numItemsToGenerate = chunkSize;
+        foreach (var spot in listOfSpots)
         {
-            int whichBiome = Random.Range(0, mapTiles.Length-1);
-            GenerateChunk(whichBiome, chunkSize);
+            int whichBiome = Random.Range(0, mapTiles.Length - 1);
+            GenerateChunk(spot, whichBiome, numItemsToGenerate);
         }
+        /*   for (int i=0; i< chunksToGen; i++)
+           {
+               int whichBiome = Random.Range(0, mapTiles.Length-1);
+               GenerateChunk(whichBiome, chunkSize);
+           }*/
         FillWithWater();
 
         //ToolGenerateDecoration();
+
+        return listOfSpots;
     }
 
     void SimpleRandom()
@@ -344,7 +462,7 @@ public class MapGenerator : MonoBehaviour
                 var biome = mapTiles[whichBiome];
                 int whichTile = Random.Range(0, biome.Tiles.Length);
                 var tile = biome.Tiles[whichTile];
-                var nemTile = Instantiate(tile, new Vector3(offset.x + x, 0, offset.y + y), Quaternion.identity);
+                var nemTile = Instantiate(tile, new Vector3(mapWorldOffset.x + x, 0, mapWorldOffset.y + y), Quaternion.identity);
                 nemTile.transform.parent = tileNodeHeirarchyParent.transform;
             }
         }

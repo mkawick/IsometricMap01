@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameModeManager : MonoBehaviour
@@ -11,17 +9,17 @@ public class GameModeManager : MonoBehaviour
     }
     Mode currentMode = Mode.StartScreen;
 
-    public static event Action<GameObject> OnGameObjectClicked;
-    public static event Action<Mode, bool> OnGameModeChanged;
-
     [SerializeField]
     MapGenerator _mapGenerator;
     public MapGenerator mapGenerator { get { return _mapGenerator; } }
     [SerializeField] 
-    public bool isRegularGame;
+    private bool isRegularGame;
+    [SerializeField, Range(2,8)]
+    private int numPlayers;
 
-    //public CameraMove cameraMover;
-    // Start is called before the first frame update
+    public static event Action<GameObject> OnGameObjectClicked;
+    public static event Action<Mode, bool> OnGameModeChanged;
+
     void Start()
     {
         GameUnitSelector.OnGameObjectClicked += Callback;
@@ -38,7 +36,7 @@ public class GameModeManager : MonoBehaviour
         {
             case Mode.StartScreen: 
                 currentMode = Mode.StartSinglePlayerGame;
-                mapGenerator.Generate();
+                mapGenerator.Generate(numPlayers);
                 OnGameModeChanged?.Invoke(currentMode, isRegularGame);
                 break;
             case Mode.StartSinglePlayerGame:

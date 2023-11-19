@@ -77,26 +77,24 @@ public class PlayerUnitController : MonoBehaviour
         iosUnitMovementController.ResetMoves(currentlySelectedUnit.GetComponent<IsoUnit>().MovesRemaining);
         if (Keyboard.current.anyKey.wasPressedThisFrame)
         {
-            //var isoUnit = currentlySelectedUnit.GetComponent<IsoUnit>();
             if (currentlySelectedUnit != null)
             {
-                var originalPosition = currentlySelectedUnit.transform.position;
                 bool didMove = false;
                 if (Keyboard.current.downArrowKey.isPressed)
                 {
-                    didMove = iosUnitMovementController.Move(currentlySelectedUnit, MoveDir.South, mapGenerator);
+                    didMove = iosUnitMovementController.Move(currentlySelectedUnit, MoveDir.South);
                 }
                 if (Keyboard.current.upArrowKey.isPressed)
                 {
-                    didMove = iosUnitMovementController.Move(currentlySelectedUnit, MoveDir.North, mapGenerator);
+                    didMove = iosUnitMovementController.Move(currentlySelectedUnit, MoveDir.North);
                 }
                 if (Keyboard.current.rightArrowKey.isPressed)
                 {
-                    didMove = iosUnitMovementController.Move(currentlySelectedUnit, MoveDir.East, mapGenerator);
+                    didMove = iosUnitMovementController.Move(currentlySelectedUnit, MoveDir.East);
                 }
                 if (Keyboard.current.leftArrowKey.isPressed)
                 {
-                    didMove = iosUnitMovementController.Move(currentlySelectedUnit, MoveDir.West, mapGenerator);
+                    didMove = iosUnitMovementController.Move(currentlySelectedUnit, MoveDir.West);
                 }
                 if(didMove)
                 {
@@ -126,8 +124,7 @@ public class PlayerUnitController : MonoBehaviour
                 var offset = MapUtils.Dir4Lookup(dir);
                 if (MapUtils.IsDirValid(test2dPos + offset))
                 {
-                    //this.transform.position += new Vector3Int(offset.x, 0, offset.y);
-                    bool didMove = iosUnitMovementController.Move(currentlySelectedUnit, (MoveDir)dir, mapGenerator);
+                    bool didMove = iosUnitMovementController.Move(currentlySelectedUnit, (MoveDir)dir);
                     if (didMove)
                     {
                         currentlySelectedUnit.GetComponent<IsoUnit>().MovesRemaining = iosUnitMovementController.MovesRemaining;

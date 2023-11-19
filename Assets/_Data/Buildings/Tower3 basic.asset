@@ -26,3 +26,5 @@ MonoBehaviour:
     strength: 5
   - ability: 5
     strength: 1.3
+  - ability: 2
+    strength: 2.1
