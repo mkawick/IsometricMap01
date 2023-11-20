@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class GameTurnManager : MonoBehaviour
 {
@@ -39,9 +40,14 @@ public class GameTurnManager : MonoBehaviour
     void CreateAllPlayers()
     {
         MapGenerator mapGenerator = GetComponent<GameModeManager>().mapGenerator;
-        foreach (var archetype in playerArchetypes)
+        var listOfSpots = mapGenerator.ChoosenStartingPositions;
+        int index = 0;
+        foreach (var archetype in playerArchetypes)// problem... does not match number of players
         {
-            players.Add(Instantiate(archetype, playersInstantiatedRootNode.transform));
+            var spot = listOfSpots[index++];
+            var root = playersInstantiatedRootNode.transform;
+            var pos = mapGenerator.TranslateMapToWorld(spot);
+            players.Add(Instantiate(archetype, root.position + pos, root.rotation));
             archetype.gameObject.SetActive(false);
         }
 

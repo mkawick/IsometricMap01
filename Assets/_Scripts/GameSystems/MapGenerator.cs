@@ -11,7 +11,12 @@ public class MapGenerator : MonoBehaviour
     private Vector2 mapWorldOffset;
     private GameObject[,] generatedTiles;
     private GameObject[,] generatedObjects;
-
+    List<Vector2Int> choosenStartingPositions;
+    public System.Collections.Generic.List<UnityEngine.Vector2Int> ChoosenStartingPositions
+    {
+        get { return choosenStartingPositions; }
+        set { choosenStartingPositions = value; }
+    }
     enum MapType { Basic };
 
     private static Vector2Int InvalidLocation = new Vector2Int(-1, -1);
@@ -147,6 +152,11 @@ public class MapGenerator : MonoBehaviour
         return true;
     }
 
+    public Vector3 TranslateMapToWorld(Vector2Int mapPos)
+    {
+        return new Vector3(mapPos.x + (int)mapWorldOffset.x, 0, mapPos.y + (int)mapWorldOffset.y);
+    }
+
     GameObject AddDecorationsPrefab(GameObject baseTile, GameObject[] decorations, bool guaranteedCreate = false)
     {
         if (decorations == null)
@@ -169,7 +179,7 @@ public class MapGenerator : MonoBehaviour
     {
         List<GameObject> gameObjects = new List<GameObject>();
         var position = tile.transform.position;
-        Vector2 pos = new  Vector2(position.x, position.z);
+        Vector2 pos = new Vector2(position.x, position.z);
         pos -= mapWorldOffset;
 
         if (generatedObjects[(int)pos.x, (int)pos.y] != null)
@@ -432,10 +442,10 @@ public class MapGenerator : MonoBehaviour
 
         if(chunksToGen < numPlayers)
             chunksToGen = numPlayers;
-        
-        var listOfSpots = GenerateStartingPositions(numPlayers, chunksToGen);
+
+        choosenStartingPositions = GenerateStartingPositions(numPlayers, chunksToGen);
         int numItemsToGenerate = chunkSize;
-        foreach (var spot in listOfSpots)
+        foreach (var spot in choosenStartingPositions)
         {
             int whichBiome = Random.Range(0, mapTiles.Length - 1);
             GenerateChunk(spot, whichBiome, numItemsToGenerate);
@@ -449,7 +459,7 @@ public class MapGenerator : MonoBehaviour
 
         //ToolGenerateDecoration();
 
-        return listOfSpots;
+        return choosenStartingPositions;
     }
 
     void SimpleRandom()

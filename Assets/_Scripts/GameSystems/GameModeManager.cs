@@ -36,7 +36,7 @@ public class GameModeManager : MonoBehaviour
         {
             case Mode.StartScreen: 
                 currentMode = Mode.StartSinglePlayerGame;
-                mapGenerator.Generate(numPlayers);
+                var startingPositions = mapGenerator.Generate(numPlayers);
                 OnGameModeChanged?.Invoke(currentMode, isRegularGame);
                 break;
             case Mode.StartSinglePlayerGame:
