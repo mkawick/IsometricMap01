@@ -23,6 +23,8 @@ public class GameModeManager : MonoBehaviour
     void Start()
     {
         GameUnitSelector.OnGameObjectClicked += Callback;
+        if (numPlayers == 0) // someone forgot to set this
+            numPlayers = 2;
     }
 
     void Callback(GameObject obj)

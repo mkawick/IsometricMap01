@@ -39,13 +39,15 @@ public class IsoUnit : MonoBehaviour
     public void Selected(bool isSelected)
     {
         dataDisplay?.gameObject.SetActive(isSelected);
-        if(isSelected == false)
+        var display = dataDisplay?.gameObject.GetComponent<IsoUnitStatsCanvasController>();
+        
+        if (isSelected == false)
         {
+            display.Clear();
             ScaleSelected(false);
         }
         if (isSelected == true)
         {
-            var display = dataDisplay?.gameObject.GetComponent<IsoUnitStatsCanvasController>();
             display.SetPosition(transform.localPosition);
             display.Set(Data, this.transform.gameObject);
             ScaleSelected(true);
