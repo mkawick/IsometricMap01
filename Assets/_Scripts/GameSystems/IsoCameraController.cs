@@ -12,10 +12,10 @@ public class IsoCameraController : MonoBehaviour
     }
 
 
-    void OnGameGameModeChanged(GameModeManager.Mode mode, bool regularGame)
+    void OnGameGameModeChanged(GameModeManager.GameMode mode, bool regularGame)
     {
         isRegularGame = regularGame;
-        if (mode == GameModeManager.Mode.StartSinglePlayerGame && isRegularGame)
+        if (mode == GameModeManager.GameMode.StartSinglePlayerGame && isRegularGame)
         {
             RaycastHit hit;
             if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, 0xFFF))

@@ -9,11 +9,14 @@ public class GameTurnManager : MonoBehaviour
 {
     public PlayerTurnTaker[] playerArchetypes;
     public GameObject playersInstantiatedRootNode;
-    public UI_PlayerResources playerResourcesUi;
-    public UI_GameTurnPanel turnPanelUi;
     private bool isRegularGame;
     public List<PlayerTurnTaker> players;
+
+    public GameObject mainGameStatsPanel;
     public PlayerTurnPanel playerPanel;
+    public UI_PlayerResources playerResourcesUi;
+    public UI_GameTurnPanel turnPanelUi;
+    
     int currentPlayer = 0;
     int currentGameTurn = 1;
     enum GameTurnState { Move, Collect, ShowEndOfTurn };
@@ -190,15 +193,18 @@ public class GameTurnManager : MonoBehaviour
 
     }
 
-    void OnGameModeChanged(GameModeManager.Mode mode, bool regularGame)
+    void OnGameModeChanged(GameModeManager.GameMode mode, bool regularGame)
     {
         isRegularGame = regularGame;
-        if (mode == GameModeManager.Mode.StartSinglePlayerGame)// && isRegularGame)
+        if (mode == GameModeManager.GameMode.StartSinglePlayerGame)// && isRegularGame)
         {
             CreateAllPlayers();
             gameTurnState = GameTurnState.Move;
             OnTurnChanged?.Invoke(currentGameTurn);
         }
-        
+        else if (isRegularGame == false)
+        {
+            mainGameStatsPanel?.SetActive(false);
+        }
     }
 }

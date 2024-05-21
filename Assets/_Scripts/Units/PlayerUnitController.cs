@@ -14,9 +14,9 @@ public class PlayerUnitController : MonoBehaviour
         GameModeManager.OnGameModeChanged += OnGameGameModeChanged;
     }
 
-    void OnGameGameModeChanged(GameModeManager.Mode mode, bool regularGame)
+    void OnGameGameModeChanged(GameModeManager.GameMode mode, bool regularGame)
     {
-        if (mode == GameModeManager.Mode.StartSinglePlayerGame)
+        if (mode == GameModeManager.GameMode.StartSinglePlayerGame)
             UpdateUnitOnTile();
     }
 

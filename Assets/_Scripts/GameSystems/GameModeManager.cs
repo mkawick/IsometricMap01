@@ -3,11 +3,17 @@ using UnityEngine;
 
 public class GameModeManager : MonoBehaviour
 {
-    public enum Mode 
+    public enum GameMode 
     {
-        SplashScreen, LogoScreen, StartScreen, StartSinglePlayerGame, PlaySinglePlayerGame, EndGame
+        SplashScreen, 
+        LogoScreen, 
+        StartScreen, 
+        StartSinglePlayerGame, 
+        PlaySinglePlayerGame, 
+        PathingTest,
+        EndGame
     }
-    Mode currentMode = Mode.StartScreen;
+    GameMode currentMode = GameMode.StartScreen;
 
     [SerializeField]
     MapGenerator _mapGenerator;
@@ -16,9 +22,11 @@ public class GameModeManager : MonoBehaviour
     private bool isRegularGame;
     [SerializeField, Range(2,8)]
     private int numPlayers;
+    [SerializeField]
+    private bool pathingTest;
 
     public static event Action<GameObject> OnGameObjectClicked;
-    public static event Action<Mode, bool> OnGameModeChanged;
+    public static event Action<GameMode, bool> OnGameModeChanged;
 
     void Start()
     {
@@ -36,14 +44,24 @@ public class GameModeManager : MonoBehaviour
     {
         switch (currentMode)
         {
-            case Mode.StartScreen: 
-                currentMode = Mode.StartSinglePlayerGame;
+            case GameMode.StartScreen:
+                if (pathingTest == false)// this works for now but needs a refactor with any additional complexity
+                {
+                    currentMode = GameMode.StartSinglePlayerGame;
+                }
+                else
+                {
+                    currentMode = GameMode.PathingTest;
+                }
                 var startingPositions = mapGenerator.Generate(numPlayers);
                 OnGameModeChanged?.Invoke(currentMode, isRegularGame);
                 break;
-            case Mode.StartSinglePlayerGame:
-                currentMode = Mode.PlaySinglePlayerGame;
-                OnGameModeChanged?.Invoke(currentMode, isRegularGame);
+            case GameMode.StartSinglePlayerGame:
+                if (pathingTest == false)
+                {
+                    currentMode = GameMode.PlaySinglePlayerGame;
+                    OnGameModeChanged?.Invoke(currentMode, isRegularGame);
+                }
                 break;
         }
     }

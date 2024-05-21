@@ -21,7 +21,8 @@ public class MapGenerator : MonoBehaviour
 
     private static Vector2Int InvalidLocation = new Vector2Int(-1, -1);
 
-    public GameObject GetTile(int x, int y) {
+    public GameObject GetTile(int x, int y) 
+    {
         x -= (int)mapWorldOffset.x;
         y -= (int)mapWorldOffset.y;
 
