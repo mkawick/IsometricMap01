@@ -42,6 +42,10 @@ public class IntVector3
     static public bool operator == (IntVector3 lhs, IntVector3 rhs) => (lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z);
     public static bool operator !=(IntVector3 lhs, IntVector3 rhs) => !(lhs == rhs);
 
+   /* public static implicit operator IntVector3(int _x, int _y, int _z)
+    {
+        return new IntVector3(_x, _y, _z);
+    }*/
 }
 
 public class PathNode
@@ -96,7 +100,11 @@ public class PathNode
 
     public static bool operator == (PathNode lhs, PathNode rhs)
 	{
-		return lhs.pos == rhs.pos && lhs.referenceTile == rhs.referenceTile;
+        if(UnityEngine.Object.ReferenceEquals(lhs, null)) return false;
+        if (UnityEngine.Object.ReferenceEquals(rhs, null)) return false;
+        //if (rhs is null) return false;
+        //if(ReferenceEquals(lhs, rhs)) return true;
+        return lhs.pos == rhs.pos && lhs.referenceTile == rhs.referenceTile;
 	}
     public static bool operator !=(PathNode lhs, PathNode rhs) => !(lhs == rhs); 
 }
@@ -111,6 +119,7 @@ public class PathData
         fcost = 0;
         gcost = 0;
         hcost = 0;
+        path = new List<PathNode>();
     }
     public PathData(PathNode lastNodeInPath) : this()
     {
@@ -121,7 +130,7 @@ public class PathData
     {
         PathNode current = end;
 
-        while (current != null)
+        while (UnityEngine.Object.ReferenceEquals(current, null)) //(current != null)
         {
             hcost += current.hCost;
             gcost += current.gCost;

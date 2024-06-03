@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -127,7 +128,7 @@ class LRUCacheItem<K, V>
 
 public class TileMapMainInteraction
 {
-	public void CreateMap(TileMap_PathFinder tileMap, List<List<U8>> mapCosts, int numLayers, IntVector3 dimensions)
+	static public void CreateMap(TileMap_PathFinder tileMap, List<List<U8>> mapCosts, int numLayers, IntVector3 dimensions)
 	{
 		int bigInt = 100000;
 		int smallInt = -bigInt;
@@ -145,7 +146,9 @@ public class TileMapMainInteraction
 			{
 				for (int y = 0; y < dimensions.y; y++)
 				{
-					float cost = (float)(mapCosts[z][y * dimensions.x + x]);
+					int mapIndex = y * dimensions.x + x;
+
+                    float cost = (float)(mapCosts[z][mapIndex]);
 					tileMap.AddToMap(new IntVector3(x, y, 0), cost, cost == 255, PathingUtils.Passability.clear);
 				}
 			}
@@ -176,9 +179,13 @@ public class TileMap_PathFinder
 	//-----------------------------------------------------------
 	public TileMap_PathFinder()
 	{
-		lruHistoricalSearches = new LRUCache<int, HistoricalSearches>(12);
+		tiles = new GameMap();
 		doorObstructed = 4;
-	}
+		pathNodes = new Dictionary<int, PathNode>();
+		stairs = new List<Stairs>();
+		elevators = new List<Elevator>();
+		lruHistoricalSearches = new LRUCache<int, HistoricalSearches>(12);
+    }
 
 	bool ArePositionsValid(IntVector3 startPos, IntVector3 endPos)
 	{
@@ -332,19 +339,30 @@ public class TileMap_PathFinder
 		bool alreadyExists = false;
 		MapTile tile = new MapTile(pos, (U8)cost, blocked, passable);
 		var posHash = PathingUtils.CalcHash(pos);
-		tiles[pos.z][posHash] = tile;
-
-		PathNode pathNode = new PathNode(tile);
-
-		if (tiles[pos.z].ContainsKey(posHash) == false)
+		if(tiles.ContainsKey(pos.z) == false) 
 		{
-			alreadyExists = true;
-			pathNodes[posHash] = pathNode;
+			tiles.Add(pos.z, new Dictionary<int, MapTile>(500)); 
 		}
-		else
+        Debug.Log("hash" + posHash + ", count: " + tiles[pos.z].Count);
+        tiles[pos.z].Add(posHash, tile);
+		/*try
+		{*/
+			PathNode pathNode = new PathNode(tile);
+
+			if (pathNodes.ContainsKey(posHash))//tiles[pos.z].ContainsKey(posHash) == false)
+			{
+				alreadyExists = true;
+				pathNodes[posHash] = pathNode;
+			}
+			else
+			{
+				pathNodes.Add(posHash, pathNode);
+			}
+		/*}
+		catch(Exception e)
 		{
-			pathNodes.Add(posHash, pathNode);
-		}
+            Debug.LogError("hash" + posHash + ", count: " + tiles[pos.z].Count);
+        }*/
 
 		UpdateExtents(pos);
 
@@ -495,7 +513,11 @@ public class TileMap_PathFinder
 	{
 		var begin = GetPathNode(startPos);
 		var end = GetPathNode(endPos);
-		if (begin == null || end == null)
+        if (begin == null)
+        {
+            return new PathData();
+        }
+        if ((begin == null) || (end == null))
 		{
 			return new PathData();
 		}
@@ -812,6 +834,9 @@ public class TileMap_PathFinder
 		maxExtent = max;
 	}
 
+    public IntVector3 GetMinExtents() { return minExtent; }
+    public IntVector3 GetMaxExtents() { return maxExtent; }
+
 	public void UpdateExtents(IntVector3 pos)
 	{
 		if (minExtent.x > pos.x)
@@ -1011,108 +1036,109 @@ public class TileMap_PathFinder
 	}
 
 
-float GetPathCost(IntVector3 startPos, IntVector3 endPos)
-{
-	if (startPos.z != endPos.z)
-		return 0;
-
-	ClearHistory();
-	List<PathNode> openSet = new List<PathNode>();
-	List<PathNode> closedSet = new List<PathNode>();
-	PathData path = FindPathOnSingleLayer(startPos, endPos, openSet, closedSet);
-
-	if (path.path.Count != 0)
-		return path.fcost;
-
-	return PathImpassible;
-}
-
-bool Stairs_DepthFirstSearch(IntVector3 startPos, IntVector3 endPos, Dictionary<int, bool> visitedStairs, List<int> nodePath)
-{
-	var allStairsOnLayer = GetAllStairsOnLayer(startPos);
-	foreach (var shaftIndex in allStairsOnLayer)
+	float GetPathCost(IntVector3 startPos, IntVector3 endPos)
 	{
-		if (visitedStairs[shaftIndex])
-			continue;
+		if (startPos.z != endPos.z)
+			return 0;
 
-		var shaft = stairs[shaftIndex];
+		ClearHistory();
+		List<PathNode> openSet = new List<PathNode>();
+		List<PathNode> closedSet = new List<PathNode>();
+		PathData path = FindPathOnSingleLayer(startPos, endPos, openSet, closedSet);
 
-		if (shaft.start.z == startPos.z) // eval the cost of all paths that can connect here
+		if (path.path.Count != 0)
+			return path.fcost;
+
+		return PathImpassible;
+	}
+
+	bool Stairs_DepthFirstSearch(IntVector3 startPos, IntVector3 endPos, Dictionary<int, bool> visitedStairs, List<int> nodePath)
+	{
+		var allStairsOnLayer = GetAllStairsOnLayer(startPos);
+		foreach (var shaftIndex in allStairsOnLayer)
 		{
-			float layerPathCost = GetPathCost(startPos, shaft.start) * shaft.cost;
-			float PathToDestinationCost = GetPathCost(shaft.end, endPos) * shaft.cost;
-			if (PathToDestinationCost > 0 && PathToDestinationCost < PathImpassible)
+			if (visitedStairs[shaftIndex])
+				continue;
+
+			var shaft = stairs[shaftIndex];
+
+			if (shaft.start.z == startPos.z) // eval the cost of all paths that can connect here
 			{
+				float layerPathCost = GetPathCost(startPos, shaft.start) * shaft.cost;
+				float PathToDestinationCost = GetPathCost(shaft.end, endPos) * shaft.cost;
+				if (PathToDestinationCost > 0 && PathToDestinationCost < PathImpassible)
+				{
+					if (layerPathCost > 0 && layerPathCost < PathImpassible)
+					{
+						nodePath.Add(shaftIndex);
+						return true;
+					}
+				}
+
 				if (layerPathCost > 0 && layerPathCost < PathImpassible)
 				{
+					MarkStairVisited(visitedStairs, shaftIndex);
 					nodePath.Add(shaftIndex);
-					return true;
+					if (Stairs_DepthFirstSearch(shaft.end, endPos, visitedStairs, nodePath) == true)
+						return true;
+
+					// remove unsuccessful node and try next node in list
+					nodePath.Remove(nodePath.Count-1);
 				}
 			}
-
-			if (layerPathCost > 0 && layerPathCost < PathImpassible)
-			{
-				MarkStairVisited(visitedStairs, shaftIndex);
-				nodePath.Add(shaftIndex);
-				if (Stairs_DepthFirstSearch(shaft.end, endPos, visitedStairs, nodePath) == true)
-					return true;
-
-				// remove unsuccessful node and try next node in list
-				nodePath.Remove(nodePath.Count-1);
-			}
 		}
+		return false;
 	}
-	return false;
-}
 
-void MarkStairVisited(Dictionary<int, bool> visited, int index)
-{
-	int shaftIndex = index % 2 == 1 ? index - 1 : index;
-	visited[shaftIndex] = true;
-	visited[shaftIndex + 1] = true;
-}
-
-public MapTile GetTile(IntVector3 pos)
-{
-    Debug.Assert(IsValidMapPosition(pos));
-
-    int hash = PathingUtils.CalcHash(pos);
-    return tiles[pos.z][hash];
-}
-
-public PathNode GetPathNode(IntVector3 pos)
-{
-	if (!IsValidMapPosition(pos))
-		return null;
-
-	int hash = PathingUtils.CalcHash(pos);
-	return pathNodes[hash];
-}
-
-public List<PathNode> GetNeighbors(IntVector3 root)
-{
-	var possibleMoveDirs = new List<IntVector3>
+	void MarkStairVisited(Dictionary<int, bool> visited, int index)
 	{
-		//{-1,-1,0}, {1,-1,0}, {1,1,0}, {-1,1,0},		// diagonals
-		new IntVector3(0,-1,0),// cardinal directions
-        new IntVector3(1,0,0),
-		new IntVector3(0,1,0),
-		new IntVector3(-1,0,0)
-	};
+		int shaftIndex = index % 2 == 1 ? index - 1 : index;
+		visited[shaftIndex] = true;
+		visited[shaftIndex + 1] = true;
+	}
 
-	List<PathNode> nodes = new List<PathNode>();
-
-	foreach (var dir in possibleMoveDirs)
+	public MapTile GetTile(IntVector3 pos)
 	{
-		var pos = dir + root;
+		Debug.Assert(IsValidMapPosition(pos));
+
 		int hash = PathingUtils.CalcHash(pos);
-		if (tiles[pos.z].ContainsKey(hash) == false)
-		{
-			nodes.Add(pathNodes[hash]);
-		}
+		return tiles[pos.z][hash];
 	}
-	return nodes;
-}
+
+	public PathNode GetPathNode(IntVector3 pos)
+	{
+		if (!IsValidMapPosition(pos))
+			return null;
+
+		int hash = PathingUtils.CalcHash(pos);
+		return pathNodes[hash];
+	}
+
+	public List<PathNode> GetNeighbors(IntVector3 root)
+	{
+		var possibleMoveDirs = new List<IntVector3>
+		{
+			//{-1,-1,0}, {1,-1,0}, {1,1,0}, {-1,1,0},		// diagonals
+			new IntVector3(0,-1,0),// cardinal directions
+			new IntVector3(1,0,0),
+			new IntVector3(0,1,0),
+			new IntVector3(-1,0,0)
+		};
+
+		List<PathNode> nodes = new List<PathNode>();
+
+		foreach (var dir in possibleMoveDirs)
+		{
+			var pos = dir + root;
+			int hash = PathingUtils.CalcHash(pos);
+			if (tiles[pos.z].ContainsKey(hash) == true)
+			{
+				nodes.Add(pathNodes[hash]);
+                //pathNodes.Add(hash, pathNode);
+            }
+		}
+		return nodes;
+	}
 
 	float GetNeighborPassabilityCost(PathNode start, PathNode neighbor)
 	{
@@ -1138,23 +1164,23 @@ public List<PathNode> GetNeighbors(IntVector3 root)
 				return wallImpassible;
 		}
 		if ((neighborPassability & PathingUtils.Passability.blocked) != 0)
-    {
-            if ((neighborPassability & PathingUtils.Passability.ydir_pos_blocked) != 0 && neighborPos.y < startPos.y)
-			return wallImpassible;
+		{
+				if ((neighborPassability & PathingUtils.Passability.ydir_pos_blocked) != 0 && neighborPos.y < startPos.y)
+				return wallImpassible;
 
-		if ((neighborPassability & PathingUtils.Passability.xdir_pos_blocked) != 0 && neighborPos.x > startPos.x)
-			return wallImpassible;
+			if ((neighborPassability & PathingUtils.Passability.xdir_pos_blocked) != 0 && neighborPos.x > startPos.x)
+				return wallImpassible;
 
-		if ((neighborPassability & PathingUtils.Passability.ydir_neg_blocked) != 0 && neighborPos.y > startPos.y)
-			return wallImpassible;
+			if ((neighborPassability & PathingUtils.Passability.ydir_neg_blocked) != 0 && neighborPos.y > startPos.y)
+				return wallImpassible;
 
-		if ((neighborPassability & PathingUtils.Passability.xdir_neg_blocked) != 0 && neighborPos.x < startPos.x)
-			return wallImpassible;
+			if ((neighborPassability & PathingUtils.Passability.xdir_neg_blocked) != 0 && neighborPos.x < startPos.x)
+				return wallImpassible;
+		}
+
+		if ((neighborPassability & PathingUtils.Passability.partly_blocked) != 0)
+				return doorObstructed;// doors, no matter the direction, are a partial obstruction
+
+		return 1;
 	}
-
-	if ((neighborPassability & PathingUtils.Passability.partly_blocked) != 0)
-			return doorObstructed;// doors, no matter the direction, are a partial obstruction
-
-	return 1;
-}
 }
