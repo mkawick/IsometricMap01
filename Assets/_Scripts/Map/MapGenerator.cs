@@ -21,6 +21,7 @@ public class MapGenerator : MonoBehaviour
 
     private static Vector2Int InvalidLocation = new Vector2Int(-1, -1);
 
+    public Vector2 WorldOffset() => mapWorldOffset;
     public GameObject GetTile(int x, int y) 
     {
         x -= (int)mapWorldOffset.x;
@@ -33,6 +34,32 @@ public class MapGenerator : MonoBehaviour
     public GameObject GetTile(Vector3 pos)
     {
         return GetTile((int)pos.x, (int)pos.z);
+    }
+
+    public Vector2 GetTilePosition(GameObject go)
+    {
+        for (int y = 0; y < dimensions.y; y++)
+        {
+            for (int x = 0; x < dimensions.x; x++)
+            {
+                if(generatedTiles[x, y] == go)
+                {
+                    return new Vector2(x, y);
+                }
+            }
+        }
+        return Vector2.negativeInfinity;
+    }
+
+    public PathingUtils.Passability GetPassability(int x, int y)
+    {
+        x -= (int)mapWorldOffset.x;
+        y -= (int)mapWorldOffset.y;
+
+        if (x < 0 || x >= dimensions.x) return PathingUtils.Passability.blocked;
+        if (y < 0 || y >= dimensions.y) return PathingUtils.Passability.blocked;
+        //PathingUtils.Passability.clear;
+        return PathingUtils.Passability.clear;// generatedTiles[x, y];
     }
 
     [SerializeField]

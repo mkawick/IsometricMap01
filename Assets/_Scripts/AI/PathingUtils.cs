@@ -25,17 +25,12 @@ public class IntVector3
 
     static public IntVector3 operator + (IntVector3 lhs, IntVector3 rhs) 
 	{
-		lhs.x += rhs.x; 
-		lhs.y += rhs.y;
-		lhs.z += rhs.z;
-		return lhs;
+		return new IntVector3(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z);
 	}
+
     public static IntVector3 operator - (IntVector3 lhs, IntVector3 rhs)
     {
-        lhs.x -= rhs.x; 
-        lhs.y -= rhs.y;
-        lhs.z -= rhs.z;
-        return lhs;
+        return new IntVector3(lhs.x - rhs.x, lhs.y - rhs.z, lhs.z - rhs.z);
     }
     public static bool operator ==(IntVector3 hashed, int hashValue) => PathingUtils.CalcHash(hashed.x, hashed.y, hashed.z) == hashValue;
     public static bool operator !=(IntVector3 hashed, int hashValue) => !(hashed == hashValue);
@@ -130,7 +125,7 @@ public class PathData
     {
         PathNode current = end;
 
-        while (UnityEngine.Object.ReferenceEquals(current, null)) //(current != null)
+        while (UnityEngine.Object.ReferenceEquals(current, null) == false) //(current != null)
         {
             hcost += current.hCost;
             gcost += current.gCost;
