@@ -2380,7 +2380,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: -0.5
+  near clip plane: -3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
@@ -4089,6 +4089,7 @@ MonoBehaviour:
     - {fileID: 4933674864925436085, guid: c3bb5c0cc2773b14fbd5df3812fd0278, type: 3}
     - {fileID: 8588762391079724445, guid: f41b8aa687c770b42a1696aa85cde0c8, type: 3}
     - {fileID: 8053982994379117706, guid: 4351e87aa91bc5b4cadd8886fa7bbde1, type: 3}
+    type: 1
   - Tiles:
     - {fileID: 2366873206341728620, guid: 5c33798128887c0499231db9612ed49a, type: 3}
     - {fileID: 2366873206341728620, guid: cf4bde7a9e26bc24193d11941f9812e8, type: 3}
@@ -4097,6 +4098,7 @@ MonoBehaviour:
     - {fileID: 2204696222371998818, guid: c48fca8427bd0e44ca9647bdc00ea5d0, type: 3}
     - {fileID: 6958360100601484527, guid: 15f348cf64b42b546a02bcfa53dbce2d, type: 3}
     - {fileID: 3553406121938957602, guid: 8903673243f4bbd43bf8ebcbd5be1da1, type: 3}
+    type: 2
   - Tiles:
     - {fileID: 8084595421854665748, guid: 7443825365a1fcf4a91212c680d50ccd, type: 3}
     - {fileID: 8084595421854665748, guid: 4e8d5f6896c9e9e45acf17baac808832, type: 3}
@@ -4107,16 +4109,19 @@ MonoBehaviour:
     - {fileID: 627832198301038287, guid: f42d583709ba37645ad74c5ad218a62b, type: 3}
     - {fileID: 3194717385602112321, guid: d783d5309a38b224b83a7015050f6b34, type: 3}
     - {fileID: 6958360100601484527, guid: 15f348cf64b42b546a02bcfa53dbce2d, type: 3}
+    type: 4
   - Tiles:
     - {fileID: 8084595421854665748, guid: fe759197c7fb2b448a6bcd479afeee78, type: 3}
     - {fileID: 8084595421854665748, guid: 7b69c23f499be2547a44f5a3cda27d0a, type: 3}
     - {fileID: 8084595421854665748, guid: 8a4f1d474a3dd1348a9ffcc56b75179b, type: 3}
     Decorations:
     - {fileID: 7868786591605839630, guid: b4edb797085a4dc4c810b560f7c2eaec, type: 3}
+    type: 5
   - Tiles:
     - {fileID: 8084595421854665748, guid: 6ba956846490ecc4b810b3c15eea347b, type: 3}
     - {fileID: 8084595421854665748, guid: bc9309ca82399f14490527eb745c4a3e, type: 3}
     Decorations: []
+    type: 3
   dimensions: {x: 30, y: 30}
   tileNodeHeirarchyParent: {fileID: 329085626}
   worldObjectsHeirarchyParent: {fileID: 858267316}

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UIElements;
+using static UnityEditor.FilePathAttribute;
 using static UnityEditor.PlayerSettings;
 
 public class MapGenerator : MonoBehaviour
@@ -51,16 +52,6 @@ public class MapGenerator : MonoBehaviour
         return Vector2.negativeInfinity;
     }
 
-    public PathingUtils.Passability GetPassability(int x, int y)
-    {
-        x -= (int)mapWorldOffset.x;
-        y -= (int)mapWorldOffset.y;
-
-        if (x < 0 || x >= dimensions.x) return PathingUtils.Passability.blocked;
-        if (y < 0 || y >= dimensions.y) return PathingUtils.Passability.blocked;
-        //PathingUtils.Passability.clear;
-        return PathingUtils.Passability.clear;// generatedTiles[x, y];
-    }
 
     [SerializeField]
     GameObject tileNodeHeirarchyParent;
@@ -175,9 +166,39 @@ public class MapGenerator : MonoBehaviour
 
     public bool CanBeBuiltOn(Vector3 pos)
     {
-        if (generatedObjects[(int)pos.x - (int)mapWorldOffset.x, (int)pos.z - (int)mapWorldOffset.y] != null)
+        int x = (int)pos.x - (int)mapWorldOffset.x;
+        int y = (int)pos.z - (int)mapWorldOffset.y;
+        if (generatedTiles[x, y].GetComponent<TileBehavior>().isWalkable && 
+            generatedObjects[x, y] == null)
+            return true;
+
             return false;
-        return true;
+    }
+
+    public bool IsWalkable(int x, int y, bool normalOffset)
+    {
+        if (normalOffset)
+        {
+            x -= (int)mapWorldOffset.x;
+            y -= (int)mapWorldOffset.y;
+        }
+        if (generatedTiles[x, y].GetComponent<TileBehavior>().isWalkable 
+            //&& generatedObjects[x, y] == null
+           )
+            return true;
+
+        return false;
+    }
+
+    public PathingUtils.Passability GetPassability(int x, int y)
+    {
+        x -= (int)mapWorldOffset.x;
+        y -= (int)mapWorldOffset.y;
+
+        if (x < 0 || x >= dimensions.x) return PathingUtils.Passability.blocked;
+        if (y < 0 || y >= dimensions.y) return PathingUtils.Passability.blocked;
+        //PathingUtils.Passability.clear;
+        return PathingUtils.Passability.clear;// generatedTiles[x, y];
     }
 
     public Vector3 TranslateMapToWorld(Vector2Int mapPos)
@@ -314,10 +335,10 @@ public class MapGenerator : MonoBehaviour
 
         tilePath.Push(pos);
         var biome = mapTiles[whichBiome];
-         int whichBiomeTile = Random.Range(0, biome.Tiles.Length);
-         var prefab = biome.Tiles[whichBiomeTile];
-         var tile = CreatePrefab(prefab, pos);
-         AddDecorationsPrefab(tile, biome.Decorations);
+        int whichBiomeTile = Random.Range(0, biome.Tiles.Length);
+        var prefab = biome.Tiles[whichBiomeTile];
+        var tile = CreatePrefab(prefab, pos);
+        AddDecorationsPrefab(tile, biome.Decorations);
 
         for (int i = 0; i < numItemsToGenerate; i++)
         {

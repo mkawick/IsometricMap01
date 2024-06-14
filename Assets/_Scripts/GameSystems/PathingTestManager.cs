@@ -115,19 +115,14 @@ public class PathingTestManager : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        // Draw a yellow sphere at the transform's position
-        Gizmos.color = UnityEngine.Color.yellow;
-        
-
         if (pathShouldBeDrawn)
         {
             SetupTilemapInfo();
-
-            //auto beginTime = std::chrono::high_resolution_clock::now();
-            //var path = FindPath(new IntVector3(0, 0, 0), new IntVector3(4, 16, 0), tileMap);
             var path = FindPath(startPosition, endPosition, tileMap);
             var offset = mapGenerator.WorldOffset();
 
+            // Draw a yellow sphere at the transform's position
+            Gizmos.color = UnityEngine.Color.yellow;  
             DrawPath(path, offset);
         }
     }
@@ -280,6 +275,7 @@ public class PathingTestManager : MonoBehaviour
             for(int x=0 ; x < dims.x; x++)
             {
                 var passability = mapGenerator.GetPassability(x, y);
+                if (mapGenerator.IsWalkable(x, y, false) == false) passability = PathingUtils.Passability.blocked;
                 map.Add((byte)passability);
                // tileMap.AddToMap(new IntVector3(x, y, 0), cost, cost == 255, PathingUtils.Passability.clear);
             }

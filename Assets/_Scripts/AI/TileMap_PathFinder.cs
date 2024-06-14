@@ -149,7 +149,11 @@ public class TileMapMainInteraction
 					int mapIndex = y * dimensions.x + x;
 
                     float cost = (float)(mapCosts[z][mapIndex]);
-					tileMap.AddToMap(new IntVector3(x, y, 0), cost, cost == 255, PathingUtils.Passability.clear);
+					var passability = PathingUtils.Passability.clear;
+					if (cost == (float) PathingUtils.Passability.blocked)
+						passability = PathingUtils.Passability.blocked;
+
+                    tileMap.AddToMap(new IntVector3(x, y, 0), cost, cost == 255, passability);
 				}
 			}
 		}
@@ -343,7 +347,7 @@ public class TileMap_PathFinder
 		{
 			tiles.Add(pos.z, new Dictionary<int, MapTile>(500)); 
 		}
-        Debug.Log("hash" + posHash + ", count: " + tiles[pos.z].Count);
+        //Debug.Log("hash" + posHash + ", count: " + tiles[pos.z].Count);
         tiles[pos.z].Add(posHash, tile);
 		/*try
 		{*/
