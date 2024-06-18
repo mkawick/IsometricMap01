@@ -226,6 +226,9 @@ public class PathingTestManager : MonoBehaviour
     List<PathNode> FindPath(IntVector3 startPos, IntVector3 endPos, TileMap_PathFinder originalMap)
     {
         originalMap.ClearHistory();
+        var offset = mapGenerator.WorldOffset();
+        //startPos -= offset;
+        //endPos -= offset;
 
         if (endPos.z == startPos.z)// same horizon... likely a straight path
         {
@@ -274,7 +277,7 @@ public class PathingTestManager : MonoBehaviour
         {
             for(int x=0 ; x < dims.x; x++)
             {
-                var passability = mapGenerator.GetPassability(x, y);
+                var passability = mapGenerator.GetPassability(x, y, false);
                 if (mapGenerator.IsWalkable(x, y, false) == false) passability = PathingUtils.Passability.blocked;
                 map.Add((byte)passability);
                // tileMap.AddToMap(new IntVector3(x, y, 0), cost, cost == 255, PathingUtils.Passability.clear);
@@ -297,17 +300,7 @@ public class PathingTestManager : MonoBehaviour
     }
     public void OnTestButtonPressed()
     {
-        /* TileMap_PathFinder pather;
-         pather*/
         TileMap_PathFinder tileMap = new TileMap_PathFinder();
-        //tileMap.CreateMap(mapCosts, 1);
-        //auto path = FindPath({ 0, 0, 0 }, { 6, 2, 0}, tileMap);
-
-        //tileMap.CreateMap(mapCosts, 2);
-
-        //tileMap.AddTunnel(Vector3(6, 6, 0), Vector3(6, 6, 1));
-
-        //auto path = FindPath({ 0, 0, 0 }, { 7, 6, 1}, tileMap);
         List<U8> map = new List<U8>();
         IntVector3 dimensions = new IntVector3(20, 20, 1);
         GenerateRandomMap(map, dimensions);

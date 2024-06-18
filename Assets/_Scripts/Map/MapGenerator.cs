@@ -175,7 +175,7 @@ public class MapGenerator : MonoBehaviour
             return false;
     }
 
-    public bool IsWalkable(int x, int y, bool normalOffset)
+    public bool IsWalkable(int x, int y, bool normalOffset = true)
     {
         if (normalOffset)
         {
@@ -190,10 +190,13 @@ public class MapGenerator : MonoBehaviour
         return false;
     }
 
-    public PathingUtils.Passability GetPassability(int x, int y)
+    public PathingUtils.Passability GetPassability(int x, int y, bool normalOffset = true)
     {
-        x -= (int)mapWorldOffset.x;
-        y -= (int)mapWorldOffset.y;
+        if (normalOffset)
+        {
+            x -= (int)mapWorldOffset.x;
+            y -= (int)mapWorldOffset.y;
+        }
 
         if (x < 0 || x >= dimensions.x) return PathingUtils.Passability.blocked;
         if (y < 0 || y >= dimensions.y) return PathingUtils.Passability.blocked;

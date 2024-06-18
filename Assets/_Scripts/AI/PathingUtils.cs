@@ -32,15 +32,30 @@ public class IntVector3
     {
         return new IntVector3(lhs.x - rhs.x, lhs.y - rhs.z, lhs.z - rhs.z);
     }
+
+    static public IntVector3 operator +(IntVector3 lhs, Vector2 offset)
+    {
+        return new IntVector3(lhs.x + (int)offset.x, lhs.y, lhs.z + (int)offset.y);
+    }
+
+    public static IntVector3 operator -(IntVector3 lhs, Vector2 offset)
+    {
+        return new IntVector3(lhs.x + (int)offset.x, lhs.y, lhs.z + (int)offset.y);
+    }
     public static bool operator ==(IntVector3 hashed, int hashValue) => PathingUtils.CalcHash(hashed.x, hashed.y, hashed.z) == hashValue;
     public static bool operator !=(IntVector3 hashed, int hashValue) => !(hashed == hashValue);
     static public bool operator == (IntVector3 lhs, IntVector3 rhs) => (lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z);
     public static bool operator !=(IntVector3 lhs, IntVector3 rhs) => !(lhs == rhs);
 
-   /* public static implicit operator IntVector3(int _x, int _y, int _z)
+  /*  public static IntVector3 operator += (IntVector3 lhs, Vector2 offset)
     {
-        return new IntVector3(_x, _y, _z);
+        return new IntVector3(lhs.x + (int)offset.x, lhs.y, lhs.z + (int)offset.y);
     }*/
+
+    /* public static implicit operator IntVector3(int _x, int _y, int _z)
+     {
+         return new IntVector3(_x, _y, _z);
+     }*/
 }
 
 public class PathNode
