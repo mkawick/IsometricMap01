@@ -4,7 +4,7 @@ using UnityEngine;
 //using Unity.Mathematics;
 
 [System.Serializable]
-enum  LandType
+public enum  LandType
 {
     Dirt, Desert, Forest, Water, Grassland, Ice
 }
@@ -19,7 +19,7 @@ public struct TileGroup
     public GameObject[] Decorations;
 
     [SerializeField]
-    LandType type;
+    public LandType type;
 }
 
 public class MapUtils

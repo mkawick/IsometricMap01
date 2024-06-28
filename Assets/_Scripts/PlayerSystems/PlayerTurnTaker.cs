@@ -36,12 +36,14 @@ public class PlayerTurnTaker : MonoBehaviour
             GetComponent<Construction>().mapGenerator = value;
             GetComponent<PlayerUnitController>().mapGenerator = value;
         } 
+        get { return GetComponent<Construction>().mapGenerator; }// not needed, but here for completeness
     }
     public bool IsHuman { get { return isHuman; } }
     public string PlayerName { get { return playerName; } }
     public List<GameObject> BuildingsIOwn {  get { return buildingsIOwn; } }
     public bool IsRegularGame { get; set; }
 
+    #region Basics
     public UI_PlayerResources PlayerResourcesUi 
     { 
         get => playerResourcesUi; 
@@ -58,7 +60,33 @@ public class PlayerTurnTaker : MonoBehaviour
 
         //playerResourcesUi.SetupResourceCollector(building.GetComponent<ResourceCollector>());
     }
+    void Start()
+    {
+        isoUnitPopup = Instantiate(isoUnitPopupPrefab.gameObject, this.transform).GetComponent<IsoUnitStatsCanvasController>();
+        var startingUnit = Instantiate(startingIsoUnitPrefab.gameObject, this.transform).GetComponent<IsoUnit>();
 
+        unitsIOwn.Add(startingUnit);
+        startingUnit.SetDataDisplay(isoUnitPopup);
+        startingUnit.playerOwner = this;
+
+        environmentCollector = GameObject.FindAnyObjectByType<EnvironmentCollector>();
+        // todo.. set initial location to spawn
+    }
+
+    void Update()
+    {
+        if(isMyTurn)
+        {
+
+        }
+    }
+    public void TakeTurn()
+    {
+        // 
+    }
+
+    #endregion Basics
+        
     #region TurnTaking
     public void YourTurn()
     {
@@ -71,7 +99,7 @@ public class PlayerTurnTaker : MonoBehaviour
             objectsNeedingAnUpdate.Add(isoUnit.gameObject);
 
             isoUnit.TurnReset();
-            // same for buildings
+            // same for buildings is needed
         }
     }
 
@@ -98,10 +126,17 @@ public class PlayerTurnTaker : MonoBehaviour
             if (isDone)
             {
                 ControlledUnitIsDone(playerUnitController.currentlySelectedUnit);
+                
                 if (objectsNeedingAnUpdate.Count > 0)
                 {
-                    playerUnitController.SetNewUnitToControl( objectsNeedingAnUpdate[0]);
-                    // todo pan camera to unit
+                    // todo, make decision about the state of this unit
+                    var nextUnitToControl = objectsNeedingAnUpdate[0];
+                    //1) find a good spot to build, set the location, start moving toward it
+                    //2) set unit to collect
+                    //3) set unit to build
+                    //4) Make wall
+
+                    playerUnitController.SetNewUnitToControl(nextUnitToControl);
                 }
                 else
                 {
@@ -124,7 +159,7 @@ public class PlayerTurnTaker : MonoBehaviour
     {
         if (Keyboard.current.anyKey.wasPressedThisFrame)
         {
-            var playerUnitController = GetComponent<PlayerUnitController>();
+            //var playerUnitController = GetComponent<PlayerUnitController>();
             var playerTurnTaker = GetComponent<PlayerTurnTaker>();
             if (playerTurnTaker.IsHuman)
             {
@@ -164,31 +199,4 @@ public class PlayerTurnTaker : MonoBehaviour
        // return true;
     }
     #endregion
-
-    void Start()
-    {
-        isoUnitPopup = Instantiate(isoUnitPopupPrefab.gameObject, this.transform).GetComponent<IsoUnitStatsCanvasController>();
-        var startingUnit = Instantiate(startingIsoUnitPrefab.gameObject, this.transform).GetComponent<IsoUnit>();
-
-        unitsIOwn.Add(startingUnit);
-        startingUnit.SetDataDisplay(isoUnitPopup);
-        startingUnit.playerOwner = this;
-
-        environmentCollector = GameObject.FindAnyObjectByType<EnvironmentCollector>();
-        // todo.. set location to spawn
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(isMyTurn)
-        {
-
-        }
-    }
-
-    public void TakeTurn()
-    {
-        // 
-    }
 }

@@ -105,50 +105,52 @@ public class IsoUnit : MonoBehaviour
         }
     }
 
-    public bool Move(PlayerUnitController.MoveDir dir)
-    {
-        if (movesRemaining <= 0)
-            return false;
+    /* legacy, moved into the IosUnitMovementController
+     * public bool Move(PlayerUnitController.MoveDir dir)
+     {
+         if (movesRemaining <= 0)
+             return false;
 
-        var pos = transform.position;
-        var oldPos = pos;
-        var rot = transform.rotation;
+         var pos = transform.position;
+         var oldPos = pos;
+         var rot = transform.rotation;
 
-        switch (dir)
-        {
-            case PlayerUnitController.MoveDir.North:
-                pos.z -= PlayerUnitController.MoveDist;
-                rot.eulerAngles = new Vector3(0, 180, 0);
-                break;
-            case PlayerUnitController.MoveDir.South:
-                pos.z += PlayerUnitController.MoveDist;
-                rot.eulerAngles = new Vector3(0, 0, 0);
-                break;
-            case PlayerUnitController.MoveDir.East:
-                pos.x -= PlayerUnitController.MoveDist;
-                rot.eulerAngles = new Vector3(0, 270, 0);
-                break;
-            case PlayerUnitController.MoveDir.West:
-                pos.x += PlayerUnitController.MoveDist;
-                rot.eulerAngles = new Vector3(0, 90, 0);
-                break;
-        }
-        if (oldPos != pos)
-        {
-            transform.position = pos;
-            transform.rotation = rot;
-            PostMoveCleanup();
-            movesRemaining--; // todo.. look at terrain and roads
+         switch (dir)
+         {
+             case PlayerUnitController.MoveDir.North:
+                 pos.z -= PlayerUnitController.MoveDist;
+                 rot.eulerAngles = new Vector3(0, 180, 0);
+                 break;
+             case PlayerUnitController.MoveDir.South:
+                 pos.z += PlayerUnitController.MoveDist;
+                 rot.eulerAngles = new Vector3(0, 0, 0);
+                 break;
+             case PlayerUnitController.MoveDir.East:
+                 pos.x -= PlayerUnitController.MoveDist;
+                 rot.eulerAngles = new Vector3(0, 270, 0);
+                 break;
+             case PlayerUnitController.MoveDir.West:
+                 pos.x += PlayerUnitController.MoveDist;
+                 rot.eulerAngles = new Vector3(0, 90, 0);
+                 break;
+         }
+         if (oldPos != pos)
+         {
+             transform.position = pos;
+             transform.rotation = rot;
+             PostMoveCleanup();
+             movesRemaining--; // todo.. look at terrain and roads
 
-            return true;
-        }
-        return false;
-    }
+             return true;
+         }
+         return false;
+     }*/
 
     public void PostMoveCleanup()
     {
         ScaleSelected(false);
         dataDisplay?.gameObject.SetActive(false);
     }
+    
 }
 

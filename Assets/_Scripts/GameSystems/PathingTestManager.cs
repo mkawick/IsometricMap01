@@ -3,10 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
+using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Toolbars;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 using static UnityEditor.PlayerSettings;
 using U8 = System.Byte;
 
@@ -18,6 +22,8 @@ public class PathingTestManager : MonoBehaviour
     MouseCursorState mouseCursorState;
     Camera currentCamera;
     public MapGenerator mapGenerator;
+    public TMP_Dropdown landTypeDropdown;
+    List<Vector2> placesToGo;
     IntVector3 startPosition, endPosition;
 
     bool pathShouldBeDrawn = false;
@@ -31,9 +37,6 @@ public class PathingTestManager : MonoBehaviour
 
     void Start()
     {
-        //if (isRegularGame)
-        //{
-        // to do create players
         GameModeManager.OnGameModeChanged += OnGameModeChanged;
         currentCamera = Camera.main;
         SetMouseCursor(MouseCursorState.None);
@@ -42,15 +45,10 @@ public class PathingTestManager : MonoBehaviour
         endPosition = new IntVector3();
         tileMap = null;
 
-        // }
-        //else
-        // {     
-        //players.Add(Instantiate(playerArchetypes[0], playerCollectionNode.transform));
-        // players.Add(Instantiate(playerArchetypes[1], playerCollectionNode.transform));
-        // playerArchetypes[0].gameObject.SetActive(false);
-        //  playerArchetypes[1].gameObject.SetActive(false);
-        // }
-
+        landTypeDropdown = GetComponentInChildren<TMP_Dropdown>();
+        landTypeDropdown.ClearOptions();
+        List<string> dropOptions = new List<string> (Enum.GetNames(typeof(LandType)));
+        landTypeDropdown.AddOptions(dropOptions);
     }
 
     void SetMouseCursor(MouseCursorState newState)
@@ -113,6 +111,20 @@ public class PathingTestManager : MonoBehaviour
         }
     }
 
+    public void DrawPlacesToGo()
+    {
+        if (placesToGo == null)
+            return;
+
+        var offset = mapGenerator.WorldOffset();
+        Gizmos.color = new UnityEngine.Color(1f, 0.64f, 0);
+        foreach (var p in placesToGo)
+        {
+            var v = new Vector3(p.x, 0.5f, p.y );
+            Gizmos.DrawSphere(v, 0.1f);
+        }
+    }
+
     void OnDrawGizmos()
     {
         if (pathShouldBeDrawn)
@@ -125,6 +137,7 @@ public class PathingTestManager : MonoBehaviour
             Gizmos.color = UnityEngine.Color.yellow;  
             DrawPath(path, offset);
         }
+        DrawPlacesToGo();
     }
 
     bool TryMouseHitGround()
@@ -298,27 +311,18 @@ public class PathingTestManager : MonoBehaviour
     {
         SetMouseCursor(MouseCursorState.EndCursor);
     }
+
     public void OnTestButtonPressed()
     {
-        TileMap_PathFinder tileMap = new TileMap_PathFinder();
-        List<U8> map = new List<U8>();
-        IntVector3 dimensions = new IntVector3(20, 20, 1);
-        GenerateRandomMap(map, dimensions);
-        List<List<U8>> madData = new List<List<U8>>();
-        madData.Add(map);
-        TileMapMainInteraction.CreateMap(tileMap, madData, 1, dimensions);
+        int index = landTypeDropdown.value;
+        Debug.Log(landTypeDropdown.options[index].text);
 
-        //auto beginTime = std::chrono::high_resolution_clock::now();
-        var path = FindPath(new IntVector3(0, 0, 0), new IntVector3(4, 16, 0), tileMap);
-        //auto endTime = std::chrono::high_resolution_clock::now();
+        placesToGo = mapGenerator.FindLandOfType(0, 0, (LandType) index, 4);
 
-        //auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - beginTime);
-
-        tileMap.PrintMap(tileMap.GetMinExtents(), tileMap.GetMaxExtents());
-        //PrintPath(path, tileMap.GetMinExtents(), tileMap.GetMaxExtents());
-
-        // std::cout << "Elapsed Time: " << duration.count();
+        Debug.Log(placesToGo.Count);
+        //Debug.Log(placesToGo);
     }
+
     public void MouseClickHandler()
     {
         Debug.Log("Click");
@@ -327,12 +331,10 @@ public class PathingTestManager : MonoBehaviour
         if (mouseCursorState == MouseCursorState.StartCursor)
         {
             mouseCursorState = MouseCursorState.None;
-           /// startPosition = new IntVector3((int)tilePosition.x, (int)tilePosition.y, 0);
         }
         else if (mouseCursorState == MouseCursorState.EndCursor)
         {
             mouseCursorState = MouseCursorState.None;
-            /// endPosition = new IntVector3((int)tilePosition.x, (int)tilePosition.y, 0);
         }
     }
     private void SetupTilemapInfo()

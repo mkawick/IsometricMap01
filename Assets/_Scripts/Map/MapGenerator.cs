@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UIElements;
@@ -155,12 +156,13 @@ public class MapGenerator : MonoBehaviour
         return InvalidLocation;
     }
 
-    GameObject CreatePrefab(GameObject prefab, Vector2Int location)
+    GameObject CreatePrefab(GameObject prefab, Vector2Int location, LandType biome)
     {
         var name = prefab.name;
         var newTile = Instantiate(prefab, new Vector3(location.x + mapWorldOffset.x, 0, location.y + mapWorldOffset.y), Quaternion.identity);
         newTile.transform.parent = tileNodeHeirarchyParent.transform;
         generatedTiles[location.x, location.y] = newTile;
+        newTile.GetComponent<TileBehavior>().landType = biome;
         return newTile;
     }
 
@@ -200,8 +202,43 @@ public class MapGenerator : MonoBehaviour
 
         if (x < 0 || x >= dimensions.x) return PathingUtils.Passability.blocked;
         if (y < 0 || y >= dimensions.y) return PathingUtils.Passability.blocked;
-        //PathingUtils.Passability.clear;
+
+        // TODO: adapt this to better reflect the passability of the tile
         return PathingUtils.Passability.clear;// generatedTiles[x, y];
+    }
+
+    private void AddMatchingTile(int x, int y, LandType type, ref List<Vector2> matchingTiles)
+    {
+        var center = GetTile(x, y);
+        if (center != null)
+        {
+            if (center.GetComponent<TileBehavior>().landType == type)
+            {
+                matchingTiles.Add(new Vector2(x, y));
+            }
+        }
+    }
+
+    public List<Vector2> FindLandOfType(int x, int  y, LandType type, int maxDist = 10 )
+    {
+        List<Vector2> matchingTiles = new List<Vector2>();
+        AddMatchingTile(x, y, type, ref matchingTiles);
+
+        for (int r = 1; r<maxDist; r++)
+        {
+            // do concentric squares
+            for (int addY = y-r; addY <= y+r; addY++)
+            {
+                AddMatchingTile(x - r, addY, type, ref matchingTiles);
+                AddMatchingTile(x + r, addY, type, ref matchingTiles);
+            }
+            for (int addX = x-r+1; addX < x+r; addX++)// we don't need to try the corners again
+            {
+                AddMatchingTile(addX, y - r, type, ref matchingTiles);
+                AddMatchingTile(addX, y + r, type, ref matchingTiles);
+            }
+        }
+        return matchingTiles;
     }
 
     public Vector3 TranslateMapToWorld(Vector2Int mapPos)
@@ -340,7 +377,7 @@ public class MapGenerator : MonoBehaviour
         var biome = mapTiles[whichBiome];
         int whichBiomeTile = Random.Range(0, biome.Tiles.Length);
         var prefab = biome.Tiles[whichBiomeTile];
-        var tile = CreatePrefab(prefab, pos);
+        var tile = CreatePrefab(prefab, pos, biome.type);
         AddDecorationsPrefab(tile, biome.Decorations);
 
         for (int i = 0; i < numItemsToGenerate; i++)
@@ -351,7 +388,7 @@ public class MapGenerator : MonoBehaviour
 
             whichBiomeTile = Random.Range(0, biome.Tiles.Length);
             prefab = biome.Tiles[whichBiomeTile];
-            tile = CreatePrefab(prefab, location);
+            tile = CreatePrefab(prefab, location, biome.type);
             AddDecorationsPrefab(tile, biome.Decorations);
             {
                 tilePath.Push(location);
@@ -370,7 +407,7 @@ public class MapGenerator : MonoBehaviour
         var biome = mapTiles[whichBiome];
         int whichBiomeTile = Random.Range(0, biome.Tiles.Length);
         var prefab = biome.Tiles[whichBiomeTile];
-        var tile = CreatePrefab(prefab, pos);
+        var tile = CreatePrefab(prefab, pos, biome.type);
         AddDecorationsPrefab(tile, biome.Decorations);
 
         for (int i = 0; i < numItemsToGenerate; i++)
@@ -381,7 +418,7 @@ public class MapGenerator : MonoBehaviour
 
             whichBiomeTile = Random.Range(0, biome.Tiles.Length);
             prefab = biome.Tiles[whichBiomeTile];
-            tile = CreatePrefab(prefab, location);
+            tile = CreatePrefab(prefab, location, biome.type);
             AddDecorationsPrefab(tile, biome.Decorations);
             {
                 tilePath.Push(location);
@@ -406,7 +443,7 @@ public class MapGenerator : MonoBehaviour
 
             int whichBiomeTile = Random.Range(0, biome.Tiles.Length);
             var prefab = biome.Tiles[whichBiomeTile];
-            CreatePrefab(prefab, pos);            
+            CreatePrefab(prefab, pos, biome.type);            
         }
     }
 
@@ -458,7 +495,7 @@ public class MapGenerator : MonoBehaviour
                     whichTile = biome.Tiles.Length-1;
                 }
                 var prefab = biome.Tiles[whichTile];
-                CreatePrefab(prefab, pos);               
+                CreatePrefab(prefab, pos, biome.type);               
             }
         }
     }

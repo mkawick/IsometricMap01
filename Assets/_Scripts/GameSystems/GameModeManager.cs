@@ -24,6 +24,8 @@ public class GameModeManager : MonoBehaviour
     private int numPlayers;
     [SerializeField]
     private bool pathingTest;
+    [SerializeField]
+    private GameObject pathingTestPanel;
 
     public static event Action<GameObject> OnGameObjectClicked;
     public static event Action<GameMode, bool> OnGameModeChanged;
@@ -48,10 +50,12 @@ public class GameModeManager : MonoBehaviour
                 if (pathingTest == false)// this works for now but needs a refactor with any additional complexity
                 {
                     currentMode = GameMode.StartSinglePlayerGame;
+                    pathingTestPanel.SetActive(false);
                 }
                 else
                 {
                     currentMode = GameMode.PathingTest;
+                    pathingTestPanel.SetActive(true);
                 }
                 var startingPositions = mapGenerator.Generate(numPlayers);
                 OnGameModeChanged?.Invoke(currentMode, isRegularGame);

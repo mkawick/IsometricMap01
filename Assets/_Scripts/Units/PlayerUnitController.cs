@@ -36,14 +36,13 @@ public class PlayerUnitController : MonoBehaviour
         currentlySelectedUnit.GetComponent<IsoUnit>().MovesRemaining -= numActions;
         return true;
     }
+
     public int GetNumRemainingActions()
     {
         if (currentlySelectedUnit == null)
             return 0;
         return currentlySelectedUnit.GetComponent<IsoUnit>().MovesRemaining;
     }
-
-
 
     public void SetNewUnitToControl(GameObject unit)
     {
@@ -72,11 +71,11 @@ public class PlayerUnitController : MonoBehaviour
 
     void InputControl()
     {
-        IosUnitMovementController iosUnitMovementController = new IosUnitMovementController();
-        iosUnitMovementController.mapGenerator = mapGenerator;
-        iosUnitMovementController.ResetMoves(currentlySelectedUnit.GetComponent<IsoUnit>().MovesRemaining);
         if (Keyboard.current.anyKey.wasPressedThisFrame)
         {
+            IosUnitMovementController iosUnitMovementController = new IosUnitMovementController();
+            iosUnitMovementController.mapGenerator = mapGenerator;
+            iosUnitMovementController.ResetMoves(currentlySelectedUnit.GetComponent<IsoUnit>().MovesRemaining);
             if (currentlySelectedUnit != null)
             {
                 bool didMove = false;
@@ -105,6 +104,7 @@ public class PlayerUnitController : MonoBehaviour
 
         }
     }
+
     float nextMoveTime;
     void RandomWalker()
     {

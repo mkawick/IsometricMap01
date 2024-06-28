@@ -17,3 +17,5 @@ MonoBehaviour:
   description: What a bitch
   image: {fileID: 0}
   numActionsPerTurn: 4
+  costs: []
+  abilities: []
